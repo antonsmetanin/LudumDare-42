@@ -1,0 +1,60 @@
+# Source code files
+*.cs         text eol=crlf diff=csharp
+*.tt         text eol=lf
+*.js         text eol=lf
+
+# Unity YAML files
+*.meta               text eol=lf
+*.anim               text eol=lf
+*.asset              text eol=lf
+*.assets             text eol=lf
+*.cginc              text eol=lf
+*.controller         text eol=lf
+*.cubemap            text eol=lf
+*.flare              text eol=lf
+*.mat                text eol=lf
+*.mask               text eol=lf
+*.mixer              text eol=lf
+*.overrideController text eol=lf
+*.physicMaterial     text eol=lf
+*.prefab             text eol=lf
+*.renderTexture      text eol=lf
+*.shader             text eol=lf
+*.unity              text eol=lf
+
+# Other
+*.aff        text eol=lf
+*.dic        text eol=lf
+*.json       -text
+*.txt        -text
+
+*.md         text
+*.rsp        text
+*.rtf        text
+
+# Binary files
+Slice_*.asset binary
+*.zip binary
+*.wav binary
+*.unitypackage binary
+*.ttf binary
+*.tif binary
+*.tga binary
+*.TGA binary
+*.spm binary
+*.psd binary
+*.png binary
+*.pdn binary
+*.pdf binary
+*.otf binary
+*.ogg binary
+*.mp3 binary
+*.max binary
+*.jpg binary
+*.jpeg binary
+*.fbx binary
+*.FBX binary
+*.exr binary
+*.docx binary
+*.dll binary
+*.bmp binary
