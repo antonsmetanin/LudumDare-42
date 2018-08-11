@@ -24,6 +24,7 @@ public class Application : MonoBehaviour
     }
 
     private InputManager _input;
+    private PlayerController _currentPlayer;
 
     private void Awake()
     {
@@ -47,7 +48,13 @@ public class Application : MonoBehaviour
         if (_input == null)
             _input = gameObject.AddComponent<InputManager>();
 
-
+        _currentPlayer = FindObjectOfType<PlayerController>();
+        if (_currentPlayer == null)
+        {
+            var playerObj = new GameObject();
+            _currentPlayer = playerObj.AddComponent<PlayerController>();
+            _currentPlayer.Init();
+        }
     }
 
     private void Update()
@@ -56,6 +63,6 @@ public class Application : MonoBehaviour
 
     public void MoveMainCharacter(Vector2 movement)
     {
-
+        _currentPlayer.Move(movement);
     }
 }

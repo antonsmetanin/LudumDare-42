@@ -33,6 +33,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
+        ControlPlayer();
         ControlCamera(mousePosition);
 
         _mousePosition = mousePosition;
@@ -59,7 +60,7 @@ public class InputManager : MonoBehaviour
             movement.x -= 1;
         }
 
-        Application.Instance.
+        Application.Instance.MoveMainCharacter(movement);
     }
 
     private void ControlCamera(Vector2 mousePosition)
