@@ -13,15 +13,21 @@ public class RobotController : UnitControllerBase
         base.Init();
 
         _navAgent = GetComponent<NavMeshAgent>();
+        _navAgent.updatePosition = false;
+        _navAgent.updateRotation = false;
+        _navAgent.SetDestination(Target.position);
     }
 
     private void Update()
     {
-        _navAgent.SetDestination(Target.position);
+        
+        var direction = _navAgent.desiredVelocity.normalized;
+        Move(new Vector2(direction.x, direction.z));
+        _navAgent.velocity = _movable.Velocity;
     }
 
-    public override void Move(Vector2 movement)
-    {
-        //base.Move(movement);
-    }
+    //public override void Move(Vector2 movement)
+    //{
+    //    base.Move(movement);
+    //}
 }
