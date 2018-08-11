@@ -13,8 +13,8 @@ public class Game : MonoBehaviour
 	[SerializeField] private RectTransform _memoryViewParent;
 
 
-	[SerializeField] private ProgramPalette _paletteTemplate;
-	[SerializeField] private RectTransform _paletteParent;
+//	[SerializeField] private ProgramPalette _paletteTemplate;
+//	[SerializeField] private RectTransform _paletteParent;
 
 	[SerializeField] private Transform _cube;
 
@@ -42,10 +42,10 @@ public class Game : MonoBehaviour
 		memoryView.Show(memory, _cube, Camera.main);
 		memoryView.AddTo(_disposable);
 
-		var palette = Instantiate(_paletteTemplate);
-		palette.transform.SetParent(_paletteParent, worldPositionStays: false);
-		palette.Show(memory.Programs);
-		palette.AddTo(_disposable);
+//		var palette = Instantiate(_paletteTemplate);
+//		palette.transform.SetParent(_paletteParent, worldPositionStays: false);
+//		palette.Show(memory.Programs);
+//		palette.AddTo(_disposable);
 	}
 
 	private void OnDestroy()
