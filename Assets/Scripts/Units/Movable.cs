@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+//[RequireComponent(typeof(CharacterController))]
 public class Movable : MonoBehaviour
 {
     public float LinearSpeed = 1;
@@ -16,12 +16,12 @@ public class Movable : MonoBehaviour
 
     public void Move(Vector3 movement)
     {
-        var charMovement = Vector3.ClampMagnitude(movement * LinearSpeed, LinearSpeed);
-        if (!_controller.isGrounded)
-        {
-            charMovement.y += Physics.gravity.y;
-        }
+        //var charMovement = Vector3.ClampMagnitude(movement * LinearSpeed, LinearSpeed);
+        //if (!_controller.isGrounded)
+        //{
+        //    charMovement.y += Physics.gravity.y;
+        //}
 
-        _controller.Move(charMovement);
+        //_controller.Move(charMovement);
     }
 }

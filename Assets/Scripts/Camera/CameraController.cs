@@ -21,7 +21,10 @@ public class CameraController : MonoBehaviour
     {
         MainCamera = GetComponent<Camera>();
         _height = _minFlyHeight;
-        transform.position = new Vector3(transform.position.x, _height, transform.position.z);
+        if (MainCamera.orthographic)
+            MainCamera.orthographicSize = _height;
+        else
+            transform.position = new Vector3(transform.position.x, _height, transform.position.z);
     }
 
     private void LateUpdate()
@@ -38,13 +41,20 @@ public class CameraController : MonoBehaviour
         var position = transform.position + (Quaternion.Euler(euler) * _deltaPosition);
         _deltaPosition = Vector3.zero;
 
-        RaycastHit hit;
-        
-        if (Physics.Raycast(new Ray(position, Vector3.down), out hit, _maxFlyHeight * 2, _flyUpLayers))
+        if (MainCamera.orthographic)
         {
-            _deltaHeight = _height - hit.distance;
-            if (Mathf.Abs(_deltaHeight) > Mathf.Epsilon)
-                position.y = Mathf.Clamp(Mathf.Lerp(position.y, position.y + _deltaHeight, 0.1f), _minFlyHeight, _maxFlyHeight);
+            _height += _deltaHeight;
+            MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, _height, 0.1f);
+        }
+        else
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(new Ray(position, Vector3.down), out hit, _maxFlyHeight * 2, _flyUpLayers))
+            {
+                _deltaHeight = _height - hit.distance;
+                if (Mathf.Abs(_deltaHeight) > Mathf.Epsilon)
+                    position.y = Mathf.Clamp(Mathf.Lerp(position.y, position.y + _deltaHeight, 0.1f), _minFlyHeight, _maxFlyHeight);
+            }
         }
 
         transform.position = position;
