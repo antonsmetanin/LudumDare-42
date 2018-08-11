@@ -14,10 +14,9 @@ public class Movable : MonoBehaviour
         _controller = GetComponent<CharacterController>();
     }
 
-    public void Move(Vector2 movement)
+    public void Move(Vector3 movement)
     {
-        movement = Vector2.ClampMagnitude(movement * LinearSpeed, LinearSpeed);
-        Vector3 charMovement = InputManager.GetCurrentAngle() * new Vector3(movement.x, 0, movement.y);
+        var charMovement = Vector3.ClampMagnitude(movement * LinearSpeed, LinearSpeed);
         if (!_controller.isGrounded)
         {
             charMovement.y += Physics.gravity.y;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class UnitControllerBase : MonoBehaviour
 {
-    [SerializeField] private Movable _movable;
+    [SerializeField] protected Movable _movable;
 
     private void Start()
     {
@@ -20,8 +20,8 @@ public abstract class UnitControllerBase : MonoBehaviour
         }
     }
 
-    public void Move(Vector2 movement)
+    public virtual void Move(Vector2 movement)
     {
-        _movable.Move(movement);
+        _movable.Move(new Vector3(movement.x, 0, movement.y));
     }
 }
