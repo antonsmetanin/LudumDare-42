@@ -1,0 +1,11 @@
+{
+    "name": "Model",
+    "references": [
+        "UniRx",
+        "Data"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
