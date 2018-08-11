@@ -35,10 +35,26 @@ public class Application : MonoBehaviour
 
     private void Start()
     {
-        
+        var inputs = FindObjectsOfType<InputManager>();
+        for (int i = 0; i < inputs.Length; i++)
+        {
+            if (inputs[i].gameObject != gameObject)
+                Destroy(inputs[i].gameObject);
+            else
+                _input = inputs[i];
+        }
+
+        if (_input == null)
+            _input = gameObject.AddComponent<InputManager>();
+
+
     }
 
     private void Update()
+    {
+    }
+
+    public void MoveMainCharacter(Vector2 movement)
     {
 
     }

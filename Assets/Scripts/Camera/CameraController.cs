@@ -52,11 +52,18 @@ public class CameraController : MonoBehaviour
 
     public void Move(Vector2 shift)
     {
-        _deltaPosition = new Vector3(shift.x, 0, shift.y);
+        Move(shift.x, shift.y);
+    }
+
+    public void Move(float x, float y)
+    {
+        _deltaPosition.x += x;
+        _deltaPosition.z += y;
     }
 
     public void Scale(float value)
     {
+        Debug.Log(value);
         _height = Mathf.Clamp(_height + value, _minFlyHeight, _maxFlyHeight);
     }
 
