@@ -6,6 +6,11 @@ public abstract class UnitControllerBase : MonoBehaviour
 {
     [SerializeField] private Movable _movable;
 
+    private void Start()
+    {
+        Init();
+    }
+
     public virtual void Init()
     {
         _movable = GetComponent<Movable>();

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    private static InputManager _instance;
+
     public LayerMask SelectableObjects;
 
     private CameraController _cameraController;
@@ -11,12 +13,12 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        _instance = this;
         _cameraController = FindObjectOfType<CameraController>();
         if (_cameraController == null)
             _cameraController = Camera.main.gameObject.AddComponent<CameraController>();
     }
-
-    // Update is called once per frame
+    
     private void Update()
     {
         RaycastHit hit;
@@ -93,5 +95,11 @@ public class InputManager : MonoBehaviour
         {
             _cameraController.Scale(scale * 100);
         }
+    }
+
+    public static Quaternion GetCurrentAngle()
+    {
+        var eulerY = new Vector3(0, _instance._cameraController.MainCamera.transform.rotation.eulerAngles.y);
+        return Quaternion.Euler(eulerY);
     }
 }

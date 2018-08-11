@@ -6,8 +6,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private LayerMask _flyUpLayers;
-    [SerializeField] private float _minFlyHeight = 1;
-    [SerializeField] private float _maxFlyHeight = 5;
+    [SerializeField] private float _minFlyHeight = 10;
+    [SerializeField] private float _maxFlyHeight = 55;
     
     private float _height;
 
