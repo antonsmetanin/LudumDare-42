@@ -1,0 +1,14 @@
+{
+    "name": "View",
+    "references": [
+        "UniRx",
+        "Model",
+        "Utils",
+        "Unity.TextMeshPro",
+        "Data"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
