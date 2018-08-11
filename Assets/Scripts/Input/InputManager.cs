@@ -6,7 +6,7 @@ public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
 
-    public LayerMask SelectableObjects;
+    
 
     private CameraController _cameraController;
     private Vector2 _mousePosition;
@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
         var mousePosition = Input.mousePosition;
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            if (Physics.Raycast(_cameraController.MainCamera.ScreenPointToRay(mousePosition), out hit, SelectableObjects))
+            if (Physics.Raycast(_cameraController.MainCamera.ScreenPointToRay(mousePosition), out hit, MainApplication.Instance.SelectableObjects))
             {
                 var selectable = hit.transform.GetComponent<Selectable>();
                 if (selectable != null)
@@ -75,25 +75,25 @@ public class InputManager : MonoBehaviour
 
         if (mousePosition.x < 50)
         {
-            _cameraController.Move(-5f, 0f);
+            _cameraController.Move(-1f, 0f);
         }
         else if (_cameraController.MainCamera.pixelWidth - mousePosition.x < 50)
         {
-            _cameraController.Move(5f, 0f);
+            _cameraController.Move(1f, 0f);
         }
         if (mousePosition.y < 50)
         {
-            _cameraController.Move(0f, -5f);
+            _cameraController.Move(0f, -1f);
         }
         else if (_cameraController.MainCamera.pixelHeight - mousePosition.y < 50)
         {
-            _cameraController.Move(0f, 5f);
+            _cameraController.Move(0f, 1f);
         }
 
         var scale = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(scale) > Mathf.Epsilon)
         {
-            _cameraController.Scale(scale * 100);
+            _cameraController.Scale(-scale * 100);
         }
     }
 

@@ -23,6 +23,8 @@ public class MainApplication : MonoBehaviour
         }
     }
 
+    public LayerMask SelectableObjects;
+
     private InputManager _input;
     private PlayerController _currentPlayer;
 

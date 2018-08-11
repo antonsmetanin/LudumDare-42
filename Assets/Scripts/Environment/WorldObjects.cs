@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Selectable : MonoBehaviour
+public class WorldObjects : MonoBehaviour
 {
-    public virtual void Select()
-    {
-    }
+    
 }

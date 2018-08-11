@@ -63,7 +63,6 @@ public class CameraController : MonoBehaviour
 
     public void Scale(float value)
     {
-        Debug.Log(value);
         _height = Mathf.Clamp(_height + value, _minFlyHeight, _maxFlyHeight);
     }
 
