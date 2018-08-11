@@ -20,7 +20,7 @@ public class Movable : MonoBehaviour
         Vector3 charMovement = new Vector3(movement.x, 0, movement.y);
         //if (!_controller.isGrounded)
         //{
-        //    charMovement.y -= Physics.gravity.y;
+        //    charMovement.y += Physics.gravity.y;
         //}
 
         _controller.Move(charMovement);

@@ -60,7 +60,7 @@ public class InputManager : MonoBehaviour
             movement.x -= 1;
         }
 
-        Application.Instance.MoveMainCharacter(movement);
+        MainApplication.Instance.MoveMainCharacter(movement);
     }
 
     private void ControlCamera(Vector2 mousePosition)

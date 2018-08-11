@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Application : MonoBehaviour
+public class MainApplication : MonoBehaviour
 {
-    private static Application _instance;
-    public static Application Instance
+    private static MainApplication _instance;
+    public static MainApplication Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<Application>();
+                _instance = FindObjectOfType<MainApplication>();
                 if (_instance == null)
                 {
                     var go = new GameObject("___Application");
-                    _instance = go.AddComponent<Application>();
+                    _instance = go.AddComponent<MainApplication>();
                 }
             }
 
