@@ -15,11 +15,11 @@ public class CameraController : MonoBehaviour
     private Vector3 _deltaPosition;
     private float _deltaRotation;
 
-    private Camera _camera;
+    public Camera MainCamera;
 
     private void Awake()
     {
-        _camera = GetComponent<Camera>();
+        MainCamera = GetComponent<Camera>();
         _height = _minFlyHeight;
         transform.position = new Vector3(transform.position.x, _height, transform.position.z);
     }
