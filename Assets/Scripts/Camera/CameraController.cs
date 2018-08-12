@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private LayerMask _flyUpLayers;
+    [SerializeField] private float _startHeight = 20;
     [SerializeField] private float _minFlyHeight = 10;
     [SerializeField] private float _maxFlyHeight = 55;
     
@@ -19,16 +20,16 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
+        var cameraFollow = GetComponent<SceneCameraFollow>();
+        if (cameraFollow != null)
+            cameraFollow.enabled = false;
+
         MainCamera = GetComponent<Camera>();
-        _height = _minFlyHeight;
+        _height = _startHeight;
         if (MainCamera.orthographic)
             MainCamera.orthographicSize = _height;
         else
             transform.position = new Vector3(transform.position.x, _height, transform.position.z);
-
-        var cameraFollow = GetComponent<SceneCameraFollow>();
-        if (cameraFollow != null)
-            cameraFollow.enabled = false;
     }
 
     private void LateUpdate()
@@ -47,18 +48,13 @@ public class CameraController : MonoBehaviour
 
         if (MainCamera.orthographic)
         {
-            _height += _deltaHeight;
             MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, _height, 0.1f);
         }
         else
         {
-            RaycastHit hit;
-            if (Physics.Raycast(new Ray(position, Vector3.down), out hit, _maxFlyHeight * 2, _flyUpLayers))
-            {
-                _deltaHeight = _height - hit.distance;
-                if (Mathf.Abs(_deltaHeight) > Mathf.Epsilon)
-                    position.y = Mathf.Clamp(Mathf.Lerp(position.y, position.y + _deltaHeight, 0.1f), _minFlyHeight, _maxFlyHeight);
-            }
+            _deltaHeight = _height - position.y;
+            if (Mathf.Abs(_deltaHeight) > Mathf.Epsilon)
+                position.y = Mathf.Clamp(Mathf.Lerp(position.y, position.y + _deltaHeight, 0.1f), _minFlyHeight, _maxFlyHeight);
         }
 
         transform.position = position;

@@ -22,17 +22,17 @@ public class Tree : MonoBehaviour, IAlive
         _deadCondition = GetComponentInChildren<TreeDeadCondition>();
     }
 
-    public void Cut(float force)
+    public void Cut(float force, Vector3 direction)
     {
         if (!IsAlive)
             return;
 
         Health -= force;
         if (Health <= 0)
-            StartCoroutine(Co_Dieing());
+            StartCoroutine(Co_Dieing(direction));
     }
 
-    private IEnumerator Co_Dieing()
+    private IEnumerator Co_Dieing(Vector3 direction)
     {
         if (_fallingRigidbody == null)
             _fallingRigidbody = GetComponentInChildren<Rigidbody>();
@@ -40,7 +40,7 @@ public class Tree : MonoBehaviour, IAlive
         _fallingRigidbody.isKinematic = false;
         _fallingRigidbody.constraints = RigidbodyConstraints.None;
 
-        _fallingRigidbody.AddForceAtPosition(transform.rotation * new Vector3(5f, -0.5f, 0), transform.position + transform.rotation * _forceApplyPoint);
+        _fallingRigidbody.AddForceAtPosition(direction.normalized * 2, transform.position + transform.rotation * _forceApplyPoint);
 
         for (int i = 0; _disableOnDeath != null && i < _disableOnDeath.Length; i++)
         {
@@ -55,7 +55,5 @@ public class Tree : MonoBehaviour, IAlive
 
         Debug.Log("Dead");
         IsDead = true;
-
-        _fallingRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ;
     }
 }

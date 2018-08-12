@@ -14,6 +14,6 @@ public class SelectableTree : Selectable
 
     public override void Select()
     {
-        _tree.Cut(1000);
+        _tree.Cut(1000, new Vector3(1, 0, 0));
     }
 }

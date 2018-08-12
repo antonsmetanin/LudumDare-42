@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4812433077729728}
   - component: {fileID: 114546916151610614}
-  - component: {fileID: 114607846054002182}
+  - component: {fileID: 114933017714331338}
   m_Layer: 10
   m_Name: spruce_1
   m_TagString: Untagged
@@ -39,9 +39,9 @@ GameObject:
   - component: {fileID: 33482178910157106}
   - component: {fileID: 23676589073093950}
   - component: {fileID: 54317593513864438}
-  - component: {fileID: 136400004145773808}
   - component: {fileID: 114783077894005448}
   - component: {fileID: 135133580950516634}
+  - component: {fileID: 65144275538507784}
   m_Layer: 10
   m_Name: spruce
   m_TagString: Untagged
@@ -274,12 +274,24 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 50
   m_Drag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0.01
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!65 &65144275538507784
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1738401839060924}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8, y: 0.8, z: 9.3024025}
+  m_Center: {x: -0.10421431, y: -0.071689144, z: 4.6512012}
 --- !u!114 &114546916151610614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -296,17 +308,6 @@ MonoBehaviour:
   - {fileID: 1890577083601224}
   _fallingRigidbody: {fileID: 54317593513864438}
   _forceApplyPoint: {x: 0, y: 13.29, z: 0}
---- !u!114 &114607846054002182
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1499392286943350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d79e93269974c64693cf8274e34db4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114783077894005448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -319,6 +320,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsDead: 0
+--- !u!114 &114933017714331338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1499392286943350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d79e93269974c64693cf8274e34db4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135133580950516634
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -331,19 +343,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.8
   m_Center: {x: -0.10421431, y: -0.071689144, z: 8.5}
---- !u!136 &136400004145773808
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1738401839060924}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 9
-  m_Direction: 2
-  m_Center: {x: 0.05, y: -0.12, z: 4.6}
 --- !u!136 &136832797406061640
 CapsuleCollider:
   m_ObjectHideFlags: 1
