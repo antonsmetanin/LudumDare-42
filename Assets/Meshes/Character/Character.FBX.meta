@@ -1,0 +1,167 @@
+fileFormatVersion: 2
+guid: c2df820ef5cf4fc47b28b256cf23b8da
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Box001
+    100002: //RootNode
+    100004: Clown
+    100006: ClownHead
+    100008: ClownLArm1
+    100010: ClownLArmCollarbone
+    100012: ClownLLeg1
+    100014: ClownLLegPlatform
+    100016: ClownNeck
+    100018: ClownPelvis
+    100020: ClownRArm1
+    100022: ClownRArmCollarbone
+    100024: ClownRibcage
+    100026: ClownRLeg1
+    100028: ClownRLegPlatform
+    100030: ClownSpine
+    100032: Dummy001
+    100034: Object004
+    400000: Box001
+    400002: //RootNode
+    400004: Clown
+    400006: ClownHead
+    400008: ClownLArm1
+    400010: ClownLArmCollarbone
+    400012: ClownLLeg1
+    400014: ClownLLegPlatform
+    400016: ClownNeck
+    400018: ClownPelvis
+    400020: ClownRArm1
+    400022: ClownRArmCollarbone
+    400024: ClownRibcage
+    400026: ClownRLeg1
+    400028: ClownRLegPlatform
+    400030: ClownSpine
+    400032: Dummy001
+    400034: Object004
+    2100000: 01 - Default
+    2100002: No Name
+    2300000: Box001
+    2300002: ClownHead
+    2300004: ClownLArm1
+    2300006: ClownLArmCollarbone
+    2300008: ClownLLeg1
+    2300010: ClownNeck
+    2300012: ClownPelvis
+    2300014: ClownRArm1
+    2300016: ClownRArmCollarbone
+    2300018: ClownRibcage
+    2300020: ClownRLeg1
+    2300022: ClownSpine
+    3300000: Box001
+    3300002: ClownHead
+    3300004: ClownLArm1
+    3300006: ClownLArmCollarbone
+    3300008: ClownLLeg1
+    3300010: ClownNeck
+    3300012: ClownPelvis
+    3300014: ClownRArm1
+    3300016: ClownRArmCollarbone
+    3300018: ClownRibcage
+    3300020: ClownRLeg1
+    3300022: ClownSpine
+    4300000: Object004
+    4300002: ClownPelvis
+    4300004: ClownSpine
+    4300006: ClownRibcage
+    4300008: ClownNeck
+    4300010: ClownHead
+    4300012: ClownLArmCollarbone
+    4300014: ClownLArm1
+    4300016: Box001
+    4300018: ClownRArmCollarbone
+    4300020: ClownRArm1
+    4300022: ClownLLeg1
+    4300024: ClownRLeg1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Object004
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 4
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.02
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
