@@ -24,6 +24,7 @@ public class WorldObjects : MonoBehaviour
     }
 
     public List<Tree> Trees = new List<Tree>();
+    private readonly Dictionary<System.Type, List<object>> _worldObjects = new Dictionary<System.Type, List<object>>();
 
     private void Awake()
     {

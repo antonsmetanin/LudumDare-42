@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class TreeTrunk : MonoBehaviour
 {
-
     public GameObject[] CollectObjects;
     public bool IsDead;
 
