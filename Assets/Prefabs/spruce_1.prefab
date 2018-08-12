@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4812433077729728}
   - component: {fileID: 114546916151610614}
+  - component: {fileID: 114933017714331338}
   m_Layer: 10
   m_Name: spruce_1
   m_TagString: Untagged
@@ -128,16 +129,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499392286943350}
-  m_LocalRotation: {x: 0.000060886137, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 98.46001, y: 58.97001, z: 0.7500076}
-  m_LocalScale: {x: 1.2677, y: 1.267701, z: 1.267701}
+  m_LocalRotation: {x: 0.025186565, y: -0.019779323, z: 0.029953435, w: 0.9990381}
+  m_LocalPosition: {x: 20.23, y: 28.01, z: -0.68}
+  m_LocalScale: {x: 1, y: 1.0000005, z: 1.0000005}
   m_Children:
   - {fileID: 4423886820499134}
   - {fileID: 4555898974737962}
   - {fileID: 4271590176955430}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 2.953, y: -2.181, z: 3.3780003}
 --- !u!23 &23417672725105286
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -290,7 +291,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.8, z: 9.3024025}
-  m_Center: {x: -0.10421431, y: -0.071689144, z: 4.6512012}
+  m_Center: {x: 0.01, y: -0.01, z: 4.6512012}
 --- !u!114 &114546916151610614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -320,6 +321,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CollectObjects: []
   IsDead: 0
+--- !u!114 &114933017714331338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1499392286943350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d79e93269974c64693cf8274e34db4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135133580950516634
 SphereCollider:
   m_ObjectHideFlags: 1
