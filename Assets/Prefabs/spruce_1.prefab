@@ -179,7 +179,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1738401839060924}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -318,7 +318,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e0d9d5536d6b540a3609072745c9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollectObjects: []
+  CollectPoints:
+  - Point: {x: -0.22, y: 7.21, z: 0.46}
+    Count: 5
+  - Point: {x: -0.21, y: 5.92, z: 0.35}
+    Count: 0
+  - Point: {x: 0, y: 4.5, z: 0.33}
+    Count: 0
+  - Point: {x: 0, y: 3.08, z: 0.27}
+    Count: 0
+  - Point: {x: 0, y: 1.33, z: 0.12}
+    Count: 0
   IsDead: 0
 --- !u!135 &135133580950516634
 SphereCollider:
