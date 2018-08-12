@@ -16,13 +16,19 @@ public class RobotController : UnitControllerBase
         _navAgent = GetComponent<NavMeshAgent>();
         _navAgent.updatePosition = false;
         _navAgent.updateRotation = false;
-        SetTarget(Target);
+        Target = null;
+        var tree = WorldObjects.Instance.GetClosestObject(transform.position);
+        if (tree != null)
+            SetTarget(tree.transform);
     }
 
     private bool _started;
 
     private void Update()
     {
+        if (Target == null)
+            return;
+
         if (!_reached)
         {
             if (_navAgent.pathStatus == NavMeshPathStatus.PathComplete && _navAgent.remainingDistance <= _navAgent.stoppingDistance)
@@ -44,7 +50,10 @@ public class RobotController : UnitControllerBase
 
     public void SetTarget(Transform target)
     {
+        _navAgent.nextPosition = transform.position;
+        Target = target;
         _reached = false;
+        _navAgent.ResetPath();
         _navAgent.SetDestination(target.position);
 
         // TODO: Animation
@@ -74,6 +83,8 @@ public class RobotController : UnitControllerBase
             target.Cut(force, direction);
             yield return new WaitForSeconds(0.1f);
         }
+
+        OnCut(target.gameObject, force);
     }
 
     public void OnCut(GameObject target, float force)
@@ -83,5 +94,9 @@ public class RobotController : UnitControllerBase
         {
             //treeTarget.Cut(force);
         }
+
+        var tree = WorldObjects.Instance.GetClosestObject(transform.position);
+        if (tree != null)
+            SetTarget(tree.transform);
     }
 }

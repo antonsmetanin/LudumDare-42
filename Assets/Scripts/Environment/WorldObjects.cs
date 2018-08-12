@@ -31,11 +31,12 @@ public class WorldObjects : MonoBehaviour
             _instance = this;
         if (_instance != this)
             Destroy(this);
+
+        Trees = FindObjectsOfType<Tree>().ToList();
     }
 
     private void Start()
     {
-        Trees = FindObjectsOfType<Tree>().ToList();
     }
 
     public GameObject GetRandomObject()
