@@ -4351,7 +4351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6460b27b45e916469cf79807e804efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Trees: []
 --- !u!1001 &1145773001
 Prefab:
   m_ObjectHideFlags: 0
@@ -5092,31 +5091,31 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4734406654688144, guid: 4c25febffd22be4499622c8c71d6aea8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -23.798384
+      value: -19.038984
       objectReference: {fileID: 0}
     - target: {fileID: 4734406654688144, guid: 4c25febffd22be4499622c8c71d6aea8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 46.727684
+      value: 42.348015
       objectReference: {fileID: 0}
     - target: {fileID: 4734406654688144, guid: 4c25febffd22be4499622c8c71d6aea8, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 10.958103
+      value: -14.069254
       objectReference: {fileID: 0}
     - target: {fileID: 4734406654688144, guid: 4c25febffd22be4499622c8c71d6aea8, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.15705842
+      value: 0.11598695
       objectReference: {fileID: 0}
     - target: {fileID: 4734406654688144, guid: 4c25febffd22be4499622c8c71d6aea8, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.8324995
+      value: 0.8806787
       objectReference: {fileID: 0}
     - target: {fileID: 4734406654688144, guid: 4c25febffd22be4499622c8c71d6aea8, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.29667312
+      value: -0.281459
       objectReference: {fileID: 0}
     - target: {fileID: 4734406654688144, guid: 4c25febffd22be4499622c8c71d6aea8, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.44075206
+      value: 0.36295024
       objectReference: {fileID: 0}
     - target: {fileID: 4734406654688144, guid: 4c25febffd22be4499622c8c71d6aea8, type: 2}
       propertyPath: m_RootOrder
@@ -7247,7 +7246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6460b27b45e916469cf79807e804efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Trees: []
 --- !u!1001 &1880345941
 Prefab:
   m_ObjectHideFlags: 0
@@ -7408,29 +7406,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 14
       objectReference: {fileID: 0}
-    - target: {fileID: 4812433077729728, guid: c1695bb55ed487c4baf2e59e3cd38718, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90.00001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812433077729728, guid: c1695bb55ed487c4baf2e59e3cd38718, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1.2677007
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812433077729728, guid: c1695bb55ed487c4baf2e59e3cd38718, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1.2677002
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812433077729728, guid: c1695bb55ed487c4baf2e59e3cd38718, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1.2677003
-      objectReference: {fileID: 0}
     - target: {fileID: 1499392286943350, guid: c1695bb55ed487c4baf2e59e3cd38718, type: 2}
       propertyPath: m_Name
       value: spruce_1 (18)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812433077729728, guid: c1695bb55ed487c4baf2e59e3cd38718, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 100.895004
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1695bb55ed487c4baf2e59e3cd38718, type: 2}
