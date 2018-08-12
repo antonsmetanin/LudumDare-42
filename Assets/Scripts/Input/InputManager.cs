@@ -27,7 +27,7 @@ public class InputManager : MonoBehaviour
         {
             if (Physics.Raycast(_cameraController.MainCamera.ScreenPointToRay(mousePosition), out hit, MainApplication.Instance.SelectableObjects))
             {
-                var selectable = hit.transform.GetComponent<Selectable>();
+                var selectable = hit.transform.GetComponentInParent<Selectable>();
                 if (selectable != null)
                 {
                     selectable.Select();

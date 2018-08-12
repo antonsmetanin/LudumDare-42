@@ -33,7 +33,7 @@ public class MainApplication : MonoBehaviour
         if (_instance == null)
             _instance = this;
         if (_instance != this)
-            Destroy(gameObject);
+            Destroy(this);
     }
 
     private void Start()

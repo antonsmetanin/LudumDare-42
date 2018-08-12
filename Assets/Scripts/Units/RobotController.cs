@@ -20,14 +20,29 @@ public class RobotController : UnitControllerBase
 
     private void Update()
     {
-        
         var direction = _navAgent.desiredVelocity.normalized;
         Move(new Vector2(direction.x, direction.z));
         _navAgent.velocity = _movable.Velocity;
     }
 
-    //public override void Move(Vector2 movement)
-    //{
-    //    base.Move(movement);
-    //}
+    public void SetTarget(Transform target)
+    {
+        _navAgent.SetDestination(target.position);
+
+        // TODO: Animation
+    }
+
+    public void StartCut(GameObject target, float force)
+    {
+        // TODO: Animation, etc
+    }
+
+    public void OnCut(GameObject target, float force)
+    {
+        var treeTarget = target.GetComponent<Tree>();
+        if (treeTarget != null)
+        {
+            treeTarget.Cut(force);
+        }
+    }
 }

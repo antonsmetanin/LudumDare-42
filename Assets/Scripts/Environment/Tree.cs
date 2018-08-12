@@ -7,6 +7,7 @@ public class Tree : MonoBehaviour, IAlive
     [SerializeField] private float _baseHealht = 100f;
     [SerializeField] private GameObject[] _disableOnDeath;
     [SerializeField] private Rigidbody _fallingRigidbody;
+    [SerializeField] private Vector3 _forceApplyPoint = new Vector3(0, 0, 3);
 
     public float Health { get; private set; }
     public bool IsAlive { get { return Health > 0; } }
@@ -37,9 +38,9 @@ public class Tree : MonoBehaviour, IAlive
             _fallingRigidbody = GetComponentInChildren<Rigidbody>();
         _fallingRigidbody.useGravity = true;
         _fallingRigidbody.isKinematic = false;
-        var pos = transform.position;
-        pos.y += 5;
-        _fallingRigidbody.AddForceAtPosition(new Vector3(2, 0, 0), pos);
+        _fallingRigidbody.constraints = RigidbodyConstraints.None;
+
+        _fallingRigidbody.AddForceAtPosition(transform.rotation * new Vector3(5f, -0.5f, 0), transform.position + transform.rotation * _forceApplyPoint);
 
         for (int i = 0; _disableOnDeath != null && i < _disableOnDeath.Length; i++)
         {
@@ -50,13 +51,11 @@ public class Tree : MonoBehaviour, IAlive
         {
             yield return null;
 
-            if (_fallingRigidbody.angularVelocity == Vector3.zero)
-                _fallingRigidbody.AddForceAtPosition(new Vector3(2, 0, 0), pos);
         } while (!_deadCondition.IsDead);
 
         Debug.Log("Dead");
         IsDead = true;
 
-        _fallingRigidbody.useGravity = false;
+        _fallingRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ;
     }
 }

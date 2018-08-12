@@ -25,6 +25,10 @@ public class CameraController : MonoBehaviour
             MainCamera.orthographicSize = _height;
         else
             transform.position = new Vector3(transform.position.x, _height, transform.position.z);
+
+        var cameraFollow = GetComponent<SceneCameraFollow>();
+        if (cameraFollow != null)
+            cameraFollow.enabled = false;
     }
 
     private void LateUpdate()
