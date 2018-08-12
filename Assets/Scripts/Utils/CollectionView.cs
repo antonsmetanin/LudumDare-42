@@ -6,14 +6,41 @@ using Object = UnityEngine.Object;
 
 namespace Utils
 {
-	public class MonoBehaviourCollectionView<T, TView> : IDisposable
+    public interface IFactory<T>
+    {
+        T Create();
+        void Destroy(T t);
+    }
+
+    public class Instantiator<T> : IFactory<T>
+        where T : Component
+    {
+        private T _template;
+
+        public Instantiator(T template)
+        {
+            _template = template;
+        }
+
+        public T Create()
+        {
+            return Object.Instantiate(_template);
+        }
+
+        public void Destroy(T t)
+        {
+            Object.Destroy(t.gameObject);
+        }
+    }
+
+    public class MonoBehaviourCollectionView<T, TView> : IDisposable
 		where TView : MonoBehaviour, IDisposable
 	{
 		private readonly CollectionView<T, TView> _collectionView;
 
 		public MonoBehaviourCollectionView(IReadOnlyReactiveCollection<T> collection, TView template, Transform parentTransform, Action<TView, T> initializer)
 		{
-			_collectionView = new CollectionView<T, TView>(collection, template, (view, element) =>
+			_collectionView = new CollectionView<T, TView>(collection, new Instantiator<TView>(template), (view, element) =>
 			{
 				view.transform.SetParent(parentTransform, worldPositionStays: false);
 				initializer(view, element);
@@ -31,17 +58,17 @@ namespace Utils
 	{
 		private readonly List<TView> _views = new List<TView>();
 		private readonly Action<TView, T> _initializer;
-		private readonly TView _template;
+		private readonly IFactory<TView> _factory;
 		private readonly CompositeDisposable _disposable = new CompositeDisposable();
 
-		public CollectionView(IReadOnlyReactiveCollection<T> collection, TView template, Action<TView, T> initializer)
+		public CollectionView(IReadOnlyReactiveCollection<T> collection, IFactory<TView> factory, Action<TView, T> initializer)
 		{
-			_template = template;
+			_factory = factory;
 			_initializer = initializer;
 
 			foreach (var element in collection)
 			{
-				var view = Object.Instantiate(_template);
+                var view = factory.Create();
 				_views.Add(view);
 				_initializer(view, element);
 			}
@@ -52,7 +79,7 @@ namespace Utils
 
 		private void Add(int index, T element)
 		{
-			var view = Object.Instantiate(_template);
+            var view = _factory.Create();
 			_views.Insert(index, view);
 			_initializer(view, element);
 		}
@@ -61,7 +88,7 @@ namespace Utils
 		{
 			var view = _views[index];
 			view.Dispose();
-			Object.Destroy(view.gameObject);
+            _factory.Destroy(view);
 			_views.RemoveAt(index);
 		}
 
@@ -70,7 +97,7 @@ namespace Utils
 			foreach (var view in _views)
 			{
 				view.Dispose();
-				Object.Destroy(view);
+                _factory.Destroy(view);
 			}
 
 			_views.Clear();

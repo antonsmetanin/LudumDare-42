@@ -2,7 +2,7 @@
 
 namespace Model
 {
-    public class Memory
+    public class Robot
     {
         public ReactiveProperty<int> Size;
         public ReactiveCollection<Program> Programs;

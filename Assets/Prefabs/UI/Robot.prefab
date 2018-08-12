@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114154108028174196}
   - component: {fileID: 114494190751531526}
   m_Layer: 5
-  m_Name: Memory
+  m_Name: Robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
