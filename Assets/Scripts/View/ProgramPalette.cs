@@ -11,12 +11,16 @@ namespace View
         [SerializeField] private DashboardProgramView _programViewTemplate;
         [SerializeField] private RectTransform _programsParent;
 
-        private readonly CompositeDisposable _disposable = new CompositeDisposable();
+        private CompositeDisposable _disposable;
 
         public void Show(GameProgress gameProgress)
-            => gameProgress.AvailablePrograms
-                .CreateView(_programViewTemplate, _programsParent, (view, program) => view.Show(program, gameProgress))
-                .AddTo(_disposable);
+        {
+            _disposable = new CompositeDisposable();
+
+            gameProgress.AvailablePrograms
+                           .CreateView(_programViewTemplate, _programsParent, (view, program) => view.Show(program, gameProgress))
+                           .AddTo(_disposable);
+        }
 
         public void Dispose() => _disposable.Dispose();
     }

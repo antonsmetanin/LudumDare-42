@@ -37,6 +37,23 @@ namespace Model
             ProduceSpeed = CurrentVersion.Select(x => x.ProduceSpeed).ToReactiveProperty();
         }
 
+        public Program(Program originalProgram)
+        {
+            Template = originalProgram.Template;
+            CurrentVersion = new ReactiveProperty<ProgramVersion>(originalProgram.CurrentVersion.Value);
+            InstalledPatches = new ReactiveCollection<PatchTemplate>(originalProgram.InstalledPatches);
+
+            Size = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged().ToReactiveProperty(InstalledPatches.Count),
+                (version, _) => version.Size + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
+
+            Name = CurrentVersion.Select(_ => GetName(GetCurrentVersionIndex())).ToReactiveProperty();
+
+            LeakSpeed = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged().ToReactiveProperty(InstalledPatches.Count),
+                (version, _) => version.LeakSpeed + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
+
+            ProduceSpeed = CurrentVersion.Select(x => x.ProduceSpeed).ToReactiveProperty();
+        }
+
         public int GetCurrentVersionIndex() => Array.IndexOf(Template.Versions, CurrentVersion.Value);
         private string GetName(int index) => index == 0 ? Template.Name : Template.Name + " v." + (index + 1);
 

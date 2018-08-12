@@ -14,20 +14,22 @@ namespace View
 		[SerializeField] private TextMeshProUGUI _nameLabel;
 		[SerializeField] private DraggedProgramView _draggedProgramTemplate;
 
-		private readonly CompositeDisposable _disposable = new CompositeDisposable();
+        private CompositeDisposable _disposable;
 
 		private DraggedProgramView _draggedProgramView;
-		private Program _program;
+		public Program Program;
 
 		public void Show(Program program)
 		{
-			GetComponent<Image>().color = program.Template.Color;
+            _disposable = new CompositeDisposable();
+
+            GetComponent<Image>().color = program.Template.Color;
 			_nameLabel.faceColor = program.Template.TextColor;
 
 			program.Size.Subscribe(size => ((RectTransform)transform).sizeDelta = new Vector2(size, ((RectTransform)transform).sizeDelta.y)).AddTo(_disposable);
 			program.Name.Subscribe(x => _nameLabel.text = x).AddTo(_disposable);
 
-			_program = program;
+			Program = program;
 		}
 
         public void Dispose() => _disposable.Dispose();
@@ -35,6 +37,8 @@ namespace View
 		public void OnDrag([NotNull] PointerEventData eventData)
 		{
 			_draggedProgramView.Drag(eventData);
+
+            eventData.pointerEnter?.GetComponent<RobotView>()?.OnAccept(this, simulate: true);
 		}
 
 		public void OnBeginDrag([NotNull] PointerEventData eventData)
@@ -42,12 +46,14 @@ namespace View
 			_draggedProgramView = Instantiate(_draggedProgramTemplate);
 			_draggedProgramView.transform.SetParent(GetComponentInParent<Canvas>().transform, worldPositionStays: false);
 			_draggedProgramView.transform.position = transform.position;
-			_draggedProgramView.Show(_program);
+			_draggedProgramView.Show(Program);
 		}
 
 		public void OnEndDrag([NotNull] PointerEventData eventData)
 		{
-//			eventData.pointerEnter.GetComponent<>()
+            eventData.pointerEnter?.GetComponent<RobotView>()?.OnAccept(this);
+
+            _draggedProgramView.Dispose();
 		}
 	}
 }

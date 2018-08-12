@@ -12,10 +12,12 @@ namespace View
 
         [SerializeField] private ProgramPalette _palette;
 
-        private CompositeDisposable _disposable = new CompositeDisposable();
+        private CompositeDisposable _disposable;
 
         public void Show(GameProgress gameProgress)
         {
+            _disposable = new CompositeDisposable();
+
             gameProgress.DataCollected
                 .Subscribe(dataCollected => _dataCollected.SetValue(dataCollected, 100f))
                 .AddTo(_disposable);

@@ -16,11 +16,13 @@ namespace View
 		[SerializeField] private RectTransform _sizeIndicator;
 		[SerializeField] private Text _sizeIndicatorLabel;
 
-		private readonly CompositeDisposable _disposable = new CompositeDisposable();
+        private CompositeDisposable _disposable;
 
 		public void Show(Program program, GameProgress gameProgress)
 		{
-			_programView.Show(program);
+            _disposable = new CompositeDisposable();
+
+            _programView.Show(program);
 			_programView.AddTo(_disposable);
 
 			program.CurrentVersion.Subscribe(_ => _upgradeButton.GetComponentInChildren<Text>().text = "v" + (program.GetCurrentVersionIndex() + 2));

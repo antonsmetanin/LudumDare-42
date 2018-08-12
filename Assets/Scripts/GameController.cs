@@ -7,7 +7,7 @@ using View;
 
 public class GameController : MonoBehaviour
 {
-	private readonly CompositeDisposable _disposable = new CompositeDisposable();
+    private CompositeDisposable _disposable;
 
 	[SerializeField] private RobotView _robotView;
 
@@ -21,13 +21,15 @@ public class GameController : MonoBehaviour
 
 	private void Start()
 	{
+        _disposable = new CompositeDisposable();
+
 		var game = new Game(_defaultGameProgress, _defaultProgramTemplates);
 
 		game.SelectedRobot.Subscribe(robot =>
 		{
-			if (robot != null)
+			if (robot != null && !_robotView.gameObject.activeSelf)
 				_robotView.Show(game.Robots[0], robot.Transform, Camera.main);
-			else
+			else if (robot == null && _robotView.gameObject.activeSelf)
 				_robotView.Dispose();
 		}).AddTo(_disposable);
 
@@ -43,7 +45,7 @@ public class GameController : MonoBehaviour
 
 		game.Robots.Add(new Robot
 		{
-			Size = new ReactiveProperty<int>(404),
+			MemorySize = new ReactiveProperty<int>(404),
 			Programs = _defaultProgramTemplates.Select(template => new Program(template)).ToReactiveCollection()
 		});
 

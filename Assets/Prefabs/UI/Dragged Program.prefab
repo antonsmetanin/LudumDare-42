@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114082183827328718}
   - component: {fileID: 114212603919568106}
   - component: {fileID: 114159696838592406}
+  - component: {fileID: 225758820160228326}
   m_Layer: 5
   m_Name: Dragged Program
   m_TagString: Untagged
@@ -268,3 +269,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 66.160034, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &225758820160228326
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1081744692910110}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
