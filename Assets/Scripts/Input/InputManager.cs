@@ -6,8 +6,6 @@ public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
 
-    
-
     private CameraController _cameraController;
     private Vector2 _mousePosition;
 
@@ -60,6 +58,11 @@ public class InputManager : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             movement.x -= 1;
+        }
+
+        if (MainApplication.Instance.CurrentPlayer != null && movement != Vector2.zero)
+        {
+            _cameraController.GoToPoint(MainApplication.Instance.CurrentPlayer.transform.position);
         }
 
         MainApplication.Instance.MoveMainCharacter(movement);

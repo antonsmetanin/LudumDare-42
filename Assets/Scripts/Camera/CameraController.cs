@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
 
     private float _deltaHeight;
     private Vector3 _deltaPosition;
+    private bool _ignoreMouse;
     private float _deltaRotation;
 
     public Camera MainCamera;
@@ -55,6 +56,7 @@ public class CameraController : MonoBehaviour
         euler.z = 0;
         var position = transform.position + (Quaternion.Euler(euler) * _deltaPosition);
         _deltaPosition = Vector3.zero;
+        _ignoreMouse = false;
 
         if (MainCamera.orthographic)
         {
@@ -82,13 +84,29 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    public void GoToPoint(Vector3 point)
+    {
+        var position = MainCamera.transform.position;
+        position.y -= point.y;
+        var angle = Vector3.Angle(MainCamera.transform.forward, Vector3.down);
+        var resultPosition = point - (MainCamera.transform.forward * (position.y / Mathf.Cos(angle * Mathf.Deg2Rad)));
+        MainCamera.transform.position = resultPosition;
+        _ignoreMouse = true;
+    }
+
     public void Move(Vector2 shift)
     {
+        if (_ignoreMouse)
+            return;
+
         Move(shift.x, shift.y);
     }
 
     public void Move(float x, float y)
     {
+        if (_ignoreMouse)
+            return;
+
         _deltaPosition.x += x;
         _deltaPosition.z += y;
     }

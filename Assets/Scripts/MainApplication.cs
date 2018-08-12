@@ -26,7 +26,7 @@ public class MainApplication : MonoBehaviour
     public LayerMask SelectableObjects;
 
     private InputManager _input;
-    private PlayerController _currentPlayer;
+    public PlayerController CurrentPlayer;
 
     private void Awake()
     {
@@ -50,12 +50,12 @@ public class MainApplication : MonoBehaviour
         if (_input == null)
             _input = gameObject.AddComponent<InputManager>();
 
-        _currentPlayer = FindObjectOfType<PlayerController>();
-        if (_currentPlayer == null)
+        CurrentPlayer = FindObjectOfType<PlayerController>();
+        if (CurrentPlayer == null)
         {
             var playerObj = new GameObject();
-            _currentPlayer = playerObj.AddComponent<PlayerController>();
-            _currentPlayer.Init();
+            CurrentPlayer = playerObj.AddComponent<PlayerController>();
+            CurrentPlayer.Init();
         }
     }
 
@@ -65,6 +65,6 @@ public class MainApplication : MonoBehaviour
 
     public void MoveMainCharacter(Vector2 movement)
     {
-        _currentPlayer.Move(movement);
+        CurrentPlayer.Move(movement);
     }
 }
