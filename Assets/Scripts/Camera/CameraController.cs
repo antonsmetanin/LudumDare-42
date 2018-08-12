@@ -36,7 +36,13 @@ public class CameraController : MonoBehaviour
     {
         if (Mathf.Abs(_deltaRotation) > Mathf.Epsilon)
         {
-            transform.RotateAround(transform.position, Vector3.up, _deltaRotation);
+            RaycastHit hit;
+            var center = transform.position;
+            if (Physics.Raycast(MainCamera.ScreenPointToRay(new Vector3(MainCamera.pixelWidth / 2, MainCamera.pixelHeight / 2, 0)), out hit, transform.position.y * 3, _flyUpLayers))
+            {
+                center = hit.point;
+            }
+            transform.RotateAround(center, Vector3.up, _deltaRotation);
             _deltaRotation = 0;
         }
 
@@ -53,7 +59,7 @@ public class CameraController : MonoBehaviour
         else
         {
             _deltaHeight = _height - transform.position.y;
-            
+
             if (Mathf.Abs(_deltaHeight) > Mathf.Epsilon)
             {
                 var yMagn = Mathf.Lerp(0, _deltaHeight, 0.3f);
@@ -62,7 +68,6 @@ public class CameraController : MonoBehaviour
                 position -= MainCamera.transform.forward * yMagn;
                 position.y = Mathf.Clamp(position.y, _minFlyHeight, _maxFlyHeight);
             }
-                
         }
 
         transform.position = position;
@@ -88,4 +93,6 @@ public class CameraController : MonoBehaviour
     {
         _deltaRotation = value;
     }
+
+    public Transform RotateTarget;
 }
