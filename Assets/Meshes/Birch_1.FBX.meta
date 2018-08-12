@@ -6,18 +6,23 @@ ModelImporter:
     100000: //RootNode
     100002: Line008
     100004: shadow
+    100006: mesh
     400000: //RootNode
     400002: Line008
     400004: shadow
+    400006: mesh
     2100000: 'Material #26'
     2300000: //RootNode
     2300002: Line008
     2300004: shadow
+    2300006: mesh
     3300000: //RootNode
     3300002: Line008
     3300004: shadow
+    3300006: mesh
     4300000: Line008
     4300002: shadow
+    4300004: mesh
   externalObjects: {}
   materials:
     importMaterials: 1
