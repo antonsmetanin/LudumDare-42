@@ -8,6 +8,8 @@ public class RobotController : UnitControllerBase
     public Transform Target;
     private NavMeshAgent _navAgent;
     private bool _reached;
+    private bool _carring;
+    public Transform CarryPoint;
 
     public override void Init()
     {
@@ -20,6 +22,9 @@ public class RobotController : UnitControllerBase
         var tree = WorldObjects.Instance.GetClosestObject(transform.position);
         if (tree != null)
             SetTarget(tree.transform);
+
+        //_carring = true;
+        //SetTarget(CarryPoint);
     }
 
     private bool _started;
@@ -29,7 +34,11 @@ public class RobotController : UnitControllerBase
         if (Target == null)
             return;
 
-        if (!_reached)
+        //if (_carring)
+        //{
+
+        //}
+        else if (!_reached)
         {
             if (_navAgent.pathStatus == NavMeshPathStatus.PathComplete && _navAgent.remainingDistance <= _navAgent.stoppingDistance)
             {
@@ -41,6 +50,10 @@ public class RobotController : UnitControllerBase
             var direction = _navAgent.desiredVelocity.normalized;
             Move(new Vector2(direction.x, direction.z));
             _navAgent.velocity = _movable.Velocity;
+        }
+        else if (_carring)
+        {
+
         }
         else if (!_started)
         {

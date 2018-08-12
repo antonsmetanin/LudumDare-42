@@ -13,13 +13,26 @@ public class Tree : MonoBehaviour, IAlive
     public bool IsAlive { get { return Health > 0; } }
     public bool IsDead { get; private set; }
 
-    private TreeDeadCondition _deadCondition;
+    private Vector3 _fallDirection;
+
+    private TreeTrunk _deadCondition;
 
     private void Start()
     {
         Health = _baseHealht;
         IsDead = false;
-        _deadCondition = GetComponentInChildren<TreeDeadCondition>();
+        _deadCondition = GetComponentInChildren<TreeTrunk>();
+
+        if (_fallingRigidbody == null)
+            _fallingRigidbody = GetComponentInChildren<Rigidbody>();
+
+        if (_fallingRigidbody == null)
+            return;
+
+        // TODO: поиграться с центром масс для более реалистичного падения.
+        //var centerOfMass = _fallingRigidbody.centerOfMass;
+        //centerOfMass.z -= 1;
+        //_fallingRigidbody.centerOfMass = centerOfMass;
     }
 
     public void Cut(float force, Vector3 direction)
@@ -28,8 +41,14 @@ public class Tree : MonoBehaviour, IAlive
             return;
 
         Health -= force;
+        var dir = direction.normalized;
+        _fallDirection += dir * force;
         if (Health <= 0)
-            StartCoroutine(Co_Dieing(direction));
+        {
+            if (Mathf.Approximately(_fallDirection.sqrMagnitude, 0f))
+                _fallDirection = dir;
+            StartCoroutine(Co_Dieing(_fallDirection.normalized));
+        }
     }
 
     private IEnumerator Co_Dieing(Vector3 direction)
@@ -39,9 +58,8 @@ public class Tree : MonoBehaviour, IAlive
         _fallingRigidbody.useGravity = true;
         _fallingRigidbody.isKinematic = false;
         _fallingRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ;
-
-        Debug.Log(direction.normalized);
-        _fallingRigidbody.AddForceAtPosition(direction.normalized, transform.position + transform.rotation * _forceApplyPoint, ForceMode.VelocityChange);
+        
+        _fallingRigidbody.AddForceAtPosition(direction, transform.position + transform.rotation * _forceApplyPoint, ForceMode.VelocityChange);
 
         for (int i = 0; _disableOnDeath != null && i < _disableOnDeath.Length; i++)
         {
@@ -55,8 +73,7 @@ public class Tree : MonoBehaviour, IAlive
             _fallingRigidbody.constraints = RigidbodyConstraints.None;
 
         } while (!_deadCondition.IsDead);
-
-        Debug.Log("Dead");
+        
         IsDead = true;
     }
 }
