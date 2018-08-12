@@ -38,9 +38,9 @@
 			//fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
 			o.Albedo = pow(IN.c, 0.45f);
 			// Metallic and smoothness come from slider variables
-			o.Metallic = _Metallic;
+			o.Metallic = 0.0f;//_Metallic;
 			o.Smoothness = _Glossiness;
-			o.Emission =IN.c * 0.2f;
+			o.Emission = _Color * IN.c * _Metallic;
 		}
 		ENDCG
 	}
