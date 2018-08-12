@@ -9,47 +9,33 @@ public class Game : MonoBehaviour
 {
 	private readonly CompositeDisposable _disposable = new CompositeDisposable();
 
-	[SerializeField] private MemoryView _memoryViewTemplate;
+	[SerializeField] private RobotView _robotViewTemplate;
 	[SerializeField] private RectTransform _memoryViewParent;
 
+    [SerializeField] private Dashboard _dashboard;
+    [SerializeField] private Transform _cube;
 
-//	[SerializeField] private ProgramPalette _paletteTemplate;
-//	[SerializeField] private RectTransform _paletteParent;
-
-	[SerializeField] private Transform _cube;
-
+	[SerializeField] private GameProgressTemplate _defaultGameProgress;
 	[SerializeField] private ProgramTemplate[] _defaultProgramTemplates;
 
 	private void Start()
 	{
-		var memory = new Memory
+		var memory = new Robot
 		{
-			Size = new IntReactiveProperty(404),
-			Programs = _defaultProgramTemplates.Select(template => new Program
-			{
-				Size = new IntReactiveProperty(template.InitialSize),
-				Template = template
-			}).ToReactiveCollection()
+			Size = new ReactiveProperty<int>(404),
+			Programs = _defaultProgramTemplates.Select(template => new Program(template)).ToReactiveCollection()
 		};
 
-		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.W)).Subscribe(_ => memory.Programs[0].Size.Value++).AddTo(_disposable);
-		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.S)).Subscribe(_ => memory.Programs[0].Size.Value--).AddTo(_disposable);
-		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.Alpha1)).Subscribe(_ => memory.Programs.Add(new Program { Size = new IntReactiveProperty(20) })).AddTo(_disposable);
-		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.Alpha2)).Subscribe(_ => memory.Programs.RemoveAt(Random.Range(0, memory.Programs.Count))).AddTo(_disposable);
+        var gameProgress = new GameProgress(_defaultGameProgress);
 
-		var memoryView = Instantiate(_memoryViewTemplate);
+		var memoryView = Instantiate(_robotViewTemplate);
 		memoryView.transform.SetParent(_memoryViewParent, worldPositionStays: false);
 		memoryView.Show(memory, _cube, Camera.main);
 		memoryView.AddTo(_disposable);
 
-//		var palette = Instantiate(_paletteTemplate);
-//		palette.transform.SetParent(_paletteParent, worldPositionStays: false);
-//		palette.Show(memory.Programs);
-//		palette.AddTo(_disposable);
+        _dashboard.Show(gameProgress);
+        _dashboard.AddTo(_disposable);
 	}
 
-	private void OnDestroy()
-	{
-		_disposable.Dispose();
-	}
+    //private void OnDestroy() => _disposable.Dispose();
 }
