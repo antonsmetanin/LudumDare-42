@@ -23,69 +23,109 @@ public class WorldObjects : MonoBehaviour
         }
     }
 
-    public List<Tree> Trees = new List<Tree>();
-    private readonly Dictionary<System.Type, List<object>> _worldObjects = new Dictionary<System.Type, List<object>>();
+    private List<Tree> _trees = new List<Tree>();
+    private readonly Dictionary<System.Type, List<MonoBehaviour>> _worldObjects = new Dictionary<System.Type, List<MonoBehaviour>>();
+    private readonly Dictionary<System.Type, System.Func<MonoBehaviour, bool>> _additionalCheck = new Dictionary<System.Type, System.Func<MonoBehaviour, bool>>();
 
     private void Awake()
     {
         if (_instance == null)
             _instance = this;
         if (_instance != this)
+        {
             Destroy(this);
+            return;
+        }
 
-        Trees = FindObjectsOfType<Tree>().ToList();
+        _trees = FindObjectsOfType<Tree>().ToList();
+        _worldObjects[typeof(Tree)] = _trees.Cast<MonoBehaviour>().ToList();
+
+        foreach (var tree in _trees)
+            tree.OnDead += TreeOnDeadHandler;
+
+        _additionalCheck[typeof(Tree)] = (monoTree) =>
+        {
+            var tree = monoTree as Tree;
+            if (tree == null)
+                return false;
+
+            return tree.IsAlive;
+        };
+        _additionalCheck[typeof(TreeTrunk)] = (monoTrunk) => monoTrunk is TreeTrunk;
+    }
+
+    private void TreeOnDeadHandler(object sender, System.EventArgs e)
+    {
+        var tree = sender as Tree;
+        if (tree == null)
+            return;
+
+        tree.OnDead -= TreeOnDeadHandler;
+        _worldObjects[typeof(Tree)].Remove(tree);
+
+        var trunk = tree.GetComponentInChildren<TreeTrunk>();
+        if (trunk == null)
+            return;
+
+        if (!_worldObjects.ContainsKey(typeof(TreeTrunk)))
+            _worldObjects.Add(typeof(TreeTrunk), new List<MonoBehaviour>());
+
+        _worldObjects[typeof(TreeTrunk)].Add(trunk);
     }
 
     private void Start()
     {
     }
 
-    public GameObject GetRandomObject()
+    public GameObject GetRandomObject<T>()
     {
-        if (Trees.Count == 0)
+        List<MonoBehaviour> list;
+        if (!_worldObjects.TryGetValue(typeof(T), out list) || list.Count == 0)
             return null;
 
-        var treeIndex = Random.Range(0, Trees.Count);
-        var maxCycles = Trees.Count;
-        while ((Trees[treeIndex] == null || !Trees[treeIndex].IsAlive) && maxCycles-- >= 0)
+        var index = Random.Range(0, list.Count);
+        var maxCycles = list.Count;
+        while ((list[index] == null || !_additionalCheck[typeof(T)](list[index])) && maxCycles-- >= 0)
         {
-            treeIndex = (++treeIndex) % Trees.Count;
+            index = (++index) % list.Count;
         }
 
-        return maxCycles >= 0 ? Trees[treeIndex].gameObject : null;
+        return maxCycles >= 0 ? list[index].gameObject : null;
     }
 
-    public GameObject GetOneOfClosest(Vector3 position, int betterCount)
+    public GameObject GetOneOfClosest<T>(Vector3 position, int betterCount)
     {
-        if (Trees.Count == 0)
+        List<MonoBehaviour> list;
+        if (!_worldObjects.TryGetValue(typeof(T), out list) || list.Count == 0)
             return null;
 
-        var ordered = Trees.Where(_ => _ != null && _.IsAlive).OrderByDescending(_ => Vector3.Distance(position, _.transform.position)).ToArray();
+        var ordered = list.Where(_ => _additionalCheck[typeof(T)](_)).OrderByDescending(_ => Vector3.Distance(position, _.transform.position)).ToArray();
         if (ordered.Length == 0)
             return null;
 
-        var treeIndex = betterCount >= ordered.Length - 1 ? ordered.Length : betterCount + 1;
-        treeIndex = Random.Range(0, treeIndex);
-        return ordered[treeIndex].gameObject;
+        var index = betterCount >= ordered.Length - 1 ? ordered.Length : betterCount + 1;
+        index = Random.Range(0, index);
+        return ordered[index].gameObject;
     }
 
-    public GameObject GetClosestObject(Vector3 position)
+    public GameObject GetClosestObject<T>(Vector3 position)
     {
-        if (Trees.Count == 0)
+        List<MonoBehaviour> list;
+        if (!_worldObjects.TryGetValue(typeof(T), out list) || list.Count == 0)
             return null;
 
         var minDistance = float.MaxValue;
-        Tree closestObject = null;
-        for (int i = 0; i < Trees.Count; i++)
+        MonoBehaviour closestObject = null;
+        for (int i = 0; i < list.Count; i++)
         {
-            if (Trees[i] == null || !Trees[i].IsAlive)
+            if (!_additionalCheck[typeof(T)](list[i]))
                 continue;
-            var currentDistance = Vector3.Distance(position, Trees[i].transform.position);
+            var currentDistance = Vector3.Distance(position, list[i].transform.position);
             if (currentDistance >= minDistance)
                 continue;
 
             minDistance = currentDistance;
-            closestObject = Trees[i];
+            closestObject = list[i];
         }
 
         return closestObject == null ? null : closestObject.gameObject;

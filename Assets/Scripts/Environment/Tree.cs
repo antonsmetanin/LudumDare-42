@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Tree : MonoBehaviour, IAlive
 {
+    public event EventHandler OnDead;
+
     [SerializeField] private float _baseHealht = 100f;
     [SerializeField] private GameObject[] _disableOnDeath;
     [SerializeField] private Rigidbody _fallingRigidbody;
@@ -75,5 +78,6 @@ public class Tree : MonoBehaviour, IAlive
         } while (!_deadCondition.IsDead);
         
         IsDead = true;
+        OnDead?.Invoke(this, EventArgs.Empty);
     }
 }

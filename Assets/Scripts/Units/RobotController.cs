@@ -19,26 +19,16 @@ public class RobotController : UnitControllerBase
         _navAgent.updatePosition = false;
         _navAgent.updateRotation = false;
         Target = null;
-        var tree = WorldObjects.Instance.GetClosestObject(transform.position);
+        var tree = WorldObjects.Instance.GetClosestObject<Tree>(transform.position);
         if (tree != null)
             SetTarget(tree.transform);
-
-        //_carring = true;
-        //SetTarget(CarryPoint);
     }
 
     private bool _started;
 
     private void Update()
     {
-        if (Target == null)
-            return;
-
-        //if (_carring)
-        //{
-
-        //}
-        else if (!_reached)
+        if (!_reached)
         {
             if (_navAgent.pathStatus == NavMeshPathStatus.PathComplete && _navAgent.remainingDistance <= _navAgent.stoppingDistance)
             {
@@ -55,21 +45,26 @@ public class RobotController : UnitControllerBase
         {
 
         }
-        else if (!_started)
+        else if (!_started && Target != null)
         {
             StartCut(Target.gameObject, 10);
         }
     }
 
-    public void SetTarget(Transform target)
+    public void SetTarget(Vector3 target)
     {
         _navAgent.nextPosition = transform.position;
-        Target = target;
         _reached = false;
         _navAgent.ResetPath();
-        _navAgent.SetDestination(target.position);
+        _navAgent.SetDestination(target);
 
         // TODO: Animation
+    }
+
+    public void SetTarget(Transform target)
+    {
+        Target = target;
+        SetTarget(target.position);
     }
 
     public void StartCut(GameObject target, float force)
@@ -108,7 +103,7 @@ public class RobotController : UnitControllerBase
             //treeTarget.Cut(force);
         }
 
-        var tree = WorldObjects.Instance.GetClosestObject(transform.position);
+        var tree = WorldObjects.Instance.GetClosestObject<Tree>(transform.position);
         if (tree != null)
             SetTarget(tree.transform);
     }

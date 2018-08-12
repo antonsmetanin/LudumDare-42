@@ -33,7 +33,10 @@ public class MainApplication : MonoBehaviour
         if (_instance == null)
             _instance = this;
         if (_instance != this)
+        {
             Destroy(this);
+            return;
+        }
     }
 
     private void Start()
