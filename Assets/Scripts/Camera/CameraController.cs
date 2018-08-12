@@ -29,7 +29,11 @@ public class CameraController : MonoBehaviour
         if (MainCamera.orthographic)
             MainCamera.orthographicSize = _height;
         else
-            transform.position = new Vector3(transform.position.x, _height, transform.position.z);
+        {
+            var position = transform.position;
+            ScalePerspectiveCamera(ref position, 1f);
+            transform.position = position;
+        }
     }
 
     private void LateUpdate()
@@ -58,19 +62,24 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            _deltaHeight = _height - transform.position.y;
-
-            if (Mathf.Abs(_deltaHeight) > Mathf.Epsilon)
-            {
-                var yMagn = Mathf.Lerp(0, _deltaHeight, 0.3f);
-                var angle = Vector3.Angle(MainCamera.transform.forward, Vector3.down);
-                yMagn = yMagn / Mathf.Cos(angle * Mathf.Deg2Rad);
-                position -= MainCamera.transform.forward * yMagn;
-                position.y = Mathf.Clamp(position.y, _minFlyHeight, _maxFlyHeight);
-            }
+            ScalePerspectiveCamera(ref position, 0.3f);
         }
 
         transform.position = position;
+    }
+
+    private void ScalePerspectiveCamera(ref Vector3 position, float smoothmeth)
+    {
+        _deltaHeight = _height - transform.position.y;
+
+        if (Mathf.Abs(_deltaHeight) > Mathf.Epsilon)
+        {
+            var yMagn = Mathf.Lerp(0, _deltaHeight, smoothmeth);
+            var angle = Vector3.Angle(MainCamera.transform.forward, Vector3.down);
+            yMagn = yMagn / Mathf.Cos(angle * Mathf.Deg2Rad);
+            position -= MainCamera.transform.forward * yMagn;
+            position.y = Mathf.Clamp(position.y, _minFlyHeight, _maxFlyHeight);
+        }
     }
 
     public void Move(Vector2 shift)
