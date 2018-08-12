@@ -7,5 +7,6 @@ namespace Data
     {
         public int SizeDelta;
         public int LeakDelta;
+        public int Price;
     }
 }

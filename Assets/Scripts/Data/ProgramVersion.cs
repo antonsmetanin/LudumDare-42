@@ -9,5 +9,6 @@ namespace Data
 		public int LeakSpeed;
 		public int Size;
 		public string Description;
+		public int Price;
 	}
 }

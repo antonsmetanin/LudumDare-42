@@ -2,7 +2,8 @@
     "name": "Model",
     "references": [
         "UniRx",
-        "Data"
+        "Data",
+        "Utils"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviour
         if (_cameraController == null)
             _cameraController = Camera.main.gameObject.AddComponent<CameraController>();
     }
-    
+
     private void Update()
     {
         RaycastHit hit;
@@ -60,10 +60,10 @@ public class InputManager : MonoBehaviour
             movement.x -= 1;
         }
 
-        if (MainApplication.Instance.CurrentPlayer != null && movement != Vector2.zero)
-        {
-            _cameraController.GoToPoint(MainApplication.Instance.CurrentPlayer.transform.position);
-        }
+//        if (MainApplication.Instance.CurrentPlayer != null && movement != Vector2.zero)
+//        {
+//            _cameraController.GoToPoint(MainApplication.Instance.CurrentPlayer.transform.position);
+//        }
 
         MainApplication.Instance.MoveMainCharacter(movement);
     }

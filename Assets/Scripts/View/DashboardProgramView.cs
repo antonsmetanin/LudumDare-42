@@ -18,21 +18,30 @@ namespace View
 
 		private readonly CompositeDisposable _disposable = new CompositeDisposable();
 
-		public void Show(Program program)
+		public void Show(Program program, GameProgress gameProgress)
 		{
 			_programView.Show(program);
 			_programView.AddTo(_disposable);
 
 			program.CurrentVersion.Subscribe(_ => _upgradeButton.GetComponentInChildren<Text>().text = "v" + (program.GetCurrentVersionIndex() + 2));
 
-			_upgradeButton.OnClickAsObservable().Subscribe(_ => program.Upgrade()).AddTo(_disposable);
-			_patchButton.OnClickAsObservable().Subscribe(_ => program.Patch()).AddTo(_disposable);
+			_upgradeButton.OnClickAsObservable().Subscribe(_ => program.Upgrade(gameProgress)).AddTo(_disposable);
+			_patchButton.OnClickAsObservable().Subscribe(_ => program.Patch(gameProgress)).AddTo(_disposable);
 
-			program.CanUpgrade.Subscribe(canUpgrade => _upgradeButton.gameObject.SetActive(canUpgrade)).AddTo(_disposable);
-			program.CanPatch.Subscribe(canPatch => _patchButton.gameObject.SetActive(canPatch)).AddTo(_disposable);
+			program.CanUpgrade(gameProgress).Subscribe(upgradeResult =>
+			{
+				_upgradeButton.interactable = upgradeResult.Error == null;
+				_upgradeButton.gameObject.SetActive(!(upgradeResult.Error is Program.FinalVersionReachedError));
+			}).AddTo(_disposable);
+
+			program.CanPatch(gameProgress).Subscribe(patchResult =>
+			{
+				_patchButton.interactable = patchResult.Error == null;
+				_patchButton.gameObject.SetActive(!(patchResult.Error is Program.FinalVersionReachedError));
+			}).AddTo(_disposable);
 
 			program.LeakSpeed.CombineLatest(program.ProduceSpeed,
-				(leak, produce) => $"<color=red>produce</color> {produce} byte/s    <color=purple>leak</color> {leak} byte/s")
+				(leak, produce) => $"<color=#FBDF6A>produce</color> {produce} byte/s    <color=#BD306C>leak</color> {leak} byte/s")
 				.Subscribe(x => _characteristicsLabel.text = x).AddTo(_disposable);
 
 			program.Size.Subscribe(size =>

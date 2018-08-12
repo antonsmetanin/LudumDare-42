@@ -32,7 +32,7 @@ namespace View
 
         public void Dispose() => _disposable.Dispose();
 
-        public void OnDrag([NotNull] PointerEventData eventData)
+		public void OnDrag([NotNull] PointerEventData eventData)
 		{
 			_draggedProgramView.Drag(eventData);
 		}

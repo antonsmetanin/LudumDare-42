@@ -14,6 +14,8 @@ namespace View
 
 		public void Show(Robot robot, Transform robotTransform, Camera mainCamera)
 		{
+			gameObject.SetActive(true);
+
 			Observable.EveryUpdate()
 				.Subscribe(_ => transform.position = mainCamera.WorldToScreenPoint(robotTransform.position) + new Vector3(0f, 100f))
 				.AddTo(_disposable);
@@ -27,6 +29,10 @@ namespace View
 				.AddTo(_disposable);
 		}
 
-        public void Dispose() => _disposable.Dispose();
-    }
+        public void Dispose()
+		{
+			gameObject.SetActive(false);
+			_disposable.Dispose();
+		}
+	}
 }

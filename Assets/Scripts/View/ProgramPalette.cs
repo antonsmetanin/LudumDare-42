@@ -13,10 +13,10 @@ namespace View
 
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
 
-        public void Show(IReadOnlyReactiveCollection<Program> programs)
-        {
-            programs.CreateView(_programViewTemplate, _programsParent, (view, program) => view.Show(program)).AddTo(_disposable);
-        }
+        public void Show(GameProgress gameProgress)
+            => gameProgress.AvailablePrograms
+                .CreateView(_programViewTemplate, _programsParent, (view, program) => view.Show(program, gameProgress))
+                .AddTo(_disposable);
 
         public void Dispose() => _disposable.Dispose();
     }

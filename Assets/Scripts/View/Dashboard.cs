@@ -8,7 +8,7 @@ namespace View
     public class Dashboard : MonoBehaviour, IDisposable
     {
         [SerializeField] private FillBar _dataCollected;
-        [SerializeField] private FillBar _wood;
+//        [SerializeField] private FillBar _wood;
 
         [SerializeField] private ProgramPalette _palette;
 
@@ -24,7 +24,7 @@ namespace View
 //                .Subscribe(wood => _wood.SetValue(wood, 100f))
 //                .AddTo(_disposable);
 
-            _palette.Show(gameProgress.AvailablePrograms);
+            _palette.Show(gameProgress);
             _palette.AddTo(_disposable);
         }
 

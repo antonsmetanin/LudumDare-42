@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Model;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,9 +12,14 @@ public class RobotController : UnitControllerBase
     private bool _carring;
     public Transform CarryPoint;
 
+    public Model.Robot RobotModel;
+
     public override void Init()
     {
         base.Init();
+
+        if (RobotModel != null)
+            RobotModel.Transform = transform;
 
         _navAgent = GetComponent<NavMeshAgent>();
         _navAgent.updatePosition = false;

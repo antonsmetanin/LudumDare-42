@@ -6,5 +6,7 @@ namespace Model
     {
         public ReactiveProperty<int> Size;
         public ReactiveCollection<Program> Programs;
+
+        public UnityEngine.Transform Transform;
     }
 }
