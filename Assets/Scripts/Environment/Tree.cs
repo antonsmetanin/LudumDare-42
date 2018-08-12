@@ -61,8 +61,10 @@ public class Tree : MonoBehaviour, IAlive
         _fallingRigidbody.useGravity = true;
         _fallingRigidbody.isKinematic = false;
         _fallingRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ;
-        
-        _fallingRigidbody.AddForceAtPosition(direction, transform.position + transform.rotation * _forceApplyPoint, ForceMode.VelocityChange);
+
+        _fallingRigidbody.AddForceAtPosition(direction * 20, transform.position + Vector3.up * 5, ForceMode.Impulse);
+
+
 
         for (int i = 0; _disableOnDeath != null && i < _disableOnDeath.Length; i++)
         {
@@ -76,7 +78,7 @@ public class Tree : MonoBehaviour, IAlive
             _fallingRigidbody.constraints = RigidbodyConstraints.None;
 
         } while (!_deadCondition.IsDead);
-        
+
         IsDead = true;
         OnDead?.Invoke(this, EventArgs.Empty);
     }
