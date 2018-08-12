@@ -52,9 +52,17 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            _deltaHeight = _height - position.y;
+            _deltaHeight = _height - transform.position.y;
+            
             if (Mathf.Abs(_deltaHeight) > Mathf.Epsilon)
-                position.y = Mathf.Clamp(Mathf.Lerp(position.y, position.y + _deltaHeight, 0.1f), _minFlyHeight, _maxFlyHeight);
+            {
+                var yMagn = Mathf.Lerp(0, _deltaHeight, 0.3f);
+                var angle = Vector3.Angle(MainCamera.transform.forward, Vector3.down);
+                yMagn = yMagn / Mathf.Cos(angle * Mathf.Deg2Rad);
+                position -= MainCamera.transform.forward * yMagn;
+                position.y = Mathf.Clamp(position.y, _minFlyHeight, _maxFlyHeight);
+            }
+                
         }
 
         transform.position = position;
