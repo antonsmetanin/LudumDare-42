@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
-using Boo.Lang;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,14 +18,26 @@ public class WinLoseConditions : MonoBehaviour
 
 	[SerializeField] private float _dayLength = 180f;
 	private float _currentTime = 0;
-	public IntReactiveProperty _dayNumber = new IntReactiveProperty();
+	public IntReactiveProperty _dayNumber = new IntReactiveProperty(1);
 	private int _daysOfFlood = 0;
 	[SerializeField] private int _floodStartsAtDay = 3;
-	[SerializeField] private AnimationCurve _floodLevels;
 	public EGameStatus GameStatus;
 	public FloatReactiveProperty FloodLevel = new FloatReactiveProperty();
 	public FloatReactiveProperty Wood = new FloatReactiveProperty(30);
 	[SerializeField] private float _woodGoal = 1000;
+
+
+	[SerializeField] private List<float> _floodLevels;
+	[SerializeField] private Transform _flood;
+
+	[ContextMenu("Add flood level")]
+	void addfloodLevel()
+	{
+		if(_floodLevels == null)
+			_floodLevels = new List<float>();
+
+		_floodLevels.Add(_flood.position.y);
+	}
 
 
 	[SerializeField] private Image _arkBar;
@@ -41,10 +52,15 @@ public class WinLoseConditions : MonoBehaviour
 
 	public void OnDayChange(int day)
 	{
-		_daysOfFlood = Mathf.Max(0, _daysOfFlood - _floodStartsAtDay + 1);
+		_daysOfFlood = Mathf.Max(0, _dayNumber.Value - _floodStartsAtDay + 1);
 
-		var timeUntilFlood = _daysOfFlood > 0 ? "Repent!" : $"Days untils flood: <size=18><color=#FCDC70>{_floodStartsAtDay - _dayNumber.Value}</color></size>";
+		var timeUntilFlood = _daysOfFlood > 0 ? "<size=18><color=#FCDC70>Repent!</color></size>" : $"Days untils flood: <size=18><color=#FCDC70>{_floodStartsAtDay - _dayNumber.Value}</color></size>";
 		_floodText.text = timeUntilFlood;
+
+		if (_daysOfFlood > 0)
+		{
+			StartCoroutine(Co_flood(1));
+		}
 	}
 
 	// Update is called once per frame
@@ -63,4 +79,19 @@ public class WinLoseConditions : MonoBehaviour
 		}
 	}
 
+	public IEnumerator Co_flood(float time)
+	{
+		float t = 0;
+
+		var currentHeight = _flood.transform.position.y;
+		var floodHeight = _floodLevels[Mathf.Clamp(_daysOfFlood, 0, _floodLevels.Count - 1)];
+
+		while (t < time)
+		{
+			t += Time.deltaTime;
+			var y = Mathf.Lerp(currentHeight, floodHeight, t / time);
+			_flood.transform.position = new Vector3(_flood.position.x, y, _flood.position.z);
+			yield return null;
+		}
+	}
 }

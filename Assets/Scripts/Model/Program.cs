@@ -24,6 +24,8 @@ namespace Model
         public readonly IReadOnlyReactiveProperty<int> LeakBytesPerSecond;
         public readonly IReadOnlyReactiveProperty<int> ProduceBytesPerSecond;
 
+        private Robot _robot;
+
         public Program(ProgramTemplate template)
         {
             Template = template;
@@ -43,7 +45,7 @@ namespace Model
             ProduceBytesPerSecond = CurrentVersion.Select(x => x.ProduceBytesPerSecond).ToReactiveProperty();
         }
 
-        public Program(Program originalProgram)
+        public Program(Program originalProgram, Robot robot)
         {
             Template = originalProgram.Template;
             CurrentVersion = new ReactiveProperty<ProgramVersion>(originalProgram.CurrentVersion.Value);
@@ -58,12 +60,18 @@ namespace Model
                 (version, _) => version.LeakBytesPerSecond + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
 
             ProduceBytesPerSecond = CurrentVersion.Select(x => x.ProduceBytesPerSecond).ToReactiveProperty();
+
+            _robot = robot;
+
+            Observable.Interval(TimeSpan.FromSeconds(1)).ObserveOnMainThread()
+                .Subscribe(_ => ExecuteOneSecond());
         }
 
         public bool ExecuteOneSecond()
         {
-            LeakedBytes.Value += LeakBytesPerSecond.Value;
-            ProducedBytes.Value += ProduceBytesPerSecond.Value;
+            LeakedBytes.Value += Mathf.Clamp(LeakBytesPerSecond.Value, 0, _robot.GetFreeSpace());
+            ProducedBytes.Value += Mathf.Clamp(ProduceBytesPerSecond.Value, 0, _robot.GetFreeSpace());
+
             return true;
         }
 

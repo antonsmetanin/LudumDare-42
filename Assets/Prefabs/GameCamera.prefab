@@ -106,9 +106,10 @@ MonoBehaviour:
     m_Bits: 272
   _startHeight: 200
   _minFlyHeight: 50
-  _maxFlyHeight: 250
+  _maxFlyHeight: 300
   _xLimits: {x: -60, y: 90}
   _zLimits: {x: -10, y: 90}
+  _targetTransform: {fileID: 0}
   MainCamera: {fileID: 0}
   _cameraTarget: {x: 67.99999, y: 0, z: 44}
   RotateTarget: {fileID: 0}

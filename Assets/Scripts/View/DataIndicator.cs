@@ -8,7 +8,7 @@ using Utils;
 
 namespace View
 {
-	public class DataIndicator : MonoBehaviour, IDisposable, IDropAccepter<Program>
+	public class DataIndicator : MonoBehaviour, IDisposable, IDropAccepter<DataFileView>
 	{
 		[SerializeField] private Image _currentDataBar;
 		[SerializeField] private Image _dataAfterSubstractionBar;
@@ -42,8 +42,15 @@ namespace View
 
 		public void Dispose() => _disposable.Dispose();
 
-		public void Accept(Program program, bool simulate)
+		public void Accept(DataFileView dataFileView, bool simulate)
 		{
+			if (simulate)
+				return;
+
+			if (dataFileView.Type == DataFileView.DataFileType.Leak)
+				dataFileView.Robot.ClearLeaks();
+			else
+				dataFileView.Robot.UploadData();
 		}
 	}
 }

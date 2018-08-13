@@ -36,7 +36,7 @@ namespace View
 				.AddTo(_disposable);
 
 			robot.MemorySize
-				.Subscribe(x => ((RectTransform)transform).sizeDelta = new Vector2(x + 4, ((RectTransform)transform).sizeDelta.y))
+				.Subscribe(x => ((RectTransform)transform).sizeDelta = new Vector2(x + 8, ((RectTransform)transform).sizeDelta.y))
 				.AddTo(_disposable);
 
 			robot.Programs

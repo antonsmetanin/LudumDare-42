@@ -6,7 +6,6 @@
 # Unity YAML files
 *.meta               text eol=lf
 *.anim               text eol=lf
-*.asset              text eol=lf
 *.assets             text eol=lf
 *.cginc              text eol=lf
 *.controller         text eol=lf
@@ -27,6 +26,7 @@
 *.dic        text eol=lf
 *.json       -text
 *.txt        -text
+*.asset      -text
 
 *.md         text
 *.rsp        text

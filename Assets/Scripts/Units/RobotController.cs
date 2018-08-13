@@ -16,6 +16,11 @@ public class RobotController : UnitControllerBase
     public Model.Game Game;
 
     private ProgramType[] _possiblePrograms;
+    public Animator Animator;
+
+    private string _walkStateName = "walk";
+    private string _dragStateName = "drag";
+    private string _cutStateName = "cut";
 
     public override void Init()
     {
@@ -59,6 +64,11 @@ public class RobotController : UnitControllerBase
                 _currentProgram = ProgramType.Walk;
             }
         }
+
+        Animator.SetBool(_walkStateName, _currentProgram == ProgramType.Walk);
+        Animator.SetBool(_dragStateName, _currentProgram == ProgramType.Gather);
+        Animator.SetBool(_cutStateName, _currentProgram == ProgramType.Cut);
+
 
         switch (_currentProgram)
         {
@@ -177,7 +187,9 @@ public class RobotController : UnitControllerBase
             && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
+            var m = new Vector2(direction.x, direction.z);
             Move(new Vector2(direction.x, direction.z));
+            transform.LookAt(transform.position + new Vector3(direction.x, 0, direction.z));
             _navAgent.velocity = _movable.Velocity;
 
             ComputeTime(Time.deltaTime, ProgramType.Walk);
@@ -189,7 +201,7 @@ public class RobotController : UnitControllerBase
         if (carryPoint != null)
         {
             carryPoint.AcceptTrunk();
-            // TODO: 
+            // TODO:
         }
 
         EndCoProgram();
@@ -243,7 +255,7 @@ public class RobotController : UnitControllerBase
     {
         _target = null;
         _inProgress = false;
-        
+
         if (_nextProgram.HasValue)
             _currentProgram = _nextProgram;
         else

@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4121584770081986}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanSpine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,7 +35,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4649851152468994}
   - component: {fileID: 95525999596775330}
-  m_Layer: 0
+  - component: {fileID: 114573285998055258}
+  - component: {fileID: 143344014762427980}
+  - component: {fileID: 114001129765436830}
+  - component: {fileID: 114717086889071342}
+  - component: {fileID: 195384912652770386}
+  - component: {fileID: 136127218830287488}
+  m_Layer: 11
   m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +56,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4888759268913714}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanRCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4935373352417146}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanLThigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +86,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4293525773233550}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanLFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4143954566864190}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanRPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4786121512222400}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanLPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4528898901083632}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanPelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4043428399789430}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base Human
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4072846039132386}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanLCollarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +176,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4700887578797844}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanNeck1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4599914402601460}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4353222419525682}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanNeck2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4142526942093394}
   - component: {fileID: 137437283630536878}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Box002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4331884556242640}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanRibcage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +252,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4640641477830648}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: "\xD7\xFE\xD7\xFC"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4476045689491052}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanRFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +282,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4855570696074370}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanRUpperarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4362984604264940}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanRThigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4421603464861100}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Base HumanLUpperarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,7 +327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4505347911779026}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: "\xA1\xA1\xD7\xFD\xD7\xFB"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +547,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1086399418849762}
   m_LocalRotation: {x: -0, y: -0.33124572, z: -0, w: 0.94354457}
-  m_LocalPosition: {x: 54.28, y: 7.96, z: 39.82}
+  m_LocalPosition: {x: 54.15, y: 7.96, z: 25.76}
   m_LocalScale: {x: 2.6229, y: 2.6229, z: 2.6229}
   m_Children:
   - {fileID: 4043428399789430}
@@ -630,7 +636,7 @@ Animator:
   m_GameObject: {fileID: 1086399418849762}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 74386e341f5835b4b9b7fafaf98066a7, type: 3}
-  m_Controller: {fileID: 9100000, guid: a882f55918c18744c9802946c4ffb33e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 399339f155fbc7b4cab66c0765804463, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -639,6 +645,56 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114001129765436830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086399418849762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba284beba87d1db48802b24642490791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinearSpeed: 0.03
+--- !u!114 &114573285998055258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086399418849762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8a3132b32d5a34384f5825d5dd3dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movable: {fileID: 0}
+  Force: 10
+  Animator: {fileID: 95525999596775330}
+--- !u!114 &114717086889071342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086399418849762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7809c2b9e2cc3bf40a87a0e78d24d20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &136127218830287488
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086399418849762}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.78
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!137 &137437283630536878
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -700,3 +756,41 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.9586905, y: 0.4103105, z: 0.06635797}
     m_Extent: {x: 4.904585, y: 1.1635612, z: 1.9524904}
   m_DirtyAABB: 0
+--- !u!143 &143344014762427980
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086399418849762}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1
+  m_Radius: 0.23
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!195 &195384912652770386
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086399418849762}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.3
+  m_Speed: 0.5
+  m_Acceleration: 3
+  avoidancePriority: 50
+  m_AngularSpeed: 45
+  m_StoppingDistance: 1
+  m_AutoTraverseOffMeshLink: 0
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 1
+  m_ObstacleAvoidanceType: 4

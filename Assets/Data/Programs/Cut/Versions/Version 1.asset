@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4245ed95da6111a438f435302d3314ba, type: 3}
   m_Name: Version 1
   m_EditorClassIdentifier: 
-  ProduceBytesPerSecond: 0
-  LeakBytesPerSecond: 0
+  ProduceBytesPerSecond: 2
+  LeakBytesPerSecond: 1
   MemorySize: 50
   Description: It cuts, yes!
   Price: 40
