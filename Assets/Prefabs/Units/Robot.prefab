@@ -25,7 +25,9 @@ GameObject:
   - component: {fileID: 195521867693317540}
   - component: {fileID: 114348018741574914}
   - component: {fileID: 114159661980727506}
-  m_Layer: 0
+  - component: {fileID: 114089474180582798}
+  - component: {fileID: 136853801989536892}
+  m_Layer: 11
   m_Name: Robot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +45,7 @@ GameObject:
   - component: {fileID: 59804158132359968}
   - component: {fileID: 54200764029479922}
   - component: {fileID: 153707493851966924}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +59,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1284049499240142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.81, y: 7.928, z: -26.58}
+  m_LocalPosition: {x: 44.068314, y: 9.005965, z: 42.6528}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4406441461024642}
@@ -144,7 +146,7 @@ HingeJoint:
   m_Anchor: {x: 0.05, y: 0.04, z: -1.24}
   m_Axis: {x: 4.3, y: 141.74, z: 20.99}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 7.86, y: 7.968, z: -27.82}
+  m_ConnectedAnchor: {x: 44.118313, y: 9.045965, z: 41.4128}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -168,6 +170,17 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &114089474180582798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1284049499240142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7809c2b9e2cc3bf40a87a0e78d24d20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114159661980727506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -194,6 +207,19 @@ MonoBehaviour:
   _movable: {fileID: 0}
   Target: {fileID: 0}
   CarryPoint: {fileID: 0}
+--- !u!136 &136853801989536892
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1284049499240142}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &143484312431221858
 CharacterController:
   m_ObjectHideFlags: 1
@@ -221,7 +247,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.1410619, y: -1.7200034, z: 9.092856}
+  m_ConnectedAnchor: {x: 44.068314, y: 9.005965, z: 42.6528}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 1
