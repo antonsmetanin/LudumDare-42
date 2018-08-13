@@ -61,12 +61,15 @@ public class RobotController : UnitControllerBase
     {
         if (RobotModel.Broken.Value)
         {
+            Debug.Log("Broken");
             Coroutine cou;
             if (_inProgress && _currentProgram.HasValue && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
             {
                 StopCoroutine(cou);
-                _currentProgram = null;
+                EndCoProgram();
             }
+
+            _currentProgram = null;
             return;
         }
 
