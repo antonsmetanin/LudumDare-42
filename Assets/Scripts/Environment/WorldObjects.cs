@@ -54,6 +54,15 @@ public class WorldObjects : MonoBehaviour
         _additionalCheck[typeof(TreeTrunk)] = (monoTrunk) => monoTrunk is TreeTrunk;
     }
 
+    public void Remove<T>(T behaviour) where T : MonoBehaviour
+    {
+        List<MonoBehaviour> list;
+        if (!_worldObjects.TryGetValue(typeof(T), out list) || list.Count == 0)
+            return;
+
+        list.Remove(behaviour);
+    }
+
     private void TreeOnDeadHandler(object sender, System.EventArgs e)
     {
         var tree = sender as Tree;
