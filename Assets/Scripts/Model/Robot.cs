@@ -29,7 +29,11 @@ namespace Model
             MemorySize = new ReactiveProperty<int>(template.InitialMemorySize);
             Programs = new ReactiveCollection<Program>();
 
-
+            Broken = Programs.CountProperty().SelectMany(_ => Programs
+                .Select(x => x.MemorySize)
+                .CombineLatest()
+                .Select(y => y.Sum())).CombineLatest(LeakedBytes, ProducedBytes, MemorySize,
+                (memory, leaked, produced, total) => memory + leaked + produced >= total).ToReactiveProperty();
 
             _gameProgress = gameProgress;
         }
