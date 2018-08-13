@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4890563426335092}
+  - component: {fileID: 65330836865691664}
   m_Layer: 0
   m_Name: Birch_2
   m_TagString: Untagged
@@ -62,8 +63,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1316192804949198}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.018222848, y: 0.026334569, z: 0.26638445, w: 0.9633347}
+  m_LocalPosition: {x: 81.17767, y: -91.97903, z: 0.911011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4701029273623562}
@@ -112,3 +113,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1543591205228462}
   m_Mesh: {fileID: 4300000, guid: 2912584bbafa08642adbc4998ecb6195, type: 3}
+--- !u!65 &65330836865691664
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316192804949198}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 8.6}
+  m_Center: {x: 0, y: 0, z: 4.08}

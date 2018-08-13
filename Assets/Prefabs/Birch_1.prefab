@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4995644611450684}
+  - component: {fileID: 65918822204432788}
   m_Layer: 0
   m_Name: Birch_1
   m_TagString: Untagged
@@ -112,3 +113,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1718516944366476}
   m_Mesh: {fileID: 4300004, guid: 5912270974b9a2747b475a745ab9485c, type: 3}
+--- !u!65 &65918822204432788
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498705619191924}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.72, y: 4.77, z: 4.53}
+  m_Center: {x: 0, y: 0, z: 0}
