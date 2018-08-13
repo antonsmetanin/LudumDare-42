@@ -32,6 +32,9 @@ public class RobotController : UnitControllerBase
     private ProgramType? _currentProgram;
     private ProgramType? _nextProgram;
 
+    private float _executeTime;
+    private int _nextStep;
+
     private void Update()
     {
         if (_inProgress)
@@ -81,7 +84,7 @@ public class RobotController : UnitControllerBase
                     return;
                 }
 
-                if (Vector3.Distance(_target.position, transform.position) > 2f)
+                if (Vector3.Distance(_target.position, transform.position) > 5f)
                 {
                     if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
                     {
@@ -118,7 +121,7 @@ public class RobotController : UnitControllerBase
                     return;
                 }
 
-                if (Vector3.Distance(_target.position, transform.position) > 2f)
+                if (Vector3.Distance(_target.position, transform.position) > 5f)
                 {
                     if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
                     {
@@ -128,6 +131,7 @@ public class RobotController : UnitControllerBase
                     }
                     else
                     {
+                        
                         StartCoroutine(Co_Wait(0.5f));
                         _inProgress = true;
                     }
@@ -155,28 +159,28 @@ public class RobotController : UnitControllerBase
         Vector3 targetPosition;
         if (_target == null)
         {
-            targetPosition = transform.position;
-            targetPosition.x += Random.Range(-100, 100);
-            targetPosition.z += Random.Range(-100, 100);
+            targetPosition = GetPointOnGround();
         }
         else
         {
             targetPosition = _target.position;
         }
 
-        _navAgent.nextPosition = targetPosition;
+        _navAgent.nextPosition = transform.position;
         _navAgent.ResetPath();
         _navAgent.SetDestination(targetPosition);
 
         yield return null;
+        ResetTime();
 
-        Debug.Log(_navAgent.remainingDistance);
         while ((_navAgent.pathStatus != NavMeshPathStatus.PathComplete || _navAgent.remainingDistance > _navAgent.stoppingDistance)
             && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
             Move(new Vector2(direction.x, direction.z));
             _navAgent.velocity = _movable.Velocity;
+
+            ComputeTime(Time.deltaTime, ProgramType.Walk);
 
             yield return null;
         }
@@ -191,6 +195,22 @@ public class RobotController : UnitControllerBase
         EndCoProgram();
     }
 
+    private Vector3 GetPointOnGround()
+    {
+        var targetPosition = transform.position;
+        targetPosition.x += Random.Range(-50, 50);
+        targetPosition.z += Random.Range(-50, 50);
+        targetPosition.y += 2;
+
+        RaycastHit hit;
+        if (Physics.Raycast(targetPosition, Vector3.down, out hit, 5f, LayerMask.GetMask("Ground")))
+        {
+            return hit.point;
+        }
+
+        return transform.position;
+    }
+
     private IEnumerator Co_Cut(Tree tree)
     {
         if (tree == null || !tree.IsAlive)
@@ -201,10 +221,12 @@ public class RobotController : UnitControllerBase
 
         var direction = tree.transform.position - transform.position;
         direction.y = 0;
+        ResetTime();
         while (tree != null && tree.IsAlive)
         {
-            tree.Cut(Force, direction);
-            yield return new WaitForSeconds(0.2f);
+            tree.Cut(10, direction);
+            ComputeTime(Time.deltaTime, ProgramType.Walk);
+            yield return new WaitForSeconds(0.1f);
         }
 
         EndCoProgram();
@@ -240,6 +262,8 @@ public class RobotController : UnitControllerBase
             currentIndex = ++currentIndex % _possiblePrograms.Length;
             if (RobotModel.Programs.Any(_ => _.Template.Type == _possiblePrograms[currentIndex]))
             {
+                if (_possiblePrograms[currentIndex] == ProgramType.Walk && RobotModel.Programs.Any(_ => _.Template.Type != ProgramType.Walk))
+                    continue;
                 _currentProgram = _possiblePrograms[currentIndex];
                 return;
             }
@@ -247,5 +271,24 @@ public class RobotController : UnitControllerBase
 
         if (!_currentProgram.HasValue)
             _currentProgram = oldProgram;
+    }
+
+    private void ResetTime()
+    {
+        _executeTime = 0;
+        _nextStep = 1;
+    }
+
+    private void ComputeTime(float deltaTime, ProgramType program)
+    {
+        _executeTime += deltaTime;
+        int intTime = (int)_executeTime;
+        intTime -= _nextStep;
+        if (intTime > 0)
+        {
+            var currProgram = RobotModel.Programs.FirstOrDefault(_ => _.Template.Type == program);
+            while (intTime-- > 0)
+                currProgram?.ExecuteOneSecond();
+        }
     }
 }
