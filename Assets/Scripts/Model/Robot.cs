@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Data;
 using UniRx;
 using Utils;
@@ -20,10 +18,10 @@ namespace Model
         public int GetLeakedBytes() => Programs.Sum(x => x.LeakedBytes.Value);
         public int GetProducedBytes() => Programs.Sum(x => x.ProducedBytes.Value);
 
-        public Robot(IEnumerable<ProgramTemplate> defaultProgramTemplates)
+        public Robot(RobotTemplate template)
         {
-            MemorySize = new ReactiveProperty<int>(404);
-            Programs = defaultProgramTemplates.Select(template => new Program(template)).ToReactiveCollection();
+            MemorySize = new ReactiveProperty<int>(template.InitialMemorySize);
+            Programs = new ReactiveCollection<Program>();
 
 //            LeakedBytes = Programs.CountProperty()
 //                .SelectMany(_ => Programs.Select(x => x.LeakedBytes).CombineLatest().Select(y => y.Sum()))

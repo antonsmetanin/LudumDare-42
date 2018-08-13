@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Dashboard _dashboard;
 
 	[SerializeField] private GameProgressTemplate _defaultGameProgress;
-	[SerializeField] private ProgramTemplate[] _defaultProgramTemplates;
+	[SerializeField] private RobotTemplate _defaultRobotTemplate;
 
 	[SerializeField] private RobotController _robotControllerTemplate;
 	[SerializeField] private Transform _robotSpawnPosition;
@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
 			robotController.transform.position = _robotSpawnPosition.position;
 		}).AddTo(_disposable);
 
-		game.Robots.Add(new Robot(_defaultProgramTemplates));
+		game.Robots.Add(new Robot(_defaultRobotTemplate));
 
 		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.A)).Subscribe(_ => game.GameProgress.DataCollected.Value++);
 
