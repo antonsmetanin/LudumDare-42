@@ -65,6 +65,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4759520319702624}
   - component: {fileID: 95145276386776782}
+  - component: {fileID: 143200630309146856}
+  - component: {fileID: 114028862828148632}
+  - component: {fileID: 114047942243653504}
   m_Layer: 0
   m_Name: Dude
   m_TagString: Untagged
@@ -727,6 +730,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114028862828148632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169350289348354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba284beba87d1db48802b24642490791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LinearSpeed: 0.1
+--- !u!114 &114047942243653504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169350289348354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da31941592ead9a48bfd975ee415d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movable: {fileID: 114028862828148632}
 --- !u!137 &137234648243420004
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -844,3 +871,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.18219496, y: 0.012254573, z: 0.0033417344}
     m_Extent: {x: 0.3253299, y: 0.20627004, z: 0.2798884}
   m_DirtyAABB: 0
+--- !u!143 &143200630309146856
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169350289348354}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}

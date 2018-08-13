@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     private bool _ignoreMouse;
     private float _deltaRotation;
 
-    [SerializeField] private Transform _targetTransform;
+    [SerializeField] private Movable _targetTransform;
 
     public Camera MainCamera;
 
@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Mathf.Abs(_deltaRotation) > Mathf.Epsilon)
+        /*if (Mathf.Abs(_deltaRotation) > Mathf.Epsilon)
         {
             RaycastHit hit;
             var center = transform.position;
@@ -74,8 +74,7 @@ public class CameraController : MonoBehaviour
 
         if (_targetTransform != null)
         {
-            _cameraTarget.x = _targetTransform.position.x;
-            _cameraTarget.z = _targetTransform.position.z;
+
         }
         else
         {
@@ -88,13 +87,20 @@ public class CameraController : MonoBehaviour
             _cameraTarget.z = Mathf.Clamp(_cameraTarget.z, _zLimits.x - frustumOnPlane2, _zLimits.y + frustumOnPlane2);
 
 
-        }
+        }*/
 
 
+        Vector3 newTarget = _targetTransform.transform.position +
+                            _targetTransform.Velocity.normalized * MovementAnticipation;
 
+        _cameraTarget = Vector3.SmoothDamp(_cameraTarget, newTarget, ref _vel, CameraSmootTime);
 
         transform.position = _cameraTarget - transform.forward * _height;
     }
+
+    public float MovementAnticipation = 2;
+    public float CameraSmootTime = 0.1f;
+    private Vector3 _vel;
 
     private void ScalePerspectiveCamera(ref Vector3 position, float smoothmeth)
     {

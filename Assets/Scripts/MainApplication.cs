@@ -74,4 +74,9 @@ public class MainApplication : MonoBehaviour
     {
         Game.SelectedRobot.Value = selected?.GetComponent<RobotController>()?.RobotModel;
     }
+
+    public void MainCharacterSpin()
+    {
+        CurrentPlayer.Spin();
+    }
 }

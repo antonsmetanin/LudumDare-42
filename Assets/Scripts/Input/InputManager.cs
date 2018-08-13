@@ -64,6 +64,11 @@ public class InputManager : MonoBehaviour
             movement.x -= 1;
         }
 
+        if (Input.GetKey(KeyCode.Space))
+        {
+            MainApplication.Instance.MainCharacterSpin();
+        }
+
 //        if (MainApplication.Instance.CurrentPlayer != null && movement != Vector2.zero)
 //        {
 //            _cameraController.GoToPoint(MainApplication.Instance.CurrentPlayer.transform.position);
@@ -74,29 +79,6 @@ public class InputManager : MonoBehaviour
 
     private void ControlCamera(Vector2 mousePosition)
     {
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
-            _cameraController.Rotate((Input.mousePosition.x - _mousePosition.x) / 2);
-            return;
-        }
-
-        if (mousePosition.x < CameraTranslateOffset)
-        {
-            _cameraController.Move(-1f, 0f);
-        }
-        else if (_cameraController.MainCamera.pixelWidth - mousePosition.x < CameraTranslateOffset)
-        {
-            _cameraController.Move(1f, 0f);
-        }
-        if (mousePosition.y < CameraTranslateOffset)
-        {
-            _cameraController.Move(0f, -1f);
-        }
-        else if (_cameraController.MainCamera.pixelHeight - mousePosition.y < CameraTranslateOffset)
-        {
-            _cameraController.Move(0f, 1f);
-        }
-
         var scale = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(scale) > Mathf.Epsilon)
         {

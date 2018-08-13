@@ -27,6 +27,21 @@ public class WorldObjects : MonoBehaviour
     private readonly Dictionary<System.Type, List<MonoBehaviour>> _worldObjects = new Dictionary<System.Type, List<MonoBehaviour>>();
     private readonly Dictionary<System.Type, System.Func<MonoBehaviour, bool>> _additionalCheck = new Dictionary<System.Type, System.Func<MonoBehaviour, bool>>();
 
+    public List<Tree> GetTreesInRadius(Vector3 position, float radius)
+    {
+        List<Tree> trees = new List<Tree>();
+
+        foreach (var tree in _worldObjects[typeof(Tree)])
+        {
+            var treepos = new Vector2(tree.transform.position.x, tree.transform.position.z);
+            var pos = new Vector2(position.x, position.z);
+            if (Vector2.Distance(treepos, pos) < radius)
+                trees.Add(tree as Tree);
+        }
+
+        return trees;
+    }
+
     private void Awake()
     {
         if (_instance == null)
