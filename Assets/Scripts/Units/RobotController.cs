@@ -16,6 +16,7 @@ public class RobotController : UnitControllerBase
     public Model.Game Game;
 
     private ProgramType[] _possiblePrograms;
+    public Animator Animator;
 
     public override void Init()
     {
@@ -175,7 +176,9 @@ public class RobotController : UnitControllerBase
             && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
+            var m = new Vector2(direction.x, direction.z);
             Move(new Vector2(direction.x, direction.z));
+            transform.LookAt(transform.position + new Vector3(direction.x, 0, direction.z));
             _navAgent.velocity = _movable.Velocity;
 
             yield return null;
@@ -185,7 +188,7 @@ public class RobotController : UnitControllerBase
         if (carryPoint != null)
         {
             carryPoint.AcceptTrunk();
-            // TODO: 
+            // TODO:
         }
 
         EndCoProgram();
@@ -221,7 +224,7 @@ public class RobotController : UnitControllerBase
     {
         _target = null;
         _inProgress = false;
-        
+
         if (_nextProgram.HasValue)
             _currentProgram = _nextProgram;
         else
