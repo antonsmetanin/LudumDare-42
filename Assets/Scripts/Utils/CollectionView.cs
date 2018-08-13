@@ -15,22 +15,11 @@ namespace Utils
     public class Instantiator<T> : IFactory<T>
         where T : Component
     {
-        private T _template;
+        private readonly T _template;
 
-        public Instantiator(T template)
-        {
-            _template = template;
-        }
-
-        public T Create()
-        {
-            return Object.Instantiate(_template);
-        }
-
-        public void Destroy(T t)
-        {
-            Object.Destroy(t.gameObject);
-        }
+        public Instantiator(T template) => _template = template;
+        public T Create() => Object.Instantiate(_template);
+	    public void Destroy(T t) => Object.Destroy(t.gameObject);
     }
 
     public class MonoBehaviourCollectionView<T, TView> : IDisposable
@@ -99,6 +88,8 @@ namespace Utils
 				view.Dispose();
                 _factory.Destroy(view);
 			}
+
+			_disposable.Dispose();
 
 			_views.Clear();
 		}
