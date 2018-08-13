@@ -9,11 +9,12 @@ namespace View
 	{
 		private CompositeDisposable _disposable;
 
-		public void Show(Robot robot, IObservable<int> data)
+		public void Show(Robot robot, Func<int> getBytes)
 		{
 			_disposable = new CompositeDisposable();
 
-			data.Subscribe(size => ((RectTransform)transform).sizeDelta = new Vector2(size, ((RectTransform)transform).sizeDelta.y))
+			Observable.EveryUpdate()
+				.Subscribe(_ => ((RectTransform)transform).sizeDelta = new Vector2(getBytes(), ((RectTransform)transform).sizeDelta.y))
 				.AddTo(_disposable);
 		}
 

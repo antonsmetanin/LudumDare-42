@@ -14,19 +14,24 @@ namespace Model
 
         public UnityEngine.Transform Transform;
 
-        public IObservable<int> LeakedBytes;
-        public IObservable<int> ProducedBytes;
+//        public IObservable<int> LeakedBytes;
+//        public IObservable<int> ProducedBytes;
+
+        public int GetLeakedBytes() => Programs.Sum(x => x.LeakedBytes.Value);
+        public int GetProducedBytes() => Programs.Sum(x => x.ProducedBytes.Value);
 
         public Robot(IEnumerable<ProgramTemplate> defaultProgramTemplates)
         {
             MemorySize = new ReactiveProperty<int>(404);
             Programs = defaultProgramTemplates.Select(template => new Program(template)).ToReactiveCollection();
 
-            LeakedBytes = Programs.CountProperty()
-                .SelectMany(_ => Programs.Select(x => x.LeakedBytes).CombineLatest().Select(y => y.Sum()));
-
-            ProducedBytes = Programs.CountProperty()
-                .SelectMany(_ => Programs.Select(x => x.ProducedBytes).CombineLatest().Select(y => y.Sum()));
+//            LeakedBytes = Programs.CountProperty()
+//                .SelectMany(_ => Programs.Select(x => x.LeakedBytes).CombineLatest().Select(y => y.Sum()))
+//                .ToReactiveProperty();
+//
+//            ProducedBytes = Programs.CountProperty()
+//                .SelectMany(_ => Programs.Select(x => x.ProducedBytes).CombineLatest().Select(y => y.Sum()))
+//                .ToReactiveProperty();
         }
 
         public class InstallProgramResult { }
