@@ -15,7 +15,7 @@ namespace View
 		[SerializeField] private Button _patchButton;
 		[SerializeField] private TextMeshProUGUI _characteristicsLabel;
 		[SerializeField] private RectTransform _sizeIndicator;
-		[SerializeField] private Text _sizeIndicatorLabel;
+		[SerializeField] private TextMeshProUGUI _sizeIndicatorLabel;
 
         private CompositeDisposable _disposable;
 
@@ -50,7 +50,7 @@ namespace View
 			program.MemorySize.Subscribe(size =>
 			{
 				_sizeIndicator.sizeDelta = new Vector2(size, _sizeIndicator.sizeDelta.y);
-				_sizeIndicatorLabel.text = $"  {size}kb  ";
+				_sizeIndicatorLabel.text = $"  {size}kb   ";
 			}).AddTo(_disposable);
 
 			_upgradeButton.gameObject.GetComponent<HoverTrigger>().Hovered

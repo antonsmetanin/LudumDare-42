@@ -31,7 +31,7 @@ namespace View
 
             Robot = robot;
 
-			Observable.EveryUpdate()
+			Observable.EveryUpdate().Merge(Observable.Return(0l))
 				.Subscribe(_ => transform.position = mainCamera.WorldToScreenPoint(robotTransform.position) + new Vector3(0f, 100f))
 				.AddTo(_disposable);
 
