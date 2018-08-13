@@ -47,11 +47,6 @@ public class GameController : MonoBehaviour
 		}).AddTo(_disposable);
 
 		game.Robots.Add(new Robot(_defaultRobotTemplate, game.GameProgress));
-
-		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.A)).Subscribe(_ => game.GameProgress.DataCollected.Value++);
-
-		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.Alpha1)).Subscribe(_ => game.SelectedRobot.Value = game.Robots[0]);
-		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.Alpha2)).Subscribe(_ => game.SelectedRobot.Value = null);
 	}
 
     //private void OnDestroy() => _disposable.Dispose();

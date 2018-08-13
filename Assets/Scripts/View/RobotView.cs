@@ -13,6 +13,7 @@ namespace View
 		[SerializeField] private ProgramView _programViewTemplate;
         [SerializeField] private RectTransform _memoryTransform;
 		[SerializeField] private TextMeshProUGUI _dropModulesLabel;
+		[SerializeField] private TextMeshProUGUI _statusLabel;
 
         [SerializeField] private Image _memoryBorder;
 
@@ -41,6 +42,10 @@ namespace View
 
 			robot.Programs
 				.CreateView(_programViewTemplate, _memoryTransform, (view, program) => view.Show(program))
+				.AddTo(_disposable);
+
+			robot.Broken
+				.Subscribe(broken => _statusLabel.text = broken ? "Out Of Memory Exception_" : "OK_")
 				.AddTo(_disposable);
 
 			_leakedDataView.Show(robot, DataFileView.DataFileType.Leak, () => robot.LeakedBytes.Value);
