@@ -14,5 +14,5 @@ MonoBehaviour:
   ProduceBytesPerSecond: 3
   LeakBytesPerSecond: 10
   MemorySize: 77
-  Description: 
+  Description: It walks, no!
   Price: 10

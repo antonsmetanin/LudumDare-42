@@ -16,6 +16,7 @@ namespace View
 		[SerializeField] private TextMeshProUGUI _characteristicsLabel;
 		[SerializeField] private RectTransform _sizeIndicator;
 		[SerializeField] private TextMeshProUGUI _sizeIndicatorLabel;
+		[SerializeField] private TextMeshProUGUI _description;
 
         private CompositeDisposable _disposable;
 
@@ -25,6 +26,8 @@ namespace View
 
             _programView.Show(program);
 			_programView.AddTo(_disposable);
+
+			_description.text = program.CurrentVersion.Value.Description;
 
 			program.CurrentVersion.Subscribe(_ => _upgradeButton.GetComponentInChildren<Text>().text = "v" + (program.GetCurrentVersionIndex() + 2));
 

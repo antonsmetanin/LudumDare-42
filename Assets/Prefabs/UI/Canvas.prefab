@@ -1207,6 +1207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aaaa9825a4f5484fb7600dfadd4f2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _draggedDataFileTemplate: {fileID: 0}
 --- !u!114 &114162497792118392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1218,6 +1219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aaaa9825a4f5484fb7600dfadd4f2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _draggedDataFileTemplate: {fileID: 0}
 --- !u!114 &114184894465443964
 MonoBehaviour:
   m_ObjectHideFlags: 1

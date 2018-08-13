@@ -705,6 +705,7 @@ MonoBehaviour:
   _characteristicsLabel: {fileID: 114001260091657386}
   _sizeIndicator: {fileID: 224303008093435206}
   _sizeIndicatorLabel: {fileID: 114281707253016196}
+  _description: {fileID: 114704939282299934}
 --- !u!114 &114571682765712136
 MonoBehaviour:
   m_ObjectHideFlags: 1
