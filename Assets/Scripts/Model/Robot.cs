@@ -16,26 +16,22 @@ namespace Model
 //        public IObservable<int> LeakedBytes;
 //        public IObservable<int> ProducedBytes;
 
-        public int GetLeakedBytes() => Programs.Sum(x => x.LeakedBytes.Value);
-        public int GetProducedBytes() => Programs.Sum(x => x.ProducedBytes.Value);
+        public readonly ReactiveProperty<int> LeakedBytes = new ReactiveProperty<int>();
+        public readonly ReactiveProperty<int> ProducedBytes = new ReactiveProperty<int>();
 
-        public int GetTotalBytes() => Programs.Sum(x => x.MemorySize.Value) + GetLeakedBytes() + GetProducedBytes();
+        public int GetTotalBytes() => Programs.Sum(x => x.MemorySize.Value) + LeakedBytes.Value + ProducedBytes.Value;
         public int GetFreeSpace() => MemorySize.Value - GetTotalBytes();
+
+        private readonly IReadOnlyReactiveProperty<bool> Broken;
 
         public Robot(RobotTemplate template, GameProgress gameProgress)
         {
             MemorySize = new ReactiveProperty<int>(template.InitialMemorySize);
             Programs = new ReactiveCollection<Program>();
 
-            _gameProgress = gameProgress;
 
-//            LeakedBytes = Programs.CountProperty()
-//                .SelectMany(_ => Programs.Select(x => x.LeakedBytes).CombineLatest().Select(y => y.Sum()))
-//                .ToReactiveProperty();
-//
-//            ProducedBytes = Programs.CountProperty()
-//                .SelectMany(_ => Programs.Select(x => x.ProducedBytes).CombineLatest().Select(y => y.Sum()))
-//                .ToReactiveProperty();
+
+            _gameProgress = gameProgress;
         }
 
         public class InstallProgramResult { }
@@ -55,16 +51,14 @@ namespace Model
 
         public void ClearLeaks()
         {
-            foreach (var program in Programs)
-                program.LeakedBytes.Value = 0;
+            LeakedBytes.Value = 0;
         }
 
         public void UploadData()
         {
-            _gameProgress.DataCollected.Value += GetProducedBytes();
+            _gameProgress.DataCollected.Value += ProducedBytes.Value;
 
-            foreach (var program in Programs)
-                program.ProducedBytes.Value = 0;
+            ProducedBytes.Value = 0;
         }
     }
 }

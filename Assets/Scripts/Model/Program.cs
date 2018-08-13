@@ -15,9 +15,6 @@ namespace Model
         public readonly ReactiveProperty<ProgramVersion> CurrentVersion;
         public readonly ReactiveCollection<PatchTemplate> InstalledPatches;
 
-        public readonly ReactiveProperty<int> LeakedBytes = new ReactiveProperty<int>();
-        public readonly ReactiveProperty<int> ProducedBytes = new ReactiveProperty<int>();
-
         public readonly IReadOnlyReactiveProperty<int> MemorySize;
 
         public readonly IReadOnlyReactiveProperty<string> Name;
@@ -32,8 +29,6 @@ namespace Model
             Template = template;
             CurrentVersion = new ReactiveProperty<ProgramVersion>(template.Versions[0]);
             InstalledPatches = new ReactiveCollection<PatchTemplate>();
-
-            LeakedBytes = new ReactiveProperty<int>();
 
             MemorySize = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
                 (version, _) => version.MemorySize + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
@@ -70,8 +65,11 @@ namespace Model
 
         public bool ExecuteOneSecond()
         {
-            LeakedBytes.Value += Mathf.Clamp(LeakBytesPerSecond.Value, 0, _robot.GetFreeSpace());
-            ProducedBytes.Value += Mathf.Clamp(ProduceBytesPerSecond.Value, 0, _robot.GetFreeSpace());
+            if (_robot == null)
+                return false;
+
+            _robot.LeakedBytes.Value += Mathf.Clamp(LeakBytesPerSecond.Value, 0, _robot.GetFreeSpace());
+            _robot.ProducedBytes.Value += Mathf.Clamp(ProduceBytesPerSecond.Value, 0, _robot.GetFreeSpace());
 
             return true;
         }
