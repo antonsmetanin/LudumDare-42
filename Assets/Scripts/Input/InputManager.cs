@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
 
+    public float CameraTranslateOffset = 1;
     private CameraController _cameraController;
     private Vector2 _mousePosition;
 
@@ -76,19 +77,19 @@ public class InputManager : MonoBehaviour
             return;
         }
 
-        if (mousePosition.x < 50)
+        if (mousePosition.x < CameraTranslateOffset)
         {
             _cameraController.Move(-1f, 0f);
         }
-        else if (_cameraController.MainCamera.pixelWidth - mousePosition.x < 50)
+        else if (_cameraController.MainCamera.pixelWidth - mousePosition.x < CameraTranslateOffset)
         {
             _cameraController.Move(1f, 0f);
         }
-        if (mousePosition.y < 50)
+        if (mousePosition.y < CameraTranslateOffset)
         {
             _cameraController.Move(0f, -1f);
         }
-        else if (_cameraController.MainCamera.pixelHeight - mousePosition.y < 50)
+        else if (_cameraController.MainCamera.pixelHeight - mousePosition.y < CameraTranslateOffset)
         {
             _cameraController.Move(0f, 1f);
         }
