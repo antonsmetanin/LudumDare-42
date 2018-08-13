@@ -6,6 +6,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Utils;
 
 namespace View
 {
@@ -26,7 +27,7 @@ namespace View
             GetComponent<Image>().color = program.Template.Color;
 			_nameLabel.faceColor = program.Template.TextColor;
 
-			program.Size.Subscribe(size => ((RectTransform)transform).sizeDelta = new Vector2(size, ((RectTransform)transform).sizeDelta.y)).AddTo(_disposable);
+			program.MemorySize.Subscribe(size => ((RectTransform)transform).sizeDelta = new Vector2(size, ((RectTransform)transform).sizeDelta.y)).AddTo(_disposable);
 			program.Name.Subscribe(x => _nameLabel.text = x).AddTo(_disposable);
 
 			Program = program;
@@ -38,7 +39,7 @@ namespace View
 		{
 			_draggedProgramView.Drag(eventData);
 
-            eventData.pointerEnter?.GetComponent<RobotView>()?.OnAccept(this, simulate: true);
+            eventData.pointerEnter?.GetComponent<IDropAccepter<ProgramView>>()?.Accept(this, simulate: true);
 		}
 
 		public void OnBeginDrag([NotNull] PointerEventData eventData)
@@ -51,7 +52,7 @@ namespace View
 
 		public void OnEndDrag([NotNull] PointerEventData eventData)
 		{
-            eventData.pointerEnter?.GetComponent<RobotView>()?.OnAccept(this);
+            eventData.pointerEnter?.GetComponent<IDropAccepter<ProgramView>>()?.Accept(this);
 
             _draggedProgramView.Dispose();
 		}

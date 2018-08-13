@@ -2,31 +2,27 @@
 using System;
 using UniRx;
 using UnityEngine;
+using Utils;
 
 namespace View
 {
     public class Dashboard : MonoBehaviour, IDisposable
     {
-        [SerializeField] private FillBar _dataCollected;
-//        [SerializeField] private FillBar _wood;
-
         [SerializeField] private ProgramPalette _palette;
+        [SerializeField] private DataIndicator _dataIndicator;
 
         private CompositeDisposable _disposable;
+
+        public ReactiveProperty<IOperationResult> PendingAction = new ReactiveProperty<IOperationResult>();
 
         public void Show(GameProgress gameProgress)
         {
             _disposable = new CompositeDisposable();
 
-            gameProgress.DataCollected
-                .Subscribe(dataCollected => _dataCollected.SetValue(dataCollected, 100f))
-                .AddTo(_disposable);
+            _dataIndicator.Show(gameProgress, PendingAction);
+            _dataIndicator.AddTo(_disposable);
 
-//            gameProgress.Wood
-//                .Subscribe(wood => _wood.SetValue(wood, 100f))
-//                .AddTo(_disposable);
-
-            _palette.Show(gameProgress);
+            _palette.Show(gameProgress, PendingAction);
             _palette.AddTo(_disposable);
         }
 

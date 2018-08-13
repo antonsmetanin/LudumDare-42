@@ -8,5 +8,7 @@ namespace Data
 		public int DataCollected;
 		public int Wood;
 		public ProgramTemplate[] AvailablePrograms;
+
+		public int MaxData;
 	}
 }

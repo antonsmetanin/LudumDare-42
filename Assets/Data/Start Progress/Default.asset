@@ -16,3 +16,4 @@ MonoBehaviour:
   AvailablePrograms:
   - {fileID: 11400000, guid: 8bfbf1aa7b78c6e4093f833e49d588ce, type: 2}
   - {fileID: 11400000, guid: 56a532224977eef41b4673bd4eee8dc2, type: 2}
+  MaxData: 300

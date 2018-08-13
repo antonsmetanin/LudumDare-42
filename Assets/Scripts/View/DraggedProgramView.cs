@@ -13,7 +13,7 @@ namespace View
 		public void Show(Program program)
 		{
             Program = program;
-			((RectTransform)transform).sizeDelta = new Vector2(program.CurrentVersion.Value.Size, ((RectTransform)transform).sizeDelta.y);
+			((RectTransform)transform).sizeDelta = new Vector2(program.CurrentVersion.Value.MemorySize, ((RectTransform)transform).sizeDelta.y);
             GetComponentInChildren<TMPro.TextMeshProUGUI>().text = program.Template.Name;
 		}
 

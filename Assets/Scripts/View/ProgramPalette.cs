@@ -13,13 +13,13 @@ namespace View
 
         private CompositeDisposable _disposable;
 
-        public void Show(GameProgress gameProgress)
+        public void Show(GameProgress gameProgress, ReactiveProperty<IOperationResult> pendingAction)
         {
             _disposable = new CompositeDisposable();
 
             gameProgress.AvailablePrograms
-                           .CreateView(_programViewTemplate, _programsParent, (view, program) => view.Show(program, gameProgress))
-                           .AddTo(_disposable);
+                    .CreateView(_programViewTemplate, _programsParent, (view, program) => view.Show(program, gameProgress, pendingAction))
+                    .AddTo(_disposable);
         }
 
         public void Dispose() => _disposable.Dispose();
