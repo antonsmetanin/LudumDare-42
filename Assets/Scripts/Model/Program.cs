@@ -58,9 +58,6 @@ namespace Model
             ProduceBytesPerSecond = CurrentVersion.Select(x => x.ProduceBytesPerSecond).ToReactiveProperty();
 
             _robot = robot;
-
-            Observable.Interval(TimeSpan.FromSeconds(1)).ObserveOnMainThread()
-                .Subscribe(_ => ExecuteOneSecond());
         }
 
         public bool ExecuteOneSecond()
