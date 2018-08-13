@@ -24,11 +24,16 @@ public class InputManager : MonoBehaviour
         var mousePosition = Input.mousePosition;
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            if (Physics.Raycast(_cameraController.MainCamera.ScreenPointToRay(mousePosition), out hit, MainApplication.Instance.SelectableObjects))
+            if (Physics.Raycast(_cameraController.MainCamera.ScreenPointToRay(mousePosition), out hit, _cameraController.MainCamera.transform.position.y * 10, MainApplication.Instance.SelectableObjects))
             {
+                Debug.Log(hit.transform.name);
                 var selectable = hit.transform.GetComponentInParent<Selectable>();
                 MainApplication.Instance.SelectObject(selectable);
                 selectable?.Select();
+            }
+            else
+            {
+                MainApplication.Instance.SelectObject(null);
             }
         }
 
