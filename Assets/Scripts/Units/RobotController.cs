@@ -300,7 +300,10 @@ public class RobotController : UnitControllerBase
         {
             var currProgram = RobotModel.Programs.FirstOrDefault(_ => _.Template.Type == program);
             while (intTime-- > 0)
+            {
                 currProgram?.ExecuteOneSecond();
+                _nextStep++;
+            }
         }
     }
 }
