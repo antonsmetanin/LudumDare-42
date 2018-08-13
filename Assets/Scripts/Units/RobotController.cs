@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Data;
 using Model;
 using UnityEngine;
 using UnityEngine.AI;
@@ -32,6 +34,9 @@ public class RobotController : UnitControllerBase
 
     private void Update()
     {
+        if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
+            ;
+
         if (!_reached)
         {
             if (_navAgent.pathStatus == NavMeshPathStatus.PathComplete && _navAgent.remainingDistance <= _navAgent.stoppingDistance)
