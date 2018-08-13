@@ -47,9 +47,7 @@ namespace View
 			if (simulate)
 				return;
 
-			if (dataFileView.Type == DataFileView.DataFileType.Leak)
-				dataFileView.Robot.ClearLeaks();
-			else
+			if (dataFileView.Type == DataFileView.DataFileType.Produce)
 				dataFileView.Robot.UploadData();
 		}
 	}

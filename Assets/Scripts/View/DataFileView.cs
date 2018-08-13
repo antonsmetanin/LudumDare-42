@@ -57,7 +57,11 @@ namespace View
 
 		public void OnEndDrag([NotNull] PointerEventData eventData)
 		{
-			eventData.pointerEnter?.GetComponent<IDropAccepter<DataFileView>>()?.Accept(this);
+			if (Type == DataFileType.Produce)
+				eventData.pointerEnter?.GetComponent<IDropAccepter<DataFileView>>()?.Accept(this);
+
+			if (eventData.pointerEnter == null && Type == DataFileType.Leak)
+				Robot.ClearLeaks();
 
 			_draggedDataFile.Dispose();
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Data;
+using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 using Utils;
@@ -24,7 +25,7 @@ namespace Model
         public readonly IReadOnlyReactiveProperty<int> LeakBytesPerSecond;
         public readonly IReadOnlyReactiveProperty<int> ProduceBytesPerSecond;
 
-        private Robot _robot;
+        [CanBeNull] private readonly Robot _robot;
 
         public Program(ProgramTemplate template)
         {
@@ -75,7 +76,7 @@ namespace Model
             return true;
         }
 
-        public void Uninstall() => _robot.Programs.Remove(this);
+        public void Uninstall() => _robot?.Programs.Remove(this);
 
         public int GetCurrentVersionIndex() => Array.IndexOf(Template.Versions, CurrentVersion.Value);
         private string GetName(int index) => index == 0 ? Template.Name : Template.Name + " v." + (index + 1);
