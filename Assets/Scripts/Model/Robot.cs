@@ -22,7 +22,7 @@ namespace Model
         public int GetTotalBytes() => Programs.Sum(x => x.MemorySize.Value) + LeakedBytes.Value + ProducedBytes.Value;
         public int GetFreeSpace() => MemorySize.Value - GetTotalBytes();
 
-        private readonly IReadOnlyReactiveProperty<bool> Broken;
+        public readonly IReadOnlyReactiveProperty<bool> Broken;
 
         public Robot(RobotTemplate template, GameProgress gameProgress)
         {

@@ -57,7 +57,7 @@ public class RobotController : UnitControllerBase
 
     private void Update()
     {
-        if (false)
+        if (RobotModel.Broken.Value)
         {
             Coroutine cou;
             if (_inProgress && _currentProgram.HasValue && _programCou.TryGetValue(_currentProgram.Value, out cou))
