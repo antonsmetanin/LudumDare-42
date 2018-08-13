@@ -40,11 +40,13 @@ public class RobotController : UnitControllerBase
                 return;
 
             Coroutine cou;
-            if (_inProgress && _programCou.TryGetValue(_currentProgram.Value, out cou))
+            if (_inProgress && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
             {
+
                 StopCoroutine(cou);
                 EndCoProgram();
             }
+            _currentProgram = null;
         });
     }
 
@@ -60,8 +62,11 @@ public class RobotController : UnitControllerBase
         if (RobotModel.Broken.Value)
         {
             Coroutine cou;
-            if (_inProgress && _currentProgram.HasValue && _programCou.TryGetValue(_currentProgram.Value, out cou))
+            if (_inProgress && _currentProgram.HasValue && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
+            {
                 StopCoroutine(cou);
+                _currentProgram = null;
+            }
             return;
         }
 
