@@ -72,6 +72,11 @@ public class RobotController : UnitControllerBase
                     {
                         _target = obj.transform;
                     }
+                    else
+                    {
+                        StartCoroutine(Co_Wait(0.5f));
+                        _inProgress = true;
+                    }
 
                     return;
                 }
@@ -83,6 +88,11 @@ public class RobotController : UnitControllerBase
                         _currentProgram = ProgramType.Walk;
                         _nextProgram = ProgramType.Cut;
                         return;
+                    }
+                    else
+                    {
+                        StartCoroutine(Co_Wait(0.5f));
+                        _inProgress = true;
                     }
                 }
                 else
@@ -99,16 +109,45 @@ public class RobotController : UnitControllerBase
                     {
                         _target = obj.transform;
                     }
+                    else
+                    {
+                        StartCoroutine(Co_Wait(0.5f));
+                        _inProgress = true;
+                    }
 
                     return;
                 }
 
-                //Target.GetComponent<TrunkPart>().
+                if (Vector3.Distance(_target.position, transform.position) > 2f)
+                {
+                    if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
+                    {
+                        _currentProgram = ProgramType.Walk;
+                        _nextProgram = ProgramType.Gather;
+                        return;
+                    }
+                    else
+                    {
+                        StartCoroutine(Co_Wait(0.5f));
+                        _inProgress = true;
+                    }
+                }
+                else
+                {
+                    StartCoroutine(Co_Gather(_target.GetComponent<TrunkPart>()));
+                    _inProgress = true;
+                }
 
                 break;
             case ProgramType.Protect:
                 break;
         }
+    }
+
+    private IEnumerator Co_Wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        EndCoProgram();
     }
 
     private IEnumerator Co_Walk()
@@ -117,19 +156,22 @@ public class RobotController : UnitControllerBase
         if (_target == null)
         {
             targetPosition = transform.position;
-            targetPosition.x += Random.Range(-10, 10);
-            targetPosition.z += Random.Range(-10, 10);
+            targetPosition.x += Random.Range(-100, 100);
+            targetPosition.z += Random.Range(-100, 100);
         }
         else
         {
             targetPosition = _target.position;
         }
 
-        _navAgent.nextPosition = transform.position;
+        _navAgent.nextPosition = targetPosition;
         _navAgent.ResetPath();
         _navAgent.SetDestination(targetPosition);
 
-        while ((_navAgent.pathStatus != NavMeshPathStatus.PathComplete && _navAgent.remainingDistance <= _navAgent.stoppingDistance)
+        yield return null;
+
+        Debug.Log(_navAgent.remainingDistance);
+        while ((_navAgent.pathStatus != NavMeshPathStatus.PathComplete || _navAgent.remainingDistance > _navAgent.stoppingDistance)
             && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
