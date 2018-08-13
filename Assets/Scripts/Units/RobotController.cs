@@ -156,8 +156,8 @@ public class RobotController : UnitControllerBase
         if (_target == null)
         {
             targetPosition = transform.position;
-            targetPosition.x += Random.Range(-100, 100);
-            targetPosition.z += Random.Range(-100, 100);
+            targetPosition.x += Random.Range(-20, 20);
+            targetPosition.z += Random.Range(-20, 20);
         }
         else
         {
