@@ -24,3 +24,4 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   Name: gather()
+  Type: 2

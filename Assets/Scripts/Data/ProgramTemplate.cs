@@ -10,5 +10,6 @@ namespace Data
 		public Color Color;
 		public Color32 TextColor;
 		public string Name;
+		public ProgramType Type;
 	}
 }
