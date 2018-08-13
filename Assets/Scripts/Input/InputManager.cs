@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
-    public bool IsOverUI;
 
     public float CameraTranslateOffset = 1;
     private CameraController _cameraController;
@@ -23,12 +23,10 @@ public class InputManager : MonoBehaviour
     {
         RaycastHit hit;
         var mousePosition = Input.mousePosition;
-        if (!IsOverUI && Input.GetKeyDown(KeyCode.Mouse0))
+        if (!EventSystem.current.IsPointerOverGameObject() && Input.GetKeyDown(KeyCode.Mouse0))
         {
-
             if (Physics.Raycast(_cameraController.MainCamera.ScreenPointToRay(mousePosition), out hit, _cameraController.MainCamera.transform.position.y * 10, MainApplication.Instance.SelectableObjects))
             {
-                Debug.Log(hit.transform.name);
                 var selectable = hit.transform.GetComponentInParent<Selectable>();
                 MainApplication.Instance.SelectObject(selectable);
                 selectable?.Select();

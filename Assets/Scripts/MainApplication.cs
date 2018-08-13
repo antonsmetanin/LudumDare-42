@@ -74,9 +74,4 @@ public class MainApplication : MonoBehaviour
     {
         Game.SelectedRobot.Value = selected?.GetComponent<RobotController>()?.RobotModel;
     }
-
-    public void IsOverUI(bool value)
-    {
-        _input.IsOverUI = value;
-    }
 }
