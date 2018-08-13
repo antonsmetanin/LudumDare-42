@@ -5,6 +5,7 @@ using Data;
 using Model;
 using UnityEngine;
 using UnityEngine.AI;
+using UniRx;
 
 public class RobotController : UnitControllerBase
 {
@@ -16,6 +17,7 @@ public class RobotController : UnitControllerBase
     public Model.Game Game;
 
     private ProgramType[] _possiblePrograms;
+    private Dictionary<ProgramType, Coroutine> _programCou = new Dictionary<ProgramType, Coroutine>();
     public Animator Animator;
 
     private string _walkStateName = "walk";
@@ -31,6 +33,19 @@ public class RobotController : UnitControllerBase
         _navAgent.updateRotation = false;
         _target = null;
         _possiblePrograms = (ProgramType[])System.Enum.GetValues(typeof(ProgramType));
+        
+        RobotModel.Programs.ObserveRemove().Subscribe(removeEvent =>
+        {
+            if (!_currentProgram.HasValue)
+                return;
+
+            Coroutine cou;
+            if (_inProgress && _programCou.TryGetValue(_currentProgram.Value, out cou))
+            {
+                StopCoroutine(cou);
+                EndCoProgram();
+            }
+        });
     }
 
     private bool _inProgress;
@@ -73,7 +88,8 @@ public class RobotController : UnitControllerBase
         switch (_currentProgram)
         {
             case ProgramType.Walk:
-                StartCoroutine(Co_Walk());
+                var cou = StartCoroutine(Co_Walk());
+                _programCou[ProgramType.Walk] = cou;
                 _inProgress = true;
 
                 break;
@@ -110,7 +126,8 @@ public class RobotController : UnitControllerBase
                 }
                 else
                 {
-                    StartCoroutine(Co_Cut(_target.GetComponent<Tree>()));
+                    var couCut = StartCoroutine(Co_Cut(_target.GetComponent<Tree>()));
+                    _programCou[ProgramType.Cut] = couCut;
                     _inProgress = true;
                 }
                 break;
@@ -148,7 +165,8 @@ public class RobotController : UnitControllerBase
                 }
                 else
                 {
-                    StartCoroutine(Co_Gather(_target.GetComponent<TrunkPart>()));
+                    var couGather = StartCoroutine(Co_Gather(_target.GetComponent<TrunkPart>()));
+                    _programCou[ProgramType.Cut] = couGather;
                     _inProgress = true;
                 }
 
