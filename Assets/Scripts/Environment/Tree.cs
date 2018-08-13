@@ -12,18 +12,32 @@ public class Tree : MonoBehaviour, IAlive
     [SerializeField] private Rigidbody _fallingRigidbody;
     [SerializeField] private Vector3 _forceApplyPoint = new Vector3(0, 0, 3);
 
-    public float Health { get; private set; }
-    public bool IsAlive { get { return Health > 0; } }
+    private float _health;
+    public float Health
+    {
+        get { return _health; }
+        private set
+        {
+            _health = value;
+            if (_health <= 0f)
+                IsAlive = false;
+        }
+    }
+    public bool IsAlive { get; private set; } = true;
     public bool IsDead { get; private set; }
 
     private Vector3 _fallDirection;
 
     private TreeTrunk _deadCondition;
 
-    private void Start()
+    private void Awake()
     {
         Health = _baseHealht;
         IsDead = false;
+    }
+
+    private void Start()
+    {
         _deadCondition = GetComponentInChildren<TreeTrunk>();
 
         if (_fallingRigidbody == null)
@@ -46,7 +60,7 @@ public class Tree : MonoBehaviour, IAlive
         Health -= force;
         var dir = direction.normalized;
         _fallDirection += dir * force;
-        if (Health <= 0)
+        if (!IsAlive)
         {
             if (Mathf.Approximately(_fallDirection.sqrMagnitude, 0f))
                 _fallDirection = dir;
