@@ -11564,7 +11564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85a99f073b30f7498f6c08df798a5d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dayLength: 20
+  _dayLength: 3
   _dayNumber:
     value: 1
   _floodStartsAtDay: 3
@@ -11575,10 +11575,10 @@ MonoBehaviour:
     value: 30
   _woodGoal: 1000
   _floodLevels:
-  - 2.4
+  - 2.35
   - 3.3
-  - 4.17
-  - 5.06
+  - 4.05
+  - 4.95
   - 5.84
   - 6.57
   - 7.53
@@ -13147,6 +13147,16 @@ Prefab:
         type: 2}
       propertyPath: _targetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 20865483241560818, guid: 2dd9cfa5191c1734d9c609a38cf47d10,
+        type: 2}
+      propertyPath: m_HDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20865483241560818, guid: 2dd9cfa5191c1734d9c609a38cf47d10,
+        type: 2}
+      propertyPath: far clip plane
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2dd9cfa5191c1734d9c609a38cf47d10, type: 2}
@@ -17767,8 +17777,8 @@ MonoBehaviour:
   customMesh: {fileID: 0}
   material: {fileID: 2100000, guid: eefc42519cee5d64d8c944049a161126, type: 2}
   sun: {fileID: 491938760}
-  sizeX: 64
-  sizeZ: 64
+  sizeX: 48
+  sizeZ: 48
   noise: 0.824
   enableReflection: 0
   enableRefraction: 0
@@ -17794,7 +17804,7 @@ Transform:
   m_GameObject: {fileID: 1724091709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17, y: 2.4, z: 45.9}
-  m_LocalScale: {x: 3, y: 1, z: 3}
+  m_LocalScale: {x: 4, y: 1, z: 4}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
