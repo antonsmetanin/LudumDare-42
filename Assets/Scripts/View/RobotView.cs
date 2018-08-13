@@ -43,10 +43,10 @@ namespace View
 				.CreateView(_programViewTemplate, _memoryTransform, (view, program) => view.Show(program))
 				.AddTo(_disposable);
 
-			_leakedDataView.Show(robot, DataFileView.DataFileType.Leak, robot.GetLeakedBytes);
+			_leakedDataView.Show(robot, DataFileView.DataFileType.Leak, () => robot.LeakedBytes.Value);
 			_leakedDataView.AddTo(_disposable);
 
-			_producedDataView.Show(robot, DataFileView.DataFileType.Produce, robot.GetProducedBytes);
+			_producedDataView.Show(robot, DataFileView.DataFileType.Produce, () => robot.ProducedBytes.Value);
 			_producedDataView.AddTo(_disposable);
 
 			robot.Programs.CountProperty()
