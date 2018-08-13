@@ -206,45 +206,4 @@ public class RobotController : UnitControllerBase
         if (!_currentProgram.HasValue)
             _currentProgram = oldProgram;
     }
-
-    public void StartCut(GameObject target, float force)
-    {
-        _inProgress = true;
-        var treeTarget = target.GetComponent<Tree>();
-        if (treeTarget != null)
-            StartCoroutine(Co_Cut(treeTarget, force));
-        else
-            OnCut(target, force);
-
-        // TODO: Animation, etc
-    }
-
-    private IEnumerator Co_Cut(Tree target, float force)
-    {
-        if (target == null || !target.IsAlive)
-            yield break;
-
-        var direction = target.transform.position - transform.position;
-        direction.y = 0;
-        while (target != null && target.IsAlive)
-        {
-            target.Cut(force, direction);
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        OnCut(target.gameObject, force);
-    }
-
-    public void OnCut(GameObject target, float force)
-    {
-        var treeTarget = target.GetComponent<Tree>();
-        if (treeTarget != null)
-        {
-            //treeTarget.Cut(force);
-        }
-
-        //var tree = WorldObjects.Instance.GetClosestObject<Tree>(transform.position);
-        //if (tree != null)
-        //    SetTarget(tree.transform);
-    }
 }
