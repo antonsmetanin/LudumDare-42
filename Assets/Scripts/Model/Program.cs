@@ -58,13 +58,13 @@ namespace Model
                 (version, _) => version.LeakBytesPerSecond + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
 
             ProduceBytesPerSecond = CurrentVersion.Select(x => x.ProduceBytesPerSecond).ToReactiveProperty();
+        }
 
-//            Observable.Interval(TimeSpan.FromSeconds(1)).ObserveOnMainThread()
-//                .Subscribe(_ =>
-//                {
-//                    LeakedBytes.Value += LeakBytesPerSecond.Value;
-//                    ProducedBytes.Value += ProduceBytesPerSecond.Value;
-//                });
+        public bool ExecuteOneSecond()
+        {
+            LeakedBytes.Value += LeakBytesPerSecond.Value;
+            ProducedBytes.Value += ProduceBytesPerSecond.Value;
+            return true;
         }
 
         public int GetCurrentVersionIndex() => Array.IndexOf(Template.Versions, CurrentVersion.Value);
