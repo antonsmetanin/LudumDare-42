@@ -18,9 +18,6 @@ public class RobotController : UnitControllerBase
     {
         base.Init();
 
-        if (RobotModel != null)
-            RobotModel.Transform = transform;
-
         _navAgent = GetComponent<NavMeshAgent>();
         _navAgent.updatePosition = false;
         _navAgent.updateRotation = false;

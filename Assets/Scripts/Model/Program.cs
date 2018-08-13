@@ -2,6 +2,7 @@
 using System.Linq;
 using Data;
 using UniRx;
+using UnityEngine;
 using Utils;
 
 namespace Model
@@ -13,12 +14,15 @@ namespace Model
         public readonly ReactiveProperty<ProgramVersion> CurrentVersion;
         public readonly ReactiveCollection<PatchTemplate> InstalledPatches;
 
-        public readonly IReadOnlyReactiveProperty<int> Size;
+        public readonly ReactiveProperty<int> LeakedBytes = new ReactiveProperty<int>();
+        public readonly ReactiveProperty<int> ProducedBytes = new ReactiveProperty<int>();
+
+        public readonly IReadOnlyReactiveProperty<int> MemorySize;
 
         public readonly IReadOnlyReactiveProperty<string> Name;
 
-        public readonly IReadOnlyReactiveProperty<int> LeakSpeed;
-        public readonly IReadOnlyReactiveProperty<int> ProduceSpeed;
+        public readonly IReadOnlyReactiveProperty<int> LeakBytesPerSecond;
+        public readonly IReadOnlyReactiveProperty<int> ProduceBytesPerSecond;
 
         public Program(ProgramTemplate template)
         {
@@ -26,15 +30,17 @@ namespace Model
             CurrentVersion = new ReactiveProperty<ProgramVersion>(template.Versions[0]);
             InstalledPatches = new ReactiveCollection<PatchTemplate>();
 
-            Size = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged().ToReactiveProperty(InstalledPatches.Count),
-                (version, _) => version.Size + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
+            LeakedBytes = new ReactiveProperty<int>();
+
+            MemorySize = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
+                (version, _) => version.MemorySize + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
 
             Name = CurrentVersion.Select(_ => GetName(GetCurrentVersionIndex())).ToReactiveProperty();
 
-            LeakSpeed = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged().ToReactiveProperty(InstalledPatches.Count),
-                (version, _) => version.LeakSpeed + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
+            LeakBytesPerSecond = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
+                (version, _) => version.LeakBytesPerSecond + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
 
-            ProduceSpeed = CurrentVersion.Select(x => x.ProduceSpeed).ToReactiveProperty();
+            ProduceBytesPerSecond = CurrentVersion.Select(x => x.ProduceBytesPerSecond).ToReactiveProperty();
         }
 
         public Program(Program originalProgram)
@@ -43,28 +49,49 @@ namespace Model
             CurrentVersion = new ReactiveProperty<ProgramVersion>(originalProgram.CurrentVersion.Value);
             InstalledPatches = new ReactiveCollection<PatchTemplate>(originalProgram.InstalledPatches);
 
-            Size = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged().ToReactiveProperty(InstalledPatches.Count),
-                (version, _) => version.Size + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
+            MemorySize = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
+                (version, _) => version.MemorySize + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
 
             Name = CurrentVersion.Select(_ => GetName(GetCurrentVersionIndex())).ToReactiveProperty();
 
-            LeakSpeed = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged().ToReactiveProperty(InstalledPatches.Count),
-                (version, _) => version.LeakSpeed + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
+            LeakBytesPerSecond = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
+                (version, _) => version.LeakBytesPerSecond + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
 
-            ProduceSpeed = CurrentVersion.Select(x => x.ProduceSpeed).ToReactiveProperty();
+            ProduceBytesPerSecond = CurrentVersion.Select(x => x.ProduceBytesPerSecond).ToReactiveProperty();
+
+//            Observable.Interval(TimeSpan.FromSeconds(1)).ObserveOnMainThread()
+//                .Subscribe(_ =>
+//                {
+//                    LeakedBytes.Value += LeakBytesPerSecond.Value;
+//                    ProducedBytes.Value += ProduceBytesPerSecond.Value;
+//                });
         }
 
         public int GetCurrentVersionIndex() => Array.IndexOf(Template.Versions, CurrentVersion.Value);
         private string GetName(int index) => index == 0 ? Template.Name : Template.Name + " v." + (index + 1);
 
-        public class UpgradeResult { }
+        public interface IPricedOperation : IOperationResult
+        {
+            int Price { get; }
+        }
+
+        public class UpgradeResult : IPricedOperation
+        {
+            public int Price { get; }
+            public UpgradeResult(int price) => Price = price;
+        }
+
         public class NotEnoughDataError : Error { }
         public class FinalVersionReachedError : Error { }
 
         public IObservable<Result<UpgradeResult>> CanUpgrade(GameProgress gameProgress)
             => gameProgress.DataCollected.CombineLatest(CurrentVersion, (_, __) => Upgrade(gameProgress, simulate: true));
 
-        public class PatchResult { }
+        public class PatchResult : IPricedOperation
+        {
+            public int Price { get; }
+            public PatchResult(int price) => Price = price;
+        }
 
         public IObservable<Result<PatchResult>> CanPatch(GameProgress gameProgress)
             => gameProgress.DataCollected.CombineLatest(InstalledPatches.ObserveCountChanged(), (_, __) => Patch(gameProgress, simulate: true));
@@ -90,7 +117,7 @@ namespace Model
                 gameProgress.DataCollected.Value -= nextVersion.Price;
             }
 
-            return new UpgradeResult();
+            return new UpgradeResult(nextVersion.Price);
         }
 
         public Result<PatchResult> Patch(GameProgress gameProgress, bool simulate = false)
@@ -111,7 +138,7 @@ namespace Model
                 gameProgress.DataCollected.Value -= nextPatch.Price;
             }
 
-            return new PatchResult();
+            return new PatchResult(nextPatch.Price);
         }
     }
 }

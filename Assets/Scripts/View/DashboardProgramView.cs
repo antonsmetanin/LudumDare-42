@@ -4,6 +4,7 @@ using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace View
 {
@@ -18,7 +19,7 @@ namespace View
 
         private CompositeDisposable _disposable;
 
-		public void Show(Program program, GameProgress gameProgress)
+		public void Show(Program program, GameProgress gameProgress, ReactiveProperty<IOperationResult> pendingAction)
 		{
             _disposable = new CompositeDisposable();
 
@@ -42,15 +43,23 @@ namespace View
 				_patchButton.gameObject.SetActive(!(patchResult.Error is Program.FinalVersionReachedError));
 			}).AddTo(_disposable);
 
-			program.LeakSpeed.CombineLatest(program.ProduceSpeed,
+			program.LeakBytesPerSecond.CombineLatest(program.ProduceBytesPerSecond,
 				(leak, produce) => $"<color=#FBDF6A>produce</color> {produce} byte/s    <color=#BD306C>leak</color> {leak} byte/s")
 				.Subscribe(x => _characteristicsLabel.text = x).AddTo(_disposable);
 
-			program.Size.Subscribe(size =>
+			program.MemorySize.Subscribe(size =>
 			{
 				_sizeIndicator.sizeDelta = new Vector2(size, _sizeIndicator.sizeDelta.y);
 				_sizeIndicatorLabel.text = $"  {size}kb  ";
 			}).AddTo(_disposable);
+
+			_upgradeButton.gameObject.GetComponent<HoverTrigger>().Hovered
+				.Subscribe(hovered => pendingAction.Value = hovered ? program.Upgrade(gameProgress, simulate: true).Value : null)
+				.AddTo(_disposable);
+
+			_patchButton.gameObject.GetComponent<HoverTrigger>().Hovered
+				.Subscribe(hovered => pendingAction.Value = hovered ? program.Patch(gameProgress, simulate: true).Value : null)
+				.AddTo(_disposable);
 		}
 
 		public void Dispose() => _disposable.Dispose();

@@ -11,6 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4245ed95da6111a438f435302d3314ba, type: 3}
   m_Name: Version 2
   m_EditorClassIdentifier: 
-  ProduceSpeed: 20
-  LeakSpeed: 0
-  Size: 0
+  ProduceBytesPerSecond: 0
+  LeakBytesPerSecond: 0
+  MemorySize: 40
+  Description: 
+  Price: 50

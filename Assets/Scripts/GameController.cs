@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Data;
+﻿using Data;
 using Model;
 using UniRx;
 using UnityEngine;
@@ -40,14 +39,11 @@ public class GameController : MonoBehaviour
 		{
 			var robotController = Instantiate(_robotControllerTemplate);
 			robotController.RobotModel = addRobot.Value;
+			robotController.RobotModel.Transform = robotController.transform;
 			robotController.transform.position = _robotSpawnPosition.position;
 		}).AddTo(_disposable);
 
-		game.Robots.Add(new Robot
-		{
-			MemorySize = new ReactiveProperty<int>(404),
-			Programs = _defaultProgramTemplates.Select(template => new Program(template)).ToReactiveCollection()
-		});
+		game.Robots.Add(new Robot(_defaultProgramTemplates));
 
 		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.A)).Subscribe(_ => game.GameProgress.DataCollected.Value++);
 
