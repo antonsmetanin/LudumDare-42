@@ -18,6 +18,10 @@ public class RobotController : UnitControllerBase
     private ProgramType[] _possiblePrograms;
     public Animator Animator;
 
+    private string _walkStateName = "walk";
+    private string _dragStateName = "drag";
+    private string _cutStateName = "cut";
+
     public override void Init()
     {
         base.Init();
@@ -57,6 +61,11 @@ public class RobotController : UnitControllerBase
                 _currentProgram = ProgramType.Walk;
             }
         }
+
+        Animator.SetBool(_walkStateName, _currentProgram == ProgramType.Walk);
+        Animator.SetBool(_dragStateName, _currentProgram == ProgramType.Gather);
+        Animator.SetBool(_cutStateName, _currentProgram == ProgramType.Cut);
+
 
         switch (_currentProgram)
         {

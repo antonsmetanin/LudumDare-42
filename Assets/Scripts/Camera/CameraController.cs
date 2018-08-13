@@ -21,6 +21,8 @@ public class CameraController : MonoBehaviour
     private bool _ignoreMouse;
     private float _deltaRotation;
 
+    [SerializeField] private Transform _targetTransform;
+
     public Camera MainCamera;
 
 
@@ -70,13 +72,24 @@ public class CameraController : MonoBehaviour
 
         ScalePerspectiveCamera(ref position, 0.3f);
 
-        var frustumHeight = 2.0f * (_maxFlyHeight -_height) * Mathf.Tan(MainCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
-        float frustumOnPlane = frustumHeight / 0.75f / 2f; //45 deg
-        float frustumOnPlane2 = frustumHeight / 0.75f / 2f * MainCamera.aspect;
+        if (_targetTransform != null)
+        {
+            _cameraTarget.x = _targetTransform.position.x;
+            _cameraTarget.z = _targetTransform.position.z;
+        }
+        else
+        {
+            var frustumHeight = 2.0f * (_maxFlyHeight -_height) * Mathf.Tan(MainCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
+            float frustumOnPlane = frustumHeight / 0.75f / 2f; //45 deg
+            float frustumOnPlane2 = frustumHeight / 0.75f / 2f * MainCamera.aspect;
 
 
-        _cameraTarget.x = Mathf.Clamp(_cameraTarget.x, _xLimits.x - frustumOnPlane, _xLimits.y + frustumOnPlane);
-        _cameraTarget.z = Mathf.Clamp(_cameraTarget.z, _zLimits.x - frustumOnPlane2, _zLimits.y + frustumOnPlane2);
+            _cameraTarget.x = Mathf.Clamp(_cameraTarget.x, _xLimits.x - frustumOnPlane, _xLimits.y + frustumOnPlane);
+            _cameraTarget.z = Mathf.Clamp(_cameraTarget.z, _zLimits.x - frustumOnPlane2, _zLimits.y + frustumOnPlane2);
+
+
+        }
+
 
 
 
