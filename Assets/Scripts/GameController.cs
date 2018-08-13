@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
 	{
         _disposable = new CompositeDisposable();
 
-		var game = new Game(_defaultGameProgress, _defaultProgramTemplates);
+		var game = new Game(_defaultGameProgress);
 
 		game.SelectedRobot.Subscribe(robot =>
 		{
@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour
 		{
 			var robotController = Instantiate(_robotControllerTemplate);
 			robotController.RobotModel = addRobot.Value;
+			robotController.Game = game;
 			robotController.RobotModel.Transform = robotController.transform;
 			robotController.transform.position = _robotSpawnPosition.position;
 		}).AddTo(_disposable);

@@ -13,6 +13,7 @@ public class RobotController : UnitControllerBase
     public Transform CarryPoint;
 
     public Model.Robot RobotModel;
+    public Model.Game Game;
 
     public override void Init()
     {

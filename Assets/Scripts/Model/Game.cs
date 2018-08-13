@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Data;
+﻿using Data;
 using UniRx;
 
 namespace Model
@@ -11,9 +9,7 @@ namespace Model
 		public readonly ReactiveCollection<Robot> Robots = new ReactiveCollection<Robot>();
 		public readonly ReactiveProperty<Robot> SelectedRobot = new ReactiveProperty<Robot>();
 
-		public Game(GameProgressTemplate gameProgressTemplate, IEnumerable<ProgramTemplate> defaultProgramTemplates)
-		{
-			GameProgress = new GameProgress(gameProgressTemplate);
-		}
+		public Game(GameProgressTemplate gameProgressTemplate)
+			=> GameProgress = new GameProgress(gameProgressTemplate);
 	}
 }
