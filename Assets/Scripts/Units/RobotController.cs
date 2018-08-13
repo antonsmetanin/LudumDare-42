@@ -184,6 +184,12 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Walk()
     {
+        if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Walk))
+        {
+            EndCoProgram();
+            yield break;
+        }
+
         Vector3 targetPosition;
         if (_target == null)
         {
@@ -243,6 +249,12 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Cut(Tree tree)
     {
+        if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Cut))
+        {
+            EndCoProgram();
+            yield break;
+        }
+
         if (tree == null || !tree.IsAlive)
         {
             EndCoProgram();
@@ -264,6 +276,12 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Gather(TrunkPart trunk)
     {
+        if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Gather))
+        {
+            EndCoProgram();
+            yield break;
+        }
+
         yield return null;
 
         EndCoProgram();
