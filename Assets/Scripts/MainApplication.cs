@@ -65,12 +65,13 @@ public class MainApplication : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-    }
-
     public void MoveMainCharacter(Vector2 movement)
     {
         CurrentPlayer.Move(movement);
+    }
+
+    public void SelectObject(Selectable selected)
+    {
+        Game.SelectedRobot.Value = selected?.GetComponent<RobotController>()?.RobotModel;
     }
 }
