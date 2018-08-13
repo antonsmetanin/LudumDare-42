@@ -33,7 +33,7 @@ namespace View
 			_getBytes = getBytes;
 			_disposable = new CompositeDisposable();
 
-			Observable.EveryUpdate()
+			Observable.EveryUpdate().Merge(Observable.Return(0l))
 				.Subscribe(_ => ((RectTransform)transform).sizeDelta = new Vector2(getBytes(), ((RectTransform)transform).sizeDelta.y))
 				.AddTo(_disposable);
 		}
