@@ -106,11 +106,11 @@ MonoBehaviour:
     m_Bits: 272
   _startHeight: 200
   _minFlyHeight: 50
-  _maxFlyHeight: 200
-  _xLimits: {x: -100, y: 100}
-  _zLimits: {x: -100, y: 100}
+  _maxFlyHeight: 250
+  _xLimits: {x: -60, y: 90}
+  _zLimits: {x: -10, y: 90}
   MainCamera: {fileID: 0}
-  _cameraTarget: {x: 45, y: 0, z: 45}
+  _cameraTarget: {x: 67.99999, y: 0, z: 44}
   RotateTarget: {fileID: 0}
 --- !u!114 &114261935164215100
 MonoBehaviour:
