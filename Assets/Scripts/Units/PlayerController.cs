@@ -53,7 +53,7 @@ public class PlayerController : UnitControllerBase
 
         var trees = WorldObjects.Instance.GetTreesInRadius(transform.position, CutRadius);
         foreach (var tree in trees)
-            tree.Cut(CutForce, tree.transform.position - transform.position );
+            tree.Cut(CutForce, (tree.transform.position - transform.position).normalized );
         yield return new WaitForSeconds(CutCooldown);
         cut = null;
     }

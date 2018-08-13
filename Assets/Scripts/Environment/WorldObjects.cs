@@ -23,6 +23,15 @@ public class WorldObjects : MonoBehaviour
         }
     }
 
+    [SerializeField] private ParticleSystem _cutEffect;
+
+    public void CutEffectAt(Vector3 pos, Vector3 direction)
+    {
+        _cutEffect.transform.position = pos - Vector3.up / 2f;
+        _cutEffect.transform.LookAt(_cutEffect.transform.position + direction + Vector3.up);
+        _cutEffect.Emit(20);
+    }
+
     private List<Tree> _trees = new List<Tree>();
     private readonly Dictionary<System.Type, List<MonoBehaviour>> _worldObjects = new Dictionary<System.Type, List<MonoBehaviour>>();
     private readonly Dictionary<System.Type, System.Func<MonoBehaviour, bool>> _additionalCheck = new Dictionary<System.Type, System.Func<MonoBehaviour, bool>>();

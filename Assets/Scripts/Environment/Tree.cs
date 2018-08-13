@@ -57,6 +57,8 @@ public class Tree : MonoBehaviour, IAlive
         if (!IsAlive)
             return;
 
+        WorldObjects.Instance.CutEffectAt(_disableOnDeath[0].transform.position, -direction);
+
         Health -= force;
         var dir = direction.normalized;
         _fallDirection += dir * force;
