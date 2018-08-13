@@ -2312,9 +2312,7 @@ MonoBehaviour:
   _dashboard: {fileID: 114811789478764392}
   _defaultGameProgress: {fileID: 11400000, guid: 1781cf568bb854946b27c3e017de1d22,
     type: 2}
-  _defaultProgramTemplates:
-  - {fileID: 11400000, guid: 8bfbf1aa7b78c6e4093f833e49d588ce, type: 2}
-  - {fileID: 11400000, guid: de32999278384e84aa73151e726c6440, type: 2}
+  _defaultProgramTemplates: []
   _robotControllerTemplate: {fileID: 114348018741574914, guid: 11df6cc553a62ec4298cc2f8f02bf5f6,
     type: 2}
   _robotSpawnPosition: {fileID: 0}
