@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Model;
 using UnityEngine;
 
 public class MainApplication : MonoBehaviour
@@ -22,6 +23,8 @@ public class MainApplication : MonoBehaviour
             return _instance;
         }
     }
+
+    public Game Game;
 
     public LayerMask SelectableObjects;
 

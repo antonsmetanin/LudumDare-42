@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
 
 		var game = new Game(_defaultGameProgress);
 
+		MainApplication.Instance.Game = game;
+
 		game.SelectedRobot.Subscribe(robot =>
 		{
 			if (robot != null && !_robotView.gameObject.activeSelf)
