@@ -57,6 +57,14 @@ public class RobotController : UnitControllerBase
 
     private void Update()
     {
+        if (CheckForBroken())
+        {
+            Coroutine cou;
+            if (_inProgress && _currentProgram.HasValue && _programCou.TryGetValue(_currentProgram.Value, out cou))
+                StopCoroutine(cou);
+            return;
+        }
+
         if (_inProgress)
             return;
 
@@ -174,6 +182,11 @@ public class RobotController : UnitControllerBase
             case ProgramType.Protect:
                 break;
         }
+    }
+
+    private bool CheckForBroken()
+    {
+        return false;
     }
 
     private IEnumerator Co_Wait(float seconds)
