@@ -75,6 +75,8 @@ namespace Model
             return true;
         }
 
+        public void Uninstall() => _robot.Programs.Remove(this);
+
         public int GetCurrentVersionIndex() => Array.IndexOf(Template.Versions, CurrentVersion.Value);
         private string GetName(int index) => index == 0 ? Template.Name : Template.Name + " v." + (index + 1);
 
