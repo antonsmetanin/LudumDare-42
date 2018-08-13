@@ -16,8 +16,8 @@ namespace View
 
 		private DraggedDataFileView _draggedDataFile;
 
-		private DataFileType _type;
-		private Robot _robot;
+		public DataFileType Type;
+		public Robot Robot;
 		private Func<int> _getBytes;
 
 		public enum DataFileType
@@ -28,8 +28,8 @@ namespace View
 
 		public void Show(Robot robot, DataFileType type, Func<int> getBytes)
 		{
-			_robot = robot;
-			_type = type;
+			Robot = robot;
+			Type = type;
 			_getBytes = getBytes;
 			_disposable = new CompositeDisposable();
 
@@ -52,7 +52,7 @@ namespace View
 			_draggedDataFile = Instantiate(_draggedDataFileTemplate);
 			_draggedDataFile.transform.SetParent(GetComponentInParent<Canvas>().transform, worldPositionStays: false);
 			_draggedDataFile.transform.position = transform.position;
-			_draggedDataFile.Show(_robot, _type, _getBytes);
+			_draggedDataFile.Show(Robot, Type, _getBytes);
 		}
 
 		public void OnEndDrag([NotNull] PointerEventData eventData)

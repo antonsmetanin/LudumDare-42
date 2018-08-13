@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
 			robotController.transform.position = _robotSpawnPosition.position;
 		}).AddTo(_disposable);
 
-		game.Robots.Add(new Robot(_defaultRobotTemplate));
+		game.Robots.Add(new Robot(_defaultRobotTemplate, game.GameProgress));
 
 		Observable.EveryUpdate().Where(_ => Input.GetKeyDown(KeyCode.A)).Subscribe(_ => game.GameProgress.DataCollected.Value++);
 
