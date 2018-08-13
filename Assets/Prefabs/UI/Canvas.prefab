@@ -1207,7 +1207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aaaa9825a4f5484fb7600dfadd4f2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _draggedDataFileTemplate: {fileID: 0}
+  _draggedDataFileTemplate: {fileID: 114238168118866172, guid: e3e3172c19b8ee646b80d500d754b598,
+    type: 2}
 --- !u!114 &114162497792118392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1219,7 +1220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aaaa9825a4f5484fb7600dfadd4f2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _draggedDataFileTemplate: {fileID: 0}
+  _draggedDataFileTemplate: {fileID: 114238168118866172, guid: e3e3172c19b8ee646b80d500d754b598,
+    type: 2}
 --- !u!114 &114184894465443964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3940,7 +3942,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000009205491}
+  m_AnchoredPosition: {x: 0, y: 0.000029278524}
   m_SizeDelta: {x: 0, y: 75.46}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224939063916027158
