@@ -54,6 +54,9 @@ namespace View
 		{
             eventData.pointerEnter?.GetComponent<IDropAccepter<ProgramView>>()?.Accept(this);
 
+			if (eventData.pointerEnter == null)
+				Program.Uninstall();
+
             _draggedProgramView.Dispose();
 		}
 	}
