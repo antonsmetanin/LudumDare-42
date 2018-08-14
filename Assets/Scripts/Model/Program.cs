@@ -65,8 +65,8 @@ namespace Model
             if (_robot == null)
                 return false;
 
-            _robot.LeakedBytes.Value += Mathf.Clamp(LeakBytesPerSecond.Value, 0, _robot.GetFreeSpace());
-            _robot.ProducedBytes.Value += Mathf.Clamp(ProduceBytesPerSecond.Value, 0, _robot.GetFreeSpace());
+            _robot.LeakedBytes.Value += Mathf.Clamp(LeakBytesPerSecond.Value, 0, _robot.FreeSpace.Value);
+            _robot.ProducedBytes.Value += Mathf.Clamp(ProduceBytesPerSecond.Value, 0, _robot.FreeSpace.Value);
 
             return true;
         }
