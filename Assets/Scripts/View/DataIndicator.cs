@@ -18,21 +18,21 @@ namespace View
 
 		private CompositeDisposable _disposable;
 
-		public void Show(GameProgress gameProgress, ReactiveProperty<IOperationResult> pendingAction)
+		public void Show(Game game, ReactiveProperty<IOperationResult> pendingAction)
 		{
 			_disposable = new CompositeDisposable();
 
-			gameProgress.DataCollected
+			game.GameProgress.DataCollected
 				.Subscribe(data =>
 				{
-					_currentDataBar.fillAmount = (float)data / gameProgress.Template.MaxData;
+                    _currentDataBar.fillAmount = (float)data / game.Template.MaxData;
 					_currentDataLabel.text = $"{data} bytes";
 				})
 				.AddTo(_disposable);
 
-			gameProgress.DataCollected.CombineLatest(pendingAction,
+			game.GameProgress.DataCollected.CombineLatest(pendingAction,
 					(data, action) => pendingAction.Value is Program.IPricedOperation pricedOperation ? data - pricedOperation.Price : data)
-				.Subscribe(data => _dataAfterSubstractionBar.fillAmount = (float)data / gameProgress.Template.MaxData)
+				.Subscribe(data => _dataAfterSubstractionBar.fillAmount = (float)data / game.Template.MaxData)
 				.AddTo(_disposable);
 
 			pendingAction.Select(action => action is Program.IPricedOperation pricedOperation ? pricedOperation.Price : 0)

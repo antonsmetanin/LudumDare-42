@@ -2718,6 +2718,7 @@ MonoBehaviour:
   _robotControllerTemplate: {fileID: 114573285998055258, guid: 2326532d97bf4f84fb3c5724d951072a,
     type: 2}
   _robotSpawnPosition: {fileID: 0}
+  _gameTemplate: {fileID: 11400000, guid: ecbb9729fb826a54e8bc89370ddcd636, type: 2}
 --- !u!114 &114703314837339448
 MonoBehaviour:
   m_ObjectHideFlags: 1

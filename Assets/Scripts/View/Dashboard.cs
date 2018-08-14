@@ -15,14 +15,14 @@ namespace View
 
         public ReactiveProperty<IOperationResult> PendingAction = new ReactiveProperty<IOperationResult>();
 
-        public void Show(GameProgress gameProgress)
+        public void Show(Game game)
         {
             _disposable = new CompositeDisposable();
 
-            _dataIndicator.Show(gameProgress, PendingAction);
+            _dataIndicator.Show(game, PendingAction);
             _dataIndicator.AddTo(_disposable);
 
-            _palette.Show(gameProgress, PendingAction);
+            _palette.Show(game.GameProgress, PendingAction);
             _palette.AddTo(_disposable);
         }
 

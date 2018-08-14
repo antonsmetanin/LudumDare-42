@@ -18,11 +18,13 @@ public class GameController : MonoBehaviour
 	[SerializeField] private RobotController _robotControllerTemplate;
 	[SerializeField] private Transform _robotSpawnPosition;
 
+    [SerializeField] private GameTemplate _gameTemplate;
+
 	private void Start()
 	{
         _disposable = new CompositeDisposable();
 
-		var game = new Game(_defaultGameProgress);
+		var game = new Game(_gameTemplate, new GameProgress(_defaultGameProgress));
 
 		MainApplication.Instance.Game = game;
 
@@ -34,7 +36,7 @@ public class GameController : MonoBehaviour
 				_robotView.Dispose();
 		}).AddTo(_disposable);
 
-        _dashboard.Show(game.GameProgress);
+        _dashboard.Show(game);
         _dashboard.AddTo(_disposable);
 
 		game.Robots.ObserveAdd().Subscribe(addRobot =>
