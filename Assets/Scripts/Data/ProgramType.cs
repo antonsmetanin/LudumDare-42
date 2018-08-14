@@ -5,6 +5,7 @@
 		Walk,
 		Cut,
 		Gather,
-		Protect
+		Protect,
+        Sync
 	}
 }
