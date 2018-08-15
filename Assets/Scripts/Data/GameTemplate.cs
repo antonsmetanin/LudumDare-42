@@ -8,5 +8,7 @@ namespace Data
         public ProgramTemplate[] AllPrograms;
         public int MaxData;
         public float MemoryIndicationScale;
+        public int RobotPrice;
+        public RobotTemplate RobotTemplate;
     }
 }

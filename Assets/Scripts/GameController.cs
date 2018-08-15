@@ -13,7 +13,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private Dashboard _dashboard;
 
 	[SerializeField] private GameProgressTemplate _defaultGameProgress;
-	[SerializeField] private RobotTemplate _defaultRobotTemplate;
 
 	[SerializeField] private RobotController _robotControllerTemplate;
 	[SerializeField] private Transform _robotSpawnPosition;
@@ -31,7 +30,7 @@ public class GameController : MonoBehaviour
 		game.SelectedRobot.Subscribe(robot =>
 		{
 			if (robot != null && !_robotView.gameObject.activeSelf)
-				_robotView.Show(game, game.Robots[0], robot.Transform, Camera.main);
+				_robotView.Show(game, robot, robot.Transform, Camera.main);
 			else if (robot == null && _robotView.gameObject.activeSelf)
 				_robotView.Dispose();
 		}).AddTo(_disposable);
@@ -48,7 +47,7 @@ public class GameController : MonoBehaviour
 			robotController.transform.position = _robotSpawnPosition.position;
 		}).AddTo(_disposable);
 
-		game.Robots.Add(new Robot(_defaultRobotTemplate, game.GameProgress));
+		game.Robots.Add(new Robot(game.Template.RobotTemplate, game.GameProgress));
 	}
 
     //private void OnDestroy() => _disposable.Dispose();

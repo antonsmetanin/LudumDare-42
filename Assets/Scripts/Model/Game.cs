@@ -43,5 +43,19 @@ namespace Model
                 
             return new BuyResult(price);
         }
+
+        public Result<BuyResult> BuyRobot(bool simulate = false)
+        {
+            if (GameProgress.DataCollected.Value < Template.RobotPrice)
+                return new Program.NotEnoughDataError();
+
+            if (!simulate)
+            {
+                Robots.Add(new Robot(Template.RobotTemplate, GameProgress));
+                GameProgress.DataCollected.Value -= Template.RobotPrice;
+            }
+
+            return new BuyResult(Template.RobotPrice);
+        }
     }
 }

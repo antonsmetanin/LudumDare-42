@@ -19,3 +19,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 56a532224977eef41b4673bd4eee8dc2, type: 2}
   MaxData: 300
   MemoryIndicationScale: 0.01
+  RobotPrice: 10
+  RobotTemplate: {fileID: 11400000, guid: f91d013033b221b4bae3c39ece424b90, type: 2}

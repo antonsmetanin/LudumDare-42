@@ -2,6 +2,7 @@
 using System;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 
 namespace View
@@ -10,6 +11,7 @@ namespace View
     {
         [SerializeField] private ProgramPalette _palette;
         [SerializeField] private DataIndicator _dataIndicator;
+        [SerializeField] private Button _buyBotButton;
 
         private CompositeDisposable _disposable;
 
@@ -24,6 +26,10 @@ namespace View
 
             _palette.Show(game, PendingAction);
             _palette.AddTo(_disposable);
+
+            _buyBotButton.OnClickAsObservable()
+                .Subscribe(_ => game.BuyRobot())
+                .AddTo(_disposable);
         }
 
         public void Dispose() => _disposable.Dispose();
