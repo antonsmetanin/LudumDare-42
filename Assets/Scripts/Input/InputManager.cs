@@ -85,7 +85,7 @@ public class InputManager : MonoBehaviour
     private void ControlCamera(Vector2 mousePosition)
     {
         var scale = Input.GetAxis("Mouse ScrollWheel");
-        if (Mathf.Abs(scale) > Mathf.Epsilon)
+        if (!EventSystem.current.IsPointerOverGameObject() && Mathf.Abs(scale) > Mathf.Epsilon)
         {
             _cameraController.Scale(-scale * 100);
         }
