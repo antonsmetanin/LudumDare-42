@@ -24,7 +24,9 @@ public class WinLoseConditions : MonoBehaviour
 	public EGameStatus GameStatus;
 	public FloatReactiveProperty FloodLevel = new FloatReactiveProperty();
 	public FloatReactiveProperty Wood = new FloatReactiveProperty(30);
-	[SerializeField] private float _woodGoal = 1000;
+	public FloatReactiveProperty Ark = new FloatReactiveProperty(30);
+
+	[SerializeField] private float _arkGoal = 1000;
 
 
 	[SerializeField] private List<float> _floodLevels;
@@ -41,6 +43,8 @@ public class WinLoseConditions : MonoBehaviour
 
 
 	[SerializeField] private Image _arkBar;
+	[SerializeField] private Image _woodBar;
+
 	[SerializeField] private Image _timerBar;
 	[SerializeField] private Text _floodText;
 

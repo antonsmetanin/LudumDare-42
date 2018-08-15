@@ -8870,16 +8870,6 @@ Prefab:
       propertyPath: _robotSpawnPosition
       value: 
       objectReference: {fileID: 1913203726}
-    - target: {fileID: 114441157264835864, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
-        type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114441157264835864, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114961206368498790, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
         type: 2}
       propertyPath: m_havePropertiesChanged
@@ -8896,6 +8886,16 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114521022047383414, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114441157264835864, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114441157264835864, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
@@ -8919,36 +8919,16 @@ Prefab:
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224903474397424970, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.000043168642
-      objectReference: {fileID: 0}
-    - target: {fileID: 224809747582098690, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114669947844639456, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
-        type: 2}
-      propertyPath: _robotControllerTemplate
-      value: 
-      objectReference: {fileID: 114573285998055258, guid: 2326532d97bf4f84fb3c5724d951072a,
-        type: 2}
-    - target: {fileID: 224809747582098690, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224625751279638776, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
-        type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 0.000000059604645
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5332f5e7c38ece648a31bdf5670f5f2d, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &845503118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114533624317960488, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+    type: 2}
+  m_PrefabInternal: {fileID: 845503117}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!4 &863175033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4297989447025288, guid: 1bc7f57f7cdfa8044aafdebb675db170,
@@ -11641,7 +11621,9 @@ MonoBehaviour:
     value: 0
   Wood:
     value: 30
-  _woodGoal: 1000
+  Ark:
+    value: 30
+  _arkGoal: 1000
   _floodLevels:
   - 2.35
   - 3.3
@@ -11654,6 +11636,7 @@ MonoBehaviour:
   - 9.3
   _flood: {fileID: 1724091711}
   _arkBar: {fileID: 1424859928}
+  _woodBar: {fileID: 845503118}
   _timerBar: {fileID: 227370282}
   _floodText: {fileID: 756012213}
 --- !u!1001 &1127491414
@@ -19568,7 +19551,7 @@ Prefab:
   m_IsPrefabAsset: 0
 --- !u!114 &1424859928 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114533624317960488, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+  m_CorrespondingSourceObject: {fileID: 114785231451523190, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
     type: 2}
   m_PrefabInternal: {fileID: 845503117}
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
