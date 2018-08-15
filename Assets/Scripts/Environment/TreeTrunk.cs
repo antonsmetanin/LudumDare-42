@@ -14,6 +14,7 @@ public class TreeTrunk : MonoBehaviour
     }
 
     public CollectPoint[] CollectPoints;
+    public GameObject[] Parts;
     public bool IsDead;
 
     private void OnTriggerEnter(Collider other)
@@ -21,6 +22,15 @@ public class TreeTrunk : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             IsDead = true;
+
+            for (int i = 0; i < Parts.Length; i++)
+            {
+                Parts[i].transform.SetParent(null);
+                Parts[i].SetActive(true);
+                Parts[i].GetComponent<Rigidbody>().AddForce(Vector3.up * 5, ForceMode.VelocityChange);
+            }
+
+            gameObject.SetActive(false);
         }
     }
 
