@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour
 		game.SelectedRobot.Subscribe(robot =>
 		{
 			if (robot != null && !_robotView.gameObject.activeSelf)
-				_robotView.Show(game.Robots[0], robot.Transform, Camera.main);
+				_robotView.Show(game, game.Robots[0], robot.Transform, Camera.main);
 			else if (robot == null && _robotView.gameObject.activeSelf)
 				_robotView.Dispose();
 		}).AddTo(_disposable);

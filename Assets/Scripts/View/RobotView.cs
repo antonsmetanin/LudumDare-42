@@ -24,7 +24,7 @@ namespace View
 
         public Robot Robot;
 
-		public void Show(Robot robot, Transform robotTransform, Camera mainCamera)
+		public void Show(Game game, Robot robot, Transform robotTransform, Camera mainCamera)
 		{
             _disposable = new CompositeDisposable();
 
@@ -32,26 +32,26 @@ namespace View
 
             Robot = robot;
 
-			Observable.EveryUpdate().Merge(Observable.Return(0l))
+			Observable.EveryUpdate().Merge(Observable.Return(0L))
 				.Subscribe(_ => transform.position = mainCamera.WorldToScreenPoint(robotTransform.position) + new Vector3(0f, 100f))
 				.AddTo(_disposable);
 
 			robot.MemorySize
-				.Subscribe(x => ((RectTransform)transform).sizeDelta = new Vector2(x + 8, ((RectTransform)transform).sizeDelta.y))
+				.Subscribe(x => ((RectTransform)transform).sizeDelta = new Vector2(Mathf.FloorToInt(x * game.Template.MemoryIndicationScale) + 8, ((RectTransform)transform).sizeDelta.y))
 				.AddTo(_disposable);
 
 			robot.Programs
-				.CreateView(_programViewTemplate, _memoryTransform, (view, program) => view.Show(program))
+				.CreateView(_programViewTemplate, _memoryTransform, (view, program) => view.Show(game, program))
 				.AddTo(_disposable);
 
 			robot.Broken
 				.Subscribe(broken => _statusLabel.text = broken ? "Out Of Memory Exception_" : "OK_")
 				.AddTo(_disposable);
 
-			_leakedDataView.Show(robot, DataFileView.DataFileType.Leak, () => robot.LeakedBytes.Value);
+			_leakedDataView.Show(game, robot, DataFileView.DataFileType.Leak, () => robot.LeakedBytes.Value);
 			_leakedDataView.AddTo(_disposable);
 
-			_producedDataView.Show(robot, DataFileView.DataFileType.Produce, () => robot.ProducedBytes.Value);
+			_producedDataView.Show(game, robot, DataFileView.DataFileType.Produce, () => robot.ProducedBytes.Value);
 			_producedDataView.AddTo(_disposable);
 
 			robot.Programs.CountProperty()

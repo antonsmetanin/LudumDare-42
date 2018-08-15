@@ -18,16 +18,19 @@ namespace View
         private CompositeDisposable _disposable;
 
 		private DraggedProgramView _draggedProgramView;
+        private Game _game;
 		public Program Program;
 
-		public void Show(Program program)
+		public void Show(Game game, Program program)
 		{
             _disposable = new CompositeDisposable();
+
+            _game = game;
 
             GetComponent<Image>().color = program.Template.Color;
 			_nameLabel.faceColor = program.Template.TextColor;
 
-			program.MemorySize.Subscribe(size => ((RectTransform)transform).sizeDelta = new Vector2(size, ((RectTransform)transform).sizeDelta.y)).AddTo(_disposable);
+			program.MemorySize.Subscribe(size => ((RectTransform)transform).sizeDelta = new Vector2(Mathf.FloorToInt(size * game.Template.MemoryIndicationScale), ((RectTransform)transform).sizeDelta.y)).AddTo(_disposable);
 			program.Name.Subscribe(x => _nameLabel.text = x).AddTo(_disposable);
 
 			Program = program;
@@ -47,7 +50,7 @@ namespace View
 			_draggedProgramView = Instantiate(_draggedProgramTemplate);
 			_draggedProgramView.transform.SetParent(GetComponentInParent<Canvas>().transform, worldPositionStays: false);
 			_draggedProgramView.transform.position = transform.position;
-			_draggedProgramView.Show(Program);
+			_draggedProgramView.Show(_game, Program);
 		}
 
 		public void OnEndDrag([NotNull] PointerEventData eventData)

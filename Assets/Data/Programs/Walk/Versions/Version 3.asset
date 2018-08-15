@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4245ed95da6111a438f435302d3314ba, type: 3}
   m_Name: Version 3
   m_EditorClassIdentifier: 
-  ProduceBytesPerSecond: 3
-  LeakBytesPerSecond: 10
-  MemorySize: 77
+  ProduceBytesPerSecond: 30
+  LeakBytesPerSecond: 20
+  MemorySize: 12000
   Description: It walks, no!
-  Price: 10
+  Price: 60

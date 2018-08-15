@@ -7,5 +7,6 @@ namespace Data
     {
         public ProgramTemplate[] AllPrograms;
         public int MaxData;
+        public float MemoryIndicationScale;
     }
 }

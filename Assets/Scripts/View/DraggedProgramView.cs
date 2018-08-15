@@ -10,10 +10,10 @@ namespace View
 	{
         public Program Program;
 
-		public void Show(Program program)
+		public void Show(Game game, Program program)
 		{
             Program = program;
-			((RectTransform)transform).sizeDelta = new Vector2(program.CurrentVersion.Value.MemorySize, ((RectTransform)transform).sizeDelta.y);
+			((RectTransform)transform).sizeDelta = new Vector2(Mathf.FloorToInt(program.CurrentVersion.Value.MemorySize * game.Template.MemoryIndicationScale), ((RectTransform)transform).sizeDelta.y);
             GetComponentInChildren<TMPro.TextMeshProUGUI>().text = program.Template.Name;
 		}
 

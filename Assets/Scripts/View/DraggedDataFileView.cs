@@ -10,10 +10,10 @@ namespace View
 	{
 		public Robot Robot;
 
-		public void Show(Robot robot, DataFileView.DataFileType type, Func<int> getBytes)
+		public void Show(Game game, Robot robot, DataFileView.DataFileType type, Func<int> getBytes)
 		{
 			Robot = robot;
-			((RectTransform)transform).sizeDelta = new Vector2(getBytes(), ((RectTransform)transform).sizeDelta.y);
+			((RectTransform)transform).sizeDelta = new Vector2((getBytes() * game.Template.MemoryIndicationScale), ((RectTransform)transform).sizeDelta.y);
 			GetComponentInChildren<TMPro.TextMeshProUGUI>().text = type == DataFileView.DataFileType.Leak ? "Leak" : "Produce";
 		}
 

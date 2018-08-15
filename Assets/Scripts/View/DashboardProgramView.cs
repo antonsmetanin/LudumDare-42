@@ -20,27 +20,27 @@ namespace View
 
         private CompositeDisposable _disposable;
 
-		public void Show(Program program, GameProgress gameProgress, ReactiveProperty<IOperationResult> pendingAction)
+		public void Show(Program program, Game game, ReactiveProperty<IOperationResult> pendingAction)
 		{
             _disposable = new CompositeDisposable();
 
-            _programView.Show(program);
+            _programView.Show(game, program);
 			_programView.AddTo(_disposable);
 
 			_description.text = program.CurrentVersion.Value.Description;
 
 			program.CurrentVersion.Subscribe(_ => _upgradeButton.GetComponentInChildren<Text>().text = "v" + (program.GetCurrentVersionIndex() + 2));
 
-			_upgradeButton.OnClickAsObservable().Subscribe(_ => program.Upgrade(gameProgress)).AddTo(_disposable);
-			_patchButton.OnClickAsObservable().Subscribe(_ => program.Patch(gameProgress)).AddTo(_disposable);
+			_upgradeButton.OnClickAsObservable().Subscribe(_ => program.Upgrade(game.GameProgress)).AddTo(_disposable);
+			_patchButton.OnClickAsObservable().Subscribe(_ => program.Patch(game.GameProgress)).AddTo(_disposable);
 
-			program.CanUpgrade(gameProgress).Subscribe(upgradeResult =>
+			program.CanUpgrade(game.GameProgress).Subscribe(upgradeResult =>
 			{
 				_upgradeButton.interactable = upgradeResult.Error == null;
 				_upgradeButton.gameObject.SetActive(!(upgradeResult.Error is Program.FinalVersionReachedError));
 			}).AddTo(_disposable);
 
-			program.CanPatch(gameProgress).Subscribe(patchResult =>
+			program.CanPatch(game.GameProgress).Subscribe(patchResult =>
 			{
 				_patchButton.interactable = patchResult.Error == null;
 				_patchButton.gameObject.SetActive(!(patchResult.Error is Program.FinalVersionReachedError));
@@ -52,16 +52,16 @@ namespace View
 
 			program.MemorySize.Subscribe(size =>
 			{
-				_sizeIndicator.sizeDelta = new Vector2(size, _sizeIndicator.sizeDelta.y);
-				_sizeIndicatorLabel.text = $"  {size}kb   ";
+				_sizeIndicator.sizeDelta = new Vector2(Mathf.FloorToInt(size * game.Template.MemoryIndicationScale), _sizeIndicator.sizeDelta.y);
+				_sizeIndicatorLabel.text = $"  {size / 1024}kb   ";
 			}).AddTo(_disposable);
 
 			_upgradeButton.gameObject.GetComponent<HoverTrigger>().Hovered
-				.Subscribe(hovered => pendingAction.Value = hovered ? program.Upgrade(gameProgress, simulate: true).Value : null)
+				.Subscribe(hovered => pendingAction.Value = hovered ? program.Upgrade(game.GameProgress, simulate: true).Value : null)
 				.AddTo(_disposable);
 
 			_patchButton.gameObject.GetComponent<HoverTrigger>().Hovered
-				.Subscribe(hovered => pendingAction.Value = hovered ? program.Patch(gameProgress, simulate: true).Value : null)
+				.Subscribe(hovered => pendingAction.Value = hovered ? program.Patch(game.GameProgress, simulate: true).Value : null)
 				.AddTo(_disposable);
 		}
 

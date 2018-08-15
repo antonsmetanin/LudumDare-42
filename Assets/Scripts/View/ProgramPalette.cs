@@ -21,7 +21,7 @@ namespace View
             _disposable = new CompositeDisposable();
 
             game.GameProgress.AvailablePrograms
-                    .CreateView(_programViewTemplate, _programsParent, (view, program) => view.Show(program, game.GameProgress, pendingAction))
+                    .CreateView(_programViewTemplate, _programsParent, (view, program) => view.Show(program, game, pendingAction))
                     .AddTo(_disposable);
 
             game.Template.AllPrograms
