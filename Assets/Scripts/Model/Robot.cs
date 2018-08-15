@@ -13,15 +13,12 @@ namespace Model
         public UnityEngine.Transform Transform;
         private GameProgress _gameProgress;
 
-//        public IObservable<int> LeakedBytes;
-//        public IObservable<int> ProducedBytes;
-
         public readonly ReactiveProperty<int> LeakedBytes = new ReactiveProperty<int>();
         public readonly ReactiveProperty<int> ProducedBytes = new ReactiveProperty<int>();
 
-        public int GetTotalBytes() => Programs.Sum(x => x.MemorySize.Value) + LeakedBytes.Value + ProducedBytes.Value;
-        public int GetFreeSpace() => MemorySize.Value - GetTotalBytes();
-
+        public readonly IReadOnlyReactiveProperty<int> ProgramBytes;
+        public readonly IReadOnlyReactiveProperty<int> TotalUsedBytes;
+        public readonly IReadOnlyReactiveProperty<int> FreeSpace;
         public readonly IReadOnlyReactiveProperty<bool> Broken;
 
         public Robot(RobotTemplate template, GameProgress gameProgress)
@@ -29,11 +26,23 @@ namespace Model
             MemorySize = new ReactiveProperty<int>(template.InitialMemorySize);
             Programs = new ReactiveCollection<Program>();
 
-            Broken = Programs.CountProperty().SelectMany(_ => Programs
-                .Select(x => x.MemorySize)
-                .CombineLatest()
-                .Select(y => y.Sum())).CombineLatest(LeakedBytes, ProducedBytes, MemorySize,
-                (memory, leaked, produced, total) => memory + leaked + produced >= total).ToReactiveProperty();
+            ProgramBytes = Programs.CountProperty()
+                .SelectMany(_ => Programs
+                    .Select(x => x.MemorySize)
+                    .CombineLatest()
+                    .Select(y => y.Sum()))
+                .ToReactiveProperty();
+
+            TotalUsedBytes = ProgramBytes.CombineLatest(LeakedBytes, ProducedBytes,
+                (programs, leaked, produced) => programs + leaked + produced)
+                .ToReactiveProperty();
+
+            FreeSpace = TotalUsedBytes.CombineLatest(MemorySize,
+                (used, memory) => memory - used)
+                .ToReactiveProperty();
+
+            Broken = FreeSpace.Select(x => x <= 0)
+                .ToReactiveProperty();
 
             _gameProgress = gameProgress;
         }
