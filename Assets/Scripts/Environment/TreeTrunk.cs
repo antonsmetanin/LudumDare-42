@@ -13,6 +13,8 @@ public class TreeTrunk : MonoBehaviour
         public float Count;
     }
 
+    public Collider FallCollider;
+    public Collider InteractionCollider;
     public CollectPoint[] CollectPoints;
     public GameObject[] Parts;
     public bool IsDead;
@@ -22,15 +24,16 @@ public class TreeTrunk : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             IsDead = true;
-
-            for (int i = 0; i < Parts.Length; i++)
+            InteractionCollider.enabled = true;
+            FallCollider.enabled = false;
+            /*for (int i = 0; i < Parts.Length; i++)
             {
                 Parts[i].transform.SetParent(null);
                 Parts[i].SetActive(true);
                 Parts[i].GetComponent<Rigidbody>().AddForce(Vector3.up * 5, ForceMode.VelocityChange);
             }
 
-            gameObject.SetActive(false);
+            gameObject.SetActive(false);*/
         }
     }
 

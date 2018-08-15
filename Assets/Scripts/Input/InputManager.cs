@@ -64,6 +64,11 @@ public class InputManager : MonoBehaviour
             movement.x -= 1;
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            MainApplication.Instance.MainCharacterDrag();
+        }
+
         if (Input.GetKey(KeyCode.Space))
         {
             MainApplication.Instance.MainCharacterSpin();

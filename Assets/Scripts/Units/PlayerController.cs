@@ -7,6 +7,9 @@ public class PlayerController : UnitControllerBase
 
     public float RotationSpeed;
     public Animator Animator;
+    public Joint Joint;
+    public SphereCollider InteractionCollider;
+    public LayerMask InteractionLayer;
 
     public override void Move(Vector2 movement)
     {
@@ -15,17 +18,12 @@ public class PlayerController : UnitControllerBase
 
 
         Animator.SetBool("walk", charMove.sqrMagnitude > 0);
-
+        Animator.SetBool("drag", Joint.connectedBody != null);
 
         if (charMove.sqrMagnitude > 0)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(charMove, Vector3.up), Time.deltaTime * RotationSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Joint.connectedBody != null ? - charMove : charMove, Vector3.up), Time.deltaTime * RotationSpeed);
         }
-    }
-
-    private void Update()
-    {
-
     }
 
     private Coroutine cut;
@@ -37,8 +35,6 @@ public class PlayerController : UnitControllerBase
             Animator.SetBool("cut", true);
             cut = StartCoroutine(Co_cut());
         }
-
-
     }
 
     public float CutRadius = 1f;
@@ -56,5 +52,37 @@ public class PlayerController : UnitControllerBase
             tree.Cut(CutForce, (tree.transform.position - transform.position).normalized );
         yield return new WaitForSeconds(CutCooldown);
         cut = null;
+    }
+
+    public void FindDragTarget()
+    {
+        if (_interactive[0] != null)
+        {
+            Debug.Log(_interactive[0]);
+            Joint.connectedBody = _interactive[0].GetComponentInParent<Rigidbody>();
+            Drag = true;
+        }
+    }
+
+    private bool _drag;
+    private bool Drag
+    {
+        get { return _drag; }
+        set
+        {
+            _drag = value;
+            _movable.LinearSpeed = _drag ? SpeedDrag : SpeedNormal;
+        }
+    }
+
+    public float SpeedDrag = .04f;
+    public float SpeedNormal = .1f;
+    private Collider[] _interactive = new Collider[3];
+    public bool InteractionAvailable =  false;
+
+    private void Update()
+    {
+        var count = Physics.OverlapSphereNonAlloc(InteractionCollider.transform.position, InteractionCollider.radius, _interactive, InteractionLayer);
+        InteractionAvailable = count > 0;
     }
 }

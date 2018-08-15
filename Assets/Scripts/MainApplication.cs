@@ -79,4 +79,9 @@ public class MainApplication : MonoBehaviour
     {
         CurrentPlayer.Spin();
     }
+
+    public void MainCharacterDrag()
+    {
+        CurrentPlayer.FindDragTarget();
+    }
 }

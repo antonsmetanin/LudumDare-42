@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114756058375721048}
   - component: {fileID: 54488296253582222}
   - component: {fileID: 65815913603767622}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: spruce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 114420119873568718}
   - component: {fileID: 54582712802070048}
   - component: {fileID: 65339885155095954}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: spruce2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 114868877489865816}
   - component: {fileID: 54508968252709354}
   - component: {fileID: 65554187773163632}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: spruce1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 114870285457223596}
   - component: {fileID: 54253718600743914}
   - component: {fileID: 65709966481911952}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: spruce3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,8 +121,24 @@ GameObject:
   - component: {fileID: 114783077894005448}
   - component: {fileID: 135133580950516634}
   - component: {fileID: 65144275538507784}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: spruce
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1781485065321630
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4260006471411270}
+  - component: {fileID: 135466946693241118}
+  m_Layer: 14
+  m_Name: InteractionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +180,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4260006471411270
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781485065321630}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_Children: []
+  m_Father: {fileID: 4555898974737962}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4271590176955430
 Transform:
   m_ObjectHideFlags: 1
@@ -217,6 +246,7 @@ Transform:
   - {fileID: 4606345479648664}
   - {fileID: 4630572595296228}
   - {fileID: 4487441697694612}
+  - {fileID: 4260006471411270}
   m_Father: {fileID: 4812433077729728}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -252,16 +282,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499392286943350}
-  m_LocalRotation: {x: -0.029880155, y: 0.016266247, z: 0.436014, w: 0.89929664}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.008003197, y: 0.054862686, z: -0.105617106, w: 0.9928601}
+  m_LocalPosition: {x: -18.97, y: -50.7, z: 3.89}
+  m_LocalScale: {x: 1.2423468, y: 1.2423487, z: 1.1594793}
   m_Children:
   - {fileID: 4423886820499134}
   - {fileID: 4555898974737962}
   - {fileID: 4271590176955430}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -3.8950002, y: 0.18400002, z: 51.726}
+  m_LocalEulerAnglesHint: {x: -0.24700001, y: 6.352, z: -12.158001}
 --- !u!4 &4957835518235528
 Transform:
   m_ObjectHideFlags: 1
@@ -755,6 +785,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e0d9d5536d6b540a3609072745c9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FallCollider: {fileID: 135133580950516634}
+  InteractionCollider: {fileID: 135466946693241118}
   CollectPoints:
   - Point: {x: -0.22, y: 7.21, z: 0.46}
     Count: 5
@@ -808,6 +840,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.8
   m_Center: {x: -0.10421431, y: -0.071689144, z: 8.5}
+--- !u!135 &135466946693241118
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781485065321630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136832797406061640
 CapsuleCollider:
   m_ObjectHideFlags: 1
