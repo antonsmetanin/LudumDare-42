@@ -13,6 +13,9 @@ namespace View
         [SerializeField] private DataIndicator _dataIndicator;
         [SerializeField] private Button _buyBotButton;
 
+        [SerializeField] private DashboardRobotView _robotViewTemplate;
+        [SerializeField] private RectTransform _robotViewParent;
+
         private CompositeDisposable _disposable;
 
         public ReactiveProperty<IOperationResult> PendingAction = new ReactiveProperty<IOperationResult>();
@@ -33,6 +36,9 @@ namespace View
 
             _buyBotButton.OnClickAsObservable()
                 .Subscribe(_ => game.BuyRobot())
+                .AddTo(_disposable);
+
+            game.Robots.CreateView(_robotViewTemplate, _robotViewParent, (view, robot) => view.Show(game, robot))
                 .AddTo(_disposable);
 
             _buyBotButton.gameObject.GetComponent<HoverTrigger>().Hovered

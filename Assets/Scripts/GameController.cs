@@ -29,10 +29,11 @@ public class GameController : MonoBehaviour
 
 		game.SelectedRobot.Subscribe(robot =>
 		{
-			if (robot != null && !_robotView.gameObject.activeSelf)
+            if (_robotView.gameObject.activeSelf)
+                _robotView.Dispose();
+
+            if (robot != null)
 				_robotView.Show(game, robot, robot.Transform, Camera.main);
-			else if (robot == null && _robotView.gameObject.activeSelf)
-				_robotView.Dispose();
 		}).AddTo(_disposable);
 
         _dashboard.Show(game);

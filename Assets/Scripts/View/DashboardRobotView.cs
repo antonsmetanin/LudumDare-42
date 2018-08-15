@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,9 +14,13 @@ namespace View
 
         private CompositeDisposable _disposable;
 
-        public void Show()
+        public void Show(Game game, Robot robot)
         {
             _disposable = new CompositeDisposable();
+
+            _selectButton.OnClickAsObservable()
+                .Subscribe(_ => game.SelectedRobot.Value = robot)
+                .AddTo(_disposable);
         }
 
         public void Dispose() => _disposable.Dispose();

@@ -3021,6 +3021,9 @@ MonoBehaviour:
   _palette: {fileID: 114539344405730596}
   _dataIndicator: {fileID: 114223470855461436}
   _buyBotButton: {fileID: 114277102742819242}
+  _robotViewTemplate: {fileID: 114492178816186978, guid: e9924da80ef71214c8a7d10a4ff448b6,
+    type: 2}
+  _robotViewParent: {fileID: 224449233737280848}
 --- !u!114 &114812271163141362
 MonoBehaviour:
   m_ObjectHideFlags: 1

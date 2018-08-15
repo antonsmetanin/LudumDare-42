@@ -19,6 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224749789062596326}
+  - component: {fileID: 114492178816186978}
+  - component: {fileID: 114276460756699488}
   m_Layer: 5
   m_Name: Dashboard Robot
   m_TagString: Untagged
@@ -44,6 +46,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114276460756699488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1303858657924014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -405508275, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
 --- !u!114 &114356486413554956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -112,6 +136,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114492178816186978
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1303858657924014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de93d342fd0c234485f41ff3aac22af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectButton: {fileID: 114356486413554956}
+  _memoryUpgradeViewTemplate: {fileID: 0}
+  _memoryUpgradeParent: {fileID: 0}
 --- !u!222 &222302215040286810
 CanvasRenderer:
   m_ObjectHideFlags: 1
