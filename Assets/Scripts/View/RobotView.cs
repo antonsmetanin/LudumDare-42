@@ -33,7 +33,7 @@ namespace View
             Robot = robot;
 
 			Observable.EveryUpdate().Merge(Observable.Return(0L))
-				.Subscribe(_ => transform.position = mainCamera.WorldToScreenPoint(robotTransform.position) + new Vector3(0f, 100f))
+				.Subscribe(_ => transform.position = mainCamera.WorldToScreenPoint(robotTransform.position) + new Vector3(0f, 150f))
 				.AddTo(_disposable);
 
 			robot.MemorySize
