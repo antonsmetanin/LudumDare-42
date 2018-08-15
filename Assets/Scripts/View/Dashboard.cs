@@ -22,7 +22,7 @@ namespace View
             _dataIndicator.Show(game, PendingAction);
             _dataIndicator.AddTo(_disposable);
 
-            _palette.Show(game.GameProgress, PendingAction);
+            _palette.Show(game, PendingAction);
             _palette.AddTo(_disposable);
         }
 

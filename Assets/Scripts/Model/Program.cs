@@ -16,9 +16,7 @@ namespace Model
         public readonly ReactiveCollection<PatchTemplate> InstalledPatches;
 
         public readonly IReadOnlyReactiveProperty<int> MemorySize;
-
         public readonly IReadOnlyReactiveProperty<string> Name;
-
         public readonly IReadOnlyReactiveProperty<int> LeakBytesPerSecond;
         public readonly IReadOnlyReactiveProperty<int> ProduceBytesPerSecond;
 
@@ -146,6 +144,10 @@ namespace Model
 
             return new PatchResult(nextPatch.Price);
         }
+
+        
+
+
     }
 }
 

@@ -1,5 +1,7 @@
 ﻿using Data;
+using System;
 using UniRx;
+using Utils;
 
 namespace Model
 {
@@ -14,6 +16,32 @@ namespace Model
         {
             Template = gameTemplate;
             GameProgress = gameProgress;
+        }
+
+        public class BuyResult : Program.IPricedOperation
+        {
+            public int Price { get; }
+
+            public BuyResult(int price) => Price = price;
+        }
+
+        public IObservable<Result<BuyResult>> CanUpgrade(ProgramTemplate programTemplate)
+            => GameProgress.DataCollected.Select(_ => Buy(programTemplate, simulate: true));
+
+        public Result<BuyResult> Buy(ProgramTemplate programTemplate, bool simulate = false)
+        {
+            var price = programTemplate.Versions[0].Price;
+
+            if (GameProgress.DataCollected.Value < price)
+                return new Program.NotEnoughDataError();
+
+            if (!simulate)
+            {
+                GameProgress.AvailablePrograms.Add(new Program(programTemplate));
+                GameProgress.DataCollected.Value -= price;
+            }
+                
+            return new BuyResult(price);
         }
     }
 }
