@@ -665,6 +665,7 @@ GameObject:
   - component: {fileID: 222187429363189140}
   - component: {fileID: 114945028535115788}
   - component: {fileID: 114277102742819242}
+  - component: {fileID: 114658009775939170}
   m_Layer: 0
   m_Name: Buy Robot Button
   m_TagString: Untagged
@@ -1852,7 +1853,7 @@ MonoBehaviour:
     m_Left: 4
     m_Right: 0
     m_Top: 3
-    m_Bottom: 0
+    m_Bottom: 32
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -2845,6 +2846,17 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &114658009775939170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768410660903150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7884cd33408bab14ebd3173c47fc8e12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114663415260449430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4546,7 +4558,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.000015258789, y: -0.0000005083017}
-  m_SizeDelta: {x: 0, y: 109.46}
+  m_SizeDelta: {x: 0, y: 141.45999}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224939063916027158
 RectTransform:

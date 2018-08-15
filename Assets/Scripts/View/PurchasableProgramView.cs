@@ -27,10 +27,10 @@ namespace View
             _description.text = programTemplate.Versions[0].Description;
 
             _button.OnClickAsObservable()
-                .Subscribe(_ => game.Buy(programTemplate))
+                .Subscribe(_ => game.BuyProgram(programTemplate))
                 .AddTo(_disposable);
 
-            game.CanUpgrade(programTemplate)
+            game.CanBuyProgram(programTemplate)
                 .Subscribe(canUpgrade => _button.interactable = canUpgrade.Error == null)
                 .AddTo(_disposable);
 
@@ -40,7 +40,7 @@ namespace View
                 .AddTo(_disposable);
 
             _button.gameObject.GetComponent<HoverTrigger>().Hovered
-                .Subscribe(hovered => pendingAction.Value = hovered ? game.Buy(programTemplate, simulate: true).Value : null)
+                .Subscribe(hovered => pendingAction.Value = hovered ? game.BuyProgram(programTemplate, simulate: true).Value : null)
                 .AddTo(_disposable);
         }
 

@@ -27,8 +27,16 @@ namespace View
             _palette.Show(game, PendingAction);
             _palette.AddTo(_disposable);
 
+            game.CanBuyRobot()
+                .Subscribe(canBuy => _buyBotButton.interactable = canBuy.Error == null)
+                .AddTo(_disposable);
+
             _buyBotButton.OnClickAsObservable()
                 .Subscribe(_ => game.BuyRobot())
+                .AddTo(_disposable);
+
+            _buyBotButton.gameObject.GetComponent<HoverTrigger>().Hovered
+                .Subscribe(hovered => PendingAction.Value = hovered ? game.BuyRobot(simulate: true).Value : null)
                 .AddTo(_disposable);
         }
 

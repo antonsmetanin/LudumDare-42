@@ -25,10 +25,10 @@ namespace Model
             public BuyResult(int price) => Price = price;
         }
 
-        public IObservable<Result<BuyResult>> CanUpgrade(ProgramTemplate programTemplate)
-            => GameProgress.DataCollected.Select(_ => Buy(programTemplate, simulate: true));
+        public IObservable<Result<BuyResult>> CanBuyProgram(ProgramTemplate programTemplate)
+            => GameProgress.DataCollected.Select(_ => BuyProgram(programTemplate, simulate: true));
 
-        public Result<BuyResult> Buy(ProgramTemplate programTemplate, bool simulate = false)
+        public Result<BuyResult> BuyProgram(ProgramTemplate programTemplate, bool simulate = false)
         {
             var price = programTemplate.Versions[0].Price;
 
@@ -43,6 +43,9 @@ namespace Model
                 
             return new BuyResult(price);
         }
+
+        public IObservable<Result<BuyResult>> CanBuyRobot()
+            => GameProgress.DataCollected.Select(_ => BuyRobot(simulate: true));
 
         public Result<BuyResult> BuyRobot(bool simulate = false)
         {
