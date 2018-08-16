@@ -63,6 +63,7 @@ public class WorldObjects : MonoBehaviour
 
         _trees = FindObjectsOfType<Tree>().ToList();
         _worldObjects[typeof(Tree)] = _trees.Cast<MonoBehaviour>().ToList();
+        _worldObjects[typeof(Ark)] = new List<MonoBehaviour>() { FindObjectOfType<Ark>() };
 
         foreach (var tree in _trees)
             tree.OnDead += TreeOnDeadHandler;
@@ -108,6 +109,15 @@ public class WorldObjects : MonoBehaviour
 
     private void Start()
     {
+    }
+
+    public T GetFirstItem<T>() where T : MonoBehaviour
+    {
+        List<MonoBehaviour> list;
+        if (!_worldObjects.TryGetValue(typeof(T), out list) || list.Count == 0)
+            return null;
+
+        return list.First() as T;
     }
 
     public GameObject GetRandomObject<T>()

@@ -159,7 +159,7 @@ public class RobotController : UnitControllerBase
                     return;
                 }
 
-                if (Vector3.Distance(_target.position, transform.position) > 2f)
+                if (Vector3.Distance(_target.position, transform.position) > 3f)
                 {
                     if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
                     {
@@ -196,7 +196,7 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Walk()
     {
-        Animator.SetBool(_walkStateName, _currentProgram == ProgramType.Walk);
+        Animator.SetBool(_walkStateName, true);
         if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Walk))
         {
             EndCoProgram();
@@ -224,7 +224,6 @@ public class RobotController : UnitControllerBase
             && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
-            var m = new Vector2(direction.x, direction.z);
             Move(new Vector2(direction.x, direction.z));
             transform.LookAt(transform.position + new Vector3(direction.x, 0, direction.z));
             _navAgent.velocity = _movable.Velocity;
@@ -262,7 +261,7 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Cut(Tree tree)
     {
-        Animator.SetBool(_cutStateName, _currentProgram == ProgramType.Cut);
+        Animator.SetBool(_cutStateName, true);
 
         if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Cut))
         {
@@ -289,9 +288,11 @@ public class RobotController : UnitControllerBase
         EndCoProgram();
     }
 
+    public Joint Joint;
+
     private IEnumerator Co_Gather(TreeTrunk trunk)
     {
-        Animator.SetBool(_dragStateName, _currentProgram == ProgramType.Gather);
+        Animator.SetBool(_dragStateName, true);
 
         if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Gather))
         {
@@ -299,13 +300,38 @@ public class RobotController : UnitControllerBase
             yield break;
         }
 
+        Joint.connectedBody = trunk.GetComponent<Rigidbody>();
+        var ark = WorldObjects.Instance.GetFirstItem<Ark>();
+        _navAgent.nextPosition = transform.position;
+        _navAgent.ResetPath();
+        _navAgent.SetDestination(ark.transform.position);
+
         yield return null;
+        ResetTime();
+
+        Animator.SetBool(_walkStateName, true);
+
+        while ((_navAgent.pathStatus != NavMeshPathStatus.PathComplete || _navAgent.remainingDistance > _navAgent.stoppingDistance)
+            && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
+        {
+            var direction = _navAgent.desiredVelocity.normalized;
+            Move(new Vector2(direction.x, direction.z));
+            transform.LookAt(_target.position - new Vector3(direction.x, 0, direction.z));
+            _navAgent.velocity = _movable.Velocity;
+
+            ComputeTime(Time.deltaTime, ProgramType.Gather);
+
+            yield return null;
+        }
 
         EndCoProgram();
     }
 
     private void EndCoProgram()
     {
+        Animator.SetBool(_walkStateName, false);
+        Animator.SetBool(_cutStateName, false);
+        Animator.SetBool(_dragStateName, false);
         _target = null;
         _inProgress = false;
 
@@ -319,9 +345,9 @@ public class RobotController : UnitControllerBase
 
     private void SelectNextProgram()
     {
-        var oldProgram = _currentProgram.Value;
+        var oldProgram = _currentProgram;
         _currentProgram = null;
-        var currentIndex = System.Array.IndexOf(_possiblePrograms, oldProgram);
+        var currentIndex = oldProgram.HasValue ? System.Array.IndexOf(_possiblePrograms, oldProgram) : 0;
         for (int i = 0; i < _possiblePrograms.Length; i++)
         {
             currentIndex = ++currentIndex % _possiblePrograms.Length;
