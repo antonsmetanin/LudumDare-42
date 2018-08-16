@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour
 			robotController.transform.position = _robotSpawnPosition.position;
 		}).AddTo(_disposable);
 
-		game.Robots.Add(new Robot(game.Template.RobotTemplate, game.GameProgress));
+		game.Robots.Add(new Robot(game.Template.RobotTemplate, game));
 	}
 
     //private void OnDestroy() => _disposable.Dispose();

@@ -148,8 +148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectButton: {fileID: 114356486413554956}
-  _memoryUpgradeViewTemplate: {fileID: 0}
-  _memoryUpgradeParent: {fileID: 0}
+  _memoryUpgradeViewTemplate: {fileID: 114173259605617164, guid: 68395674b2a5fc04d957dbf2d04e3ebf,
+    type: 2}
+  _memoryUpgradeParent: {fileID: 224749789062596326}
 --- !u!222 &222302215040286810
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Data;
 using UniRx;
 using Utils;
@@ -7,11 +8,12 @@ namespace Model
 {
     public class Robot
     {
-        public ReactiveProperty<int> MemorySize;
         public ReactiveCollection<Program> Programs;
 
+        public readonly ReactiveProperty<int> MemoryUpgrades = new ReactiveProperty<int>();
+
         public UnityEngine.Transform Transform;
-        private GameProgress _gameProgress;
+        private Game _game;
 
         public readonly ReactiveProperty<int> LeakedBytes = new ReactiveProperty<int>();
         public readonly ReactiveProperty<int> ProducedBytes = new ReactiveProperty<int>();
@@ -20,10 +22,14 @@ namespace Model
         public readonly IReadOnlyReactiveProperty<int> TotalUsedBytes;
         public readonly IReadOnlyReactiveProperty<int> FreeSpace;
         public readonly IReadOnlyReactiveProperty<bool> Broken;
+        public readonly IReadOnlyReactiveProperty<int> MemorySize;
 
-        public Robot(RobotTemplate template, GameProgress gameProgress)
+        public Robot(RobotTemplate template, Game game)
         {
-            MemorySize = new ReactiveProperty<int>(template.InitialMemorySize);
+            MemorySize = MemoryUpgrades
+                .Select(upgradesCount => template.InitialMemorySize + upgradesCount * 16384)
+                .ToReactiveProperty();
+
             Programs = new ReactiveCollection<Program>();
 
             ProgramBytes = Programs.CountProperty()
@@ -44,7 +50,7 @@ namespace Model
             Broken = FreeSpace.Select(x => x <= 0)
                 .ToReactiveProperty();
 
-            _gameProgress = gameProgress;
+            _game = game;
         }
 
         public class InstallProgramResult { }
@@ -69,9 +75,44 @@ namespace Model
 
         public void UploadData()
         {
-            _gameProgress.DataCollected.Value += ProducedBytes.Value;
+            _game.GameProgress.DataCollected.Value += ProducedBytes.Value;
 
             ProducedBytes.Value = 0;
+        }
+
+        public class UpgradeMemoryResult : Program.IPricedOperation
+        {
+            public int Price { get; }
+            public UpgradeMemoryResult(int price) => Price = price;
+        }
+
+        public class AlreadyUpgradedError : Error { }
+        public class UpgradeEarlierIndexFirstError : Error { }
+        public class MaxUpgradesReachedError : Error { }
+
+        public IObservable<Result<UpgradeMemoryResult>> CanUpgradeMemory(int index)
+            => _game.GameProgress.DataCollected.CombineLatest(MemoryUpgrades, (_, __) => UpgradeMemory(index, simulate: true));
+
+        public Result<UpgradeMemoryResult> UpgradeMemory(int index, bool simulate = false)
+        {
+            if (index < MemoryUpgrades.Value)
+                return new AlreadyUpgradedError();
+
+            if (index > MemoryUpgrades.Value)
+                return new UpgradeEarlierIndexFirstError();
+
+            if (MemoryUpgrades.Value >= 2)
+                return new MaxUpgradesReachedError();
+
+            var price = _game.Template.MemoryUpgradePrice;
+
+            if (_game.GameProgress.DataCollected.Value < price)
+                return new Program.NotEnoughDataError();
+
+            if (!simulate)
+                MemoryUpgrades.Value++;
+
+            return new UpgradeMemoryResult(price);
         }
     }
 }

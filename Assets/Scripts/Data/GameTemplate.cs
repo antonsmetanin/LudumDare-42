@@ -9,6 +9,7 @@ namespace Data
         public int MaxData;
         public float MemoryIndicationScale;
         public int RobotPrice;
+        public int MemoryUpgradePrice;
         public RobotTemplate RobotTemplate;
     }
 }

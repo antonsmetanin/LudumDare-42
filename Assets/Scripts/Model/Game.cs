@@ -55,7 +55,7 @@ namespace Model
 
             if (!simulate)
             {
-                Robots.Add(new Robot(Template.RobotTemplate, GameProgress));
+                Robots.Add(new Robot(Template.RobotTemplate, this));
                 GameProgress.DataCollected.Value -= Template.RobotPrice;
             }
 

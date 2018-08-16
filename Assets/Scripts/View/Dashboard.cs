@@ -38,7 +38,7 @@ namespace View
                 .Subscribe(_ => game.BuyRobot())
                 .AddTo(_disposable);
 
-            game.Robots.CreateView(_robotViewTemplate, _robotViewParent, (view, robot) => view.Show(game, robot))
+            game.Robots.CreateView(_robotViewTemplate, _robotViewParent, (view, robot) => view.Show(game, robot, PendingAction))
                 .AddTo(_disposable);
 
             _buyBotButton.gameObject.GetComponent<HoverTrigger>().Hovered

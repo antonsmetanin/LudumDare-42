@@ -20,4 +20,5 @@ MonoBehaviour:
   MaxData: 300
   MemoryIndicationScale: 0.01
   RobotPrice: 10
+  MemoryUpgradePrice: 20
   RobotTemplate: {fileID: 11400000, guid: f91d013033b221b4bae3c39ece424b90, type: 2}
