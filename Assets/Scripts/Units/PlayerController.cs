@@ -4,12 +4,38 @@ using UnityEngine;
 
 public class PlayerController : UnitControllerBase
 {
-
-    public float RotationSpeed;
     public Animator Animator;
+
+    [Header("Movement")]
+    public float RotationSpeed;
+    public float SpeedDrag = .04f;
+    public float SpeedNormal = .1f;
+
+    [Header("Axe")]
+    public float CutRadius = 1f;
+    public float CutTime = .1f;
+    public float CutCooldown = .3f;
+    public float CutForce = 30f;
+
+    [Header("Interaction")]
     public Joint Joint;
     public SphereCollider InteractionCollider;
     public LayerMask InteractionLayer;
+    public bool InteractionAvailable =  false;
+
+    private Coroutine cut;
+    private Collider[] _interactive = new Collider[3];
+    private bool _drag;
+
+    private bool Drag
+    {
+        get { return _drag; }
+        set
+        {
+            _drag = value;
+            _movable.LinearSpeed = _drag ? SpeedDrag : SpeedNormal;
+        }
+    }
 
     public override void Move(Vector2 movement)
     {
@@ -26,8 +52,6 @@ public class PlayerController : UnitControllerBase
         }
     }
 
-    private Coroutine cut;
-
     public void Spin()
     {
         if (cut == null)
@@ -36,11 +60,6 @@ public class PlayerController : UnitControllerBase
             cut = StartCoroutine(Co_cut());
         }
     }
-
-    public float CutRadius = 1f;
-    public float CutTime = .1f;
-    public float CutCooldown = .3f;
-    public float CutForce = 30f;
 
     public IEnumerator Co_cut()
     {
@@ -56,29 +75,21 @@ public class PlayerController : UnitControllerBase
 
     public void FindDragTarget()
     {
-        if (_interactive[0] != null)
+        if (Drag)
         {
-            Debug.Log(_interactive[0]);
-            Joint.connectedBody = _interactive[0].GetComponentInParent<Rigidbody>();
-            Drag = true;
+            Joint.connectedBody = null;
         }
-    }
-
-    private bool _drag;
-    private bool Drag
-    {
-        get { return _drag; }
-        set
+        else
         {
-            _drag = value;
-            _movable.LinearSpeed = _drag ? SpeedDrag : SpeedNormal;
+            if (_interactive[0] != null)
+            {
+                Debug.Log(_interactive[0]);
+                Joint.connectedBody = _interactive[0].GetComponentInParent<Rigidbody>();
+            }
         }
-    }
 
-    public float SpeedDrag = .04f;
-    public float SpeedNormal = .1f;
-    private Collider[] _interactive = new Collider[3];
-    public bool InteractionAvailable =  false;
+        Drag = Joint.connectedBody != null;
+    }
 
     private void Update()
     {
