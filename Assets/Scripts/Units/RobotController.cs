@@ -96,11 +96,6 @@ public class RobotController : UnitControllerBase
             }
         }
 
-        Animator.SetBool(_walkStateName, _currentProgram == ProgramType.Walk);
-        Animator.SetBool(_dragStateName, _currentProgram == ProgramType.Gather);
-        Animator.SetBool(_cutStateName, _currentProgram == ProgramType.Cut);
-
-
         switch (_currentProgram)
         {
             case ProgramType.Walk:
@@ -148,9 +143,9 @@ public class RobotController : UnitControllerBase
                 }
                 break;
             case ProgramType.Gather:
-                if (_target == null)
+                if (_target?.GetComponent<TreeTrunk>() == null)
                 {
-                    var obj = WorldObjects.Instance.GetClosestObject<TrunkPart>(transform.position);
+                    var obj = WorldObjects.Instance.GetClosestObject<TreeTrunk>(transform.position);
                     if (obj != null)
                     {
                         _target = obj.transform;
@@ -164,10 +159,11 @@ public class RobotController : UnitControllerBase
                     return;
                 }
 
-                if (Vector3.Distance(_target.position, transform.position) > 5f)
+                if (Vector3.Distance(_target.position, transform.position) > 2f)
                 {
                     if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
                     {
+                        _target = _target.GetComponent<TreeTrunk>().InteractionCollider.transform;
                         _currentProgram = ProgramType.Walk;
                         _nextProgram = ProgramType.Gather;
                         return;
@@ -181,7 +177,7 @@ public class RobotController : UnitControllerBase
                 }
                 else
                 {
-                    var couGather = StartCoroutine(Co_Gather(_target.GetComponent<TrunkPart>()));
+                    var couGather = StartCoroutine(Co_Gather(_target.GetComponent<TreeTrunk>()));
                     _programCou[ProgramType.Cut] = couGather;
                     _inProgress = true;
                 }
@@ -200,6 +196,7 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Walk()
     {
+        Animator.SetBool(_walkStateName, _currentProgram == ProgramType.Walk);
         if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Walk))
         {
             EndCoProgram();
@@ -237,10 +234,10 @@ public class RobotController : UnitControllerBase
             yield return null;
         }
 
-        var carryPoint = _target?.GetComponent<CarryPoint>();
+        var carryPoint = _target?.GetComponent<Ark>();
         if (carryPoint != null)
         {
-            carryPoint.AcceptTrunk();
+            //carryPoint.AcceptTrunk();
             // TODO:
         }
 
@@ -265,6 +262,8 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Cut(Tree tree)
     {
+        Animator.SetBool(_cutStateName, _currentProgram == ProgramType.Cut);
+
         if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Cut))
         {
             EndCoProgram();
@@ -290,8 +289,10 @@ public class RobotController : UnitControllerBase
         EndCoProgram();
     }
 
-    private IEnumerator Co_Gather(TrunkPart trunk)
+    private IEnumerator Co_Gather(TreeTrunk trunk)
     {
+        Animator.SetBool(_dragStateName, _currentProgram == ProgramType.Gather);
+
         if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Gather))
         {
             EndCoProgram();
