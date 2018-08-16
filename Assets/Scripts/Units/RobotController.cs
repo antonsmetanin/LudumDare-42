@@ -24,6 +24,8 @@ public class RobotController : UnitControllerBase
     private string _dragStateName = "drag";
     private string _cutStateName = "cut";
 
+    public Joint Joint;
+
     public override void Init()
     {
         base.Init();
@@ -287,8 +289,6 @@ public class RobotController : UnitControllerBase
 
         EndCoProgram();
     }
-
-    public Joint Joint;
 
     private IEnumerator Co_Gather(TreeTrunk trunk)
     {
