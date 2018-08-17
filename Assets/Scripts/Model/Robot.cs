@@ -90,17 +90,11 @@ namespace Model
         public class UpgradeEarlierIndexFirstError : Error { }
         public class MaxUpgradesReachedError : Error { }
 
-        public IObservable<Result<UpgradeMemoryResult>> CanUpgradeMemory(int index)
-            => _game.GameProgress.DataCollected.CombineLatest(MemoryUpgrades, (_, __) => UpgradeMemory(index, simulate: true));
+        public IObservable<Result<UpgradeMemoryResult>> CanUpgradeMemory()
+            => _game.GameProgress.DataCollected.CombineLatest(MemoryUpgrades, (_, __) => UpgradeMemory(simulate: true));
 
-        public Result<UpgradeMemoryResult> UpgradeMemory(int index, bool simulate = false)
+        public Result<UpgradeMemoryResult> UpgradeMemory(bool simulate = false)
         {
-            if (index < MemoryUpgrades.Value)
-                return new AlreadyUpgradedError();
-
-            if (index > MemoryUpgrades.Value)
-                return new UpgradeEarlierIndexFirstError();
-
             if (MemoryUpgrades.Value >= 2)
                 return new MaxUpgradesReachedError();
 
