@@ -76,7 +76,14 @@ public class WorldObjects : MonoBehaviour
 
             return tree.IsAlive;
         };
-        _additionalCheck[typeof(TreeTrunk)] = (monoTrunk) => monoTrunk is TreeTrunk;
+        _additionalCheck[typeof(TreeTrunk)] = (monoTrunk) =>
+        {
+            var trunk = monoTrunk as TreeTrunk;
+            if (trunk == null)
+                return false;
+
+            return !trunk.IsCarring && !trunk.IsLoaded;
+        };
     }
 
     public void Remove<T>(T behaviour) where T : MonoBehaviour

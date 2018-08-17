@@ -18,6 +18,8 @@ public class TreeTrunk : MonoBehaviour
     public CollectPoint[] CollectPoints;
     public GameObject[] Parts;
     public bool IsDead;
+    public bool IsCarring;
+    public bool IsLoaded;
 
     private void OnTriggerEnter(Collider other)
     {

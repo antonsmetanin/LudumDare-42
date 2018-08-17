@@ -292,6 +292,7 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Gather(TreeTrunk trunk)
     {
+        _isLoadPointSet = false;
         Animator.SetBool(_dragStateName, true);
 
         if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Gather))
@@ -300,18 +301,29 @@ public class RobotController : UnitControllerBase
             yield break;
         }
 
+        if (trunk == null || trunk.IsCarring)
+        {
+            EndCoProgram();
+            yield break;
+        }
+
+        trunk.IsCarring = true;
+
+        transform.LookAt(_target.position);
+        yield return null;
+
         Joint.connectedBody = trunk.GetComponent<Rigidbody>();
         var ark = WorldObjects.Instance.GetFirstItem<Ark>();
         _navAgent.nextPosition = transform.position;
         _navAgent.ResetPath();
-        _navAgent.SetDestination(ark.transform.position);
+        _navAgent.SetDestination(ark.LoadingArea.transform.position);
 
         yield return null;
         ResetTime();
 
         Animator.SetBool(_walkStateName, true);
-
-        while ((_navAgent.pathStatus != NavMeshPathStatus.PathComplete || _navAgent.remainingDistance > _navAgent.stoppingDistance)
+        
+        while (Vector3.Distance(transform.position, _navAgent.destination) > 2f
             && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
@@ -323,8 +335,34 @@ public class RobotController : UnitControllerBase
 
             yield return null;
         }
+        
+        ark.LoadTrunk(trunk);
+        Joint.connectedBody = null;
 
         EndCoProgram();
+    }
+
+    private bool _isLoadPointSet;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_isLoadPointSet)
+            return;
+        var ark = other.GetComponentInParent<Ark>();
+        if (ark == null)
+            return;
+
+        _isLoadPointSet = true;
+        var center = other.bounds.center;
+        center.y = transform.position.y;
+        var resultPoint = transform.position - 1.5f * (transform.position - center);
+        _navAgent.SetDestination(resultPoint);
+        Debug.LogFormat("res {0} | center {1}", resultPoint, center);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(_navAgent.destination, 0.1f);
     }
 
     private void EndCoProgram()

@@ -25,4 +25,9 @@ public class Ark : MonoBehaviour
 		for (int i = 0; i < Stages.Length; i++)
 			Stages[i].SetActive(i == stage);
 	}
+
+    public void LoadTrunk(TreeTrunk trunk)
+    {
+        trunk.IsLoaded = true;
+    }
 }
