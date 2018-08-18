@@ -15,4 +15,4 @@ MonoBehaviour:
   LeakBytesPerSecond: 110
   MemorySize: 14336
   Description: Improved pathfinding. Fixed couple of issues
-  Price: 1536
+  Price: 1024

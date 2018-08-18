@@ -28,7 +28,9 @@ public class RobotController : UnitControllerBase
     public float RotationSpeed;
 
     private bool _inProgress;
-    private ProgramType? _currentProgram;
+    private ProgramType? _currentProgramType;
+    private Program _currentProgram;
+
     private ProgramType? _nextProgram;
 
     private float _executeTime;
@@ -59,7 +61,7 @@ public class RobotController : UnitControllerBase
                 return;
             }
 
-            if (!_currentProgram.HasValue)
+            if (!_currentProgramType.HasValue)
                 return;
             
             switch (newType)
@@ -68,17 +70,17 @@ public class RobotController : UnitControllerBase
                 case ProgramType.Gather:
                 case ProgramType.Cut:
 
-                    if (_currentProgram.Value == ProgramType.Walk)
+                    if (_currentProgramType.Value == ProgramType.Walk)
                     {
                         Coroutine cou;
-                        if (_inProgress && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
+                        if (_inProgress && _programCou.TryGetValue(_currentProgramType.Value, out cou) && cou != null)
                         {
 
                             StopCoroutine(cou);
                             EndCoProgram();
                         }
 
-                        _currentProgram = null;
+                        _currentProgramType = null;
                     }
                     break;
             }
@@ -86,7 +88,7 @@ public class RobotController : UnitControllerBase
 
         RobotModel.Programs.ObserveRemove().Subscribe(removeEvent =>
         {
-            if (!_currentProgram.HasValue)
+            if (!_currentProgramType.HasValue)
                 return;
 
             if (removeEvent.Value.Template.Type == ProgramType.Sync)
@@ -97,13 +99,13 @@ public class RobotController : UnitControllerBase
             else
             {
                 Coroutine cou;
-                if (_inProgress && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
+                if (_inProgress && _programCou.TryGetValue(_currentProgramType.Value, out cou) && cou != null)
                 {
 
                     StopCoroutine(cou);
                     EndCoProgram();
                 }
-                _currentProgram = null;
+                _currentProgramType = null;
             }
         });
     }
@@ -111,6 +113,7 @@ public class RobotController : UnitControllerBase
     private void Steer(Vector2 move, bool backwards = false)
     {
         Move(move);
+        if(move.sqrMagnitude > .00001f)
         transform.rotation = Quaternion.Lerp(transform.rotation,
             Quaternion.LookRotation(backwards ? new Vector3(-move.x, 0, -move.y) : new Vector3(move.x, 0, move.y), Vector3.up), Time.deltaTime * RotationSpeed);
     }
@@ -119,9 +122,8 @@ public class RobotController : UnitControllerBase
     {
         if (RobotModel.Status.Value == Robot.RobotStatus.OutOfMemory)
         {
-            Debug.Log("Broken");
             Coroutine cou;
-            if (_inProgress && _currentProgram.HasValue && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
+            if (_inProgress && _currentProgramType.HasValue && _programCou.TryGetValue(_currentProgramType.Value, out cou) && cou != null)
             {
                 StopCoroutine(cou);
                 EndCoProgram();
@@ -129,7 +131,8 @@ public class RobotController : UnitControllerBase
                 Animator.SetBool("off", true);
             }
 
-            _currentProgram = null;
+            Animator.SetBool("off", true);
+            _currentProgramType = null;
             return;
         }
         
@@ -143,40 +146,53 @@ public class RobotController : UnitControllerBase
         if (_inProgress)
             return;
 
-        if (!_currentProgram.HasValue)
+
+        _currentProgram = null;
+        
+        if (!_currentProgramType.HasValue)
         {
-            if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Cut))
+            foreach (var progType in new []{ProgramType.Cut, ProgramType.Gather, ProgramType.Walk})
             {
-                _currentProgram = ProgramType.Cut;
-            }
-            else if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Gather))
-            {
-                _currentProgram = ProgramType.Gather;
-            }
-            else if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Protect))
-            {
-                _currentProgram = ProgramType.Protect;
-            }
-            else if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
-            {
-                _currentProgram = ProgramType.Walk;
+                _currentProgram = RobotModel.Programs.FirstOrDefault(x => x.Template.Type == progType);
+                if (_currentProgram != null)
+                {
+                    _currentProgramType = progType;
+                    break;
+                }
             }
         }
         
-        Animator.SetBool("off", !_currentProgram.HasValue);
+        Animator.SetBool("off", !_currentProgramType.HasValue);
 
-        switch (_currentProgram)
+        if (_currentProgram == null && _currentProgramType.HasValue)
+            _currentProgram = RobotModel.Programs.FirstOrDefault(x => x.Template.Type ==_currentProgramType);
+            
+        
+        switch (_currentProgramType)
         {
             case ProgramType.Walk:
+                
+                var speed = _currentProgram.GetCurrentVersionIndex() + 1;
+                Animator.SetFloat("level_walk", speed);
+                _movable.LinearSpeed =
+                    speed == 1 ? basicSpeed :
+                    speed == 2 ? 0.05f : 0.08f;
+                
                 var cou = StartCoroutine(Co_Walk());
                 _programCou[ProgramType.Walk] = cou;
                 _inProgress = true;
 
                 break;
             case ProgramType.Cut:
+                
+                var index = _currentProgram.GetCurrentVersionIndex();
+                
                 if (_target == null)
                 {
-                    var obj = WorldObjects.Instance.GetClosestObject<Tree>(transform.position);
+                    var obj = index > 0 || true
+                        ? WorldObjects.Instance.GetClosestObject<Tree>(transform.position)
+                        : WorldObjects.Instance.GetOneOfClosest<Tree>(transform.position, 5);
+                        
                     if (obj != null)
                     {
                         _target = obj.transform;
@@ -194,7 +210,7 @@ public class RobotController : UnitControllerBase
                 {
                     if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
                     {
-                        _currentProgram = ProgramType.Walk;
+                        _currentProgramType = ProgramType.Walk;
                         _nextProgram = ProgramType.Cut;
                         return;
                     }
@@ -206,15 +222,30 @@ public class RobotController : UnitControllerBase
                 }
                 else
                 {
+                    _str = CutStr;
+                    _delay = CutDelay;
+
+                    if (index > 1)
+                        _delay /= 4f;
+                    else if(index >0)
+                        _delay /= 1.5f;
+                    
                     var couCut = StartCoroutine(Co_Cut(_target.GetComponent<Tree>()));
                     _programCou[ProgramType.Cut] = couCut;
                     _inProgress = true;
                 }
                 break;
             case ProgramType.Gather:
+                
+                var index2 = _currentProgram.GetCurrentVersionIndex();
+                
+               
                 if (_target?.GetComponent<TreeTrunk>() == null)
                 {
-                    var obj = WorldObjects.Instance.GetClosestObject<TreeTrunk>(transform.position);
+                    var obj = index2 > 0 || true ?
+                        WorldObjects.Instance.GetClosestObject<TreeTrunk>(transform.position)
+                        : WorldObjects.Instance.GetOneOfClosest<TreeTrunk>(transform.position, 5);
+                    
                     if (obj != null)
                     {
                         _target = obj.transform;
@@ -233,7 +264,7 @@ public class RobotController : UnitControllerBase
                     if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
                     {
                         _target = _target.GetComponent<TreeTrunk>().InteractionCollider.transform;
-                        _currentProgram = ProgramType.Walk;
+                        _currentProgramType = ProgramType.Walk;
                         _nextProgram = ProgramType.Gather;
                         return;
                     }
@@ -246,6 +277,8 @@ public class RobotController : UnitControllerBase
                 }
                 else
                 {
+                    Animator.SetFloat("level_gather", 1 + index2 * 0.5f);
+                    _movable.LinearSpeed = basicSpeed + index2 * basicSpeed / 2f;
                     var couGather = StartCoroutine(Co_Gather(_target.GetComponent<TreeTrunk>()));
                     _programCou[ProgramType.Cut] = couGather;
                     _inProgress = true;
@@ -295,15 +328,20 @@ public class RobotController : UnitControllerBase
 
     }
 
+    private float basicSpeed = 0.03f;
 
     private IEnumerator Co_Walk()
     {
-        Animator.SetBool(_walkStateName, true);
-        if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Walk))
+
+        var prog = RobotModel.Programs.FirstOrDefault(_ => _.Template.Type == ProgramType.Walk);
+        
+        if (prog == null)
         {
             EndCoProgram();
             yield break;
         }
+
+        Animator.SetBool(_walkStateName, true);
 
         Speaker.Speak();
 
@@ -359,12 +397,14 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Cut(Tree tree)
     {
-        if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Cut))
+
+        var prog = RobotModel.Programs.FirstOrDefault(_ => _.Template.Type == ProgramType.Cut);
+        if (prog == null)
         {
             EndCoProgram();
             yield break;
         }
-
+        
         if (tree == null || !tree.IsAlive)
         {
             EndCoProgram();
@@ -377,17 +417,20 @@ public class RobotController : UnitControllerBase
         var direction = tree.transform.position - transform.position;
         direction.y = 0;
         ResetTime();
+
+        
+        
         while (tree != null && tree.IsAlive)
         {
             Animator.SetBool(_cutStateName, true);
             
             yield return new WaitForSeconds(CutHitTime);
-            tree.Cut(CutStr, direction);
+            tree.Cut(_str, direction);
             
             Animator.SetBool(_cutStateName, false);
-            yield return new WaitForSeconds(CutDelay);
+            yield return new WaitForSeconds(_delay);
             
-            ComputeTime(CutHitTime + CutDelay, ProgramType.Cut);
+            ComputeTime(CutHitTime + _delay, ProgramType.Cut);
 
             Speaker.Speak();
         }
@@ -403,7 +446,6 @@ public class RobotController : UnitControllerBase
     {
         
         Speaker.Speak();
-
         
         _isLoadPointSet = false;
         Animator.SetBool(_dragStateName, true);
@@ -413,6 +455,8 @@ public class RobotController : UnitControllerBase
             EndCoProgram();
             yield break;
         }
+        
+        _movable.LinearSpeed = basicSpeed;
 
         if (trunk == null || trunk.IsCarring)
         {
@@ -453,6 +497,8 @@ public class RobotController : UnitControllerBase
     }
 
     private bool _isLoadPointSet;
+    private float _delay;
+    private float _str;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -487,7 +533,7 @@ public class RobotController : UnitControllerBase
         _inProgress = false;
 
         if (_nextProgram.HasValue)
-            _currentProgram = _nextProgram;
+            _currentProgramType = _nextProgram;
         else
             SelectNextProgram();
 
@@ -500,8 +546,8 @@ public class RobotController : UnitControllerBase
         Speaker.Speak();
 
         
-        var oldProgram = _currentProgram;
-        _currentProgram = null;
+        var oldProgram = _currentProgramType;
+        _currentProgramType = null;
         var currentIndex = oldProgram.HasValue ? System.Array.IndexOf(_possiblePrograms, oldProgram) : 0;
         for (int i = 0; i < _possiblePrograms.Length; i++)
         {
@@ -510,13 +556,13 @@ public class RobotController : UnitControllerBase
             {
                 if (_possiblePrograms[currentIndex] == ProgramType.Walk && RobotModel.Programs.Any(_ => _.Template.Type != ProgramType.Walk))
                     continue;
-                _currentProgram = _possiblePrograms[currentIndex];
+                _currentProgramType = _possiblePrograms[currentIndex];
                 return;
             }
         }
 
-        if (!_currentProgram.HasValue)
-            _currentProgram = oldProgram;
+        if (!_currentProgramType.HasValue)
+            _currentProgramType = oldProgram;
     }
 
     private void ResetTime()

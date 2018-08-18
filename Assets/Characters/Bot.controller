@@ -79,7 +79,7 @@ BlendTree:
     m_DirectBlendParameter: level_build
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 6443ca56f25ac2d4caa93080d49117b9, type: 3}
+    m_Motion: {fileID: 7400000, guid: 48a98066bcf987447835627d03a6bb3a, type: 2}
     m_Threshold: 2
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -87,14 +87,14 @@ BlendTree:
     m_DirectBlendParameter: level_build
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 9f98689a36510f84c89e7c1de91620c6, type: 3}
+    m_Motion: {fileID: 7400000, guid: f53b497bc97c1e84e92fdf4b37543044, type: 2}
     m_Threshold: 3
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: level_build
     m_Mirror: 0
-  m_BlendParameter: level_build
+  m_BlendParameter: level_walk
   m_BlendParameterY: Blend
   m_MinThreshold: 1
   m_MaxThreshold: 3
@@ -635,13 +635,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: f46a24bbe9d2d6f4d9720e7e3d7d0dd2, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: level_gather
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 

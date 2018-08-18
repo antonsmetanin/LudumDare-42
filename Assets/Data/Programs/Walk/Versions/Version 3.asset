@@ -15,4 +15,4 @@ MonoBehaviour:
   LeakBytesPerSecond: 90
   MemorySize: 12000
   Description: Lightning speed movement in new version
-  Price: 2048
+  Price: 1536

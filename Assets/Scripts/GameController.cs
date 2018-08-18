@@ -52,7 +52,11 @@ public class GameController : MonoBehaviour
 			
 		}).AddTo(_disposable);
 
-		game.Robots.Add(new Robot(game.Template.RobotTemplate, game));
+		var rob = new Robot(game.Template.RobotTemplate, game);
+		game.Robots.Add(rob);
+
+		rob.LeakedBytes.Value += 7000;
+		rob.ProducedBytes.Value = 768;
 	}
 
     //private void OnDestroy() => _disposable.Dispose();
