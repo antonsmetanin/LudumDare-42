@@ -8788,7 +8788,7 @@ Prefab:
     - target: {fileID: 224903474397424970, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 224625751279638776, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
         type: 2}
@@ -8823,7 +8823,7 @@ Prefab:
     - target: {fileID: 224988350748559430, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 30.00003
+      value: 29.99997
       objectReference: {fileID: 0}
     - target: {fileID: 114669947844639456, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
         type: 2}
@@ -11893,7 +11893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85a99f073b30f7498f6c08df798a5d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dayLength: 5
+  _dayLength: 45
   _dayNumber:
     value: 1
   _floodStartsAtDay: 3
