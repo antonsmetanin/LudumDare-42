@@ -378,7 +378,7 @@ public class RobotController : UnitControllerBase
             
             yield return new WaitForSeconds(CutHitTime);
             tree.Cut(CutStr, direction);
-            ComputeTime(Time.deltaTime, ProgramType.Walk);
+            ComputeTime(Time.deltaTime, ProgramType.Cut);
             
             Animator.SetBool(_cutStateName, false);
             yield return new WaitForSeconds(CutDelay);
