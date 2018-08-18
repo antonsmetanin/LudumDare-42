@@ -42,6 +42,7 @@ public class PlayerController : UnitControllerBase
         {
             _drag = value;
             _movable.LinearSpeed = _drag ? SpeedDrag : SpeedNormal;
+            RotationSpeed = _drag ? 4 : 10;
         }
     }
 

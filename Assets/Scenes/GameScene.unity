@@ -9853,6 +9853,10 @@ Prefab:
       propertyPath: CutRadius
       value: 3.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1169350289348354, guid: 9c941fae4b49b284aa29f4e5aa4392b1, type: 2}
+      propertyPath: m_Name
+      value: Metal Gear Noah
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c941fae4b49b284aa29f4e5aa4392b1, type: 2}
   m_IsPrefabAsset: 0
@@ -11292,9 +11296,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 218d287dfb5251c4881bee6fdb229a14, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -14100,7 +14104,7 @@ Prefab:
     - target: {fileID: 224988350748559430, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 29.99997
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 114669947844639456, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
         type: 2}
@@ -14120,6 +14124,60 @@ Prefab:
         type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224531945106310194, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224791298561217694, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224605961828558682, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224198621863075164, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224939378188273640, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224062602118944398, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224200495192705572, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224047997309080266, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1264526785708012, guid: 5332f5e7c38ece648a31bdf5670f5f2d, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114992866299986640, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_FontData.m_RichText
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114421405623850824, guid: 5332f5e7c38ece648a31bdf5670f5f2d,
+        type: 2}
+      propertyPath: m_Spacing
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5332f5e7c38ece648a31bdf5670f5f2d, type: 2}
@@ -15393,7 +15451,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   follow: {fileID: 2060179108}
   height: {fileID: 1196667614}
-  H: 0
   LErp: 0.5
 --- !u!4 &953484591
 Transform:
@@ -20745,7 +20802,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1391150166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 57.09419, y: -6.9825945, z: 74.76549}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1127168627}
@@ -20767,7 +20824,7 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 78c09687f628f7b4db344a0244f7aa9d, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
