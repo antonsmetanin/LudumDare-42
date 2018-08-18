@@ -27,7 +27,18 @@ public class RobotController : UnitControllerBase
 
     public Joint Joint;
     public float RotationSpeed;
-    
+
+    private bool _inProgress;
+    private ProgramType? _currentProgram;
+    private ProgramType? _nextProgram;
+
+    private float _executeTime;
+    private int _nextStep;
+
+    public float SyncInterval = 1f; 
+    private float _syncTime;
+    private bool _hasSyncState;
+
     public override void Init()
     {
         base.Init();
@@ -36,20 +47,58 @@ public class RobotController : UnitControllerBase
         _navAgent.updateRotation = false;
         _target = null;
         _possiblePrograms = (ProgramType[])System.Enum.GetValues(typeof(ProgramType));
-        
+
+        RobotModel.Programs.ObserveAdd().Subscribe(addEvent =>
+        {
+            if (!_currentProgram.HasValue)
+                return;
+
+            var newType = addEvent.Value.Template.Type;
+            if (!_hasSyncState && newType == ProgramType.Sync)
+                _hasSyncState = true;
+            switch (newType)
+            {
+                case ProgramType.Protect:
+                case ProgramType.Gather:
+                case ProgramType.Cut:
+
+                    if (_currentProgram.Value == ProgramType.Walk)
+                    {
+                        Coroutine cou;
+                        if (_inProgress && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
+                        {
+
+                            StopCoroutine(cou);
+                            EndCoProgram();
+                        }
+
+                        _currentProgram = null;
+                    }
+                    break;
+            }
+        });
+
         RobotModel.Programs.ObserveRemove().Subscribe(removeEvent =>
         {
             if (!_currentProgram.HasValue)
                 return;
 
-            Coroutine cou;
-            if (_inProgress && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
+            if (removeEvent.Value.Template.Type == ProgramType.Sync)
             {
-
-                StopCoroutine(cou);
-                EndCoProgram();
+                if (_hasSyncState && !RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Sync))
+                    _hasSyncState = false;
             }
-            _currentProgram = null;
+            else
+            {
+                Coroutine cou;
+                if (_inProgress && _programCou.TryGetValue(_currentProgram.Value, out cou) && cou != null)
+                {
+
+                    StopCoroutine(cou);
+                    EndCoProgram();
+                }
+                _currentProgram = null;
+            }
         });
     }
 
@@ -58,15 +107,7 @@ public class RobotController : UnitControllerBase
         Move(move);
         transform.rotation = Quaternion.Lerp(transform.rotation,
             Quaternion.LookRotation(backwards ? new Vector3(-move.x, 0, -move.y) : new Vector3(move.x, 0, move.y), Vector3.up), Time.deltaTime * RotationSpeed);
-
     }
-
-    private bool _inProgress;
-    private ProgramType? _currentProgram;
-    private ProgramType? _nextProgram;
-
-    private float _executeTime;
-    private int _nextStep;
 
     private void Update()
     {
@@ -110,7 +151,6 @@ public class RobotController : UnitControllerBase
         }
         
         Animator.SetBool("off", !_currentProgram.HasValue);
-
 
         switch (_currentProgram)
         {
@@ -341,7 +381,6 @@ public class RobotController : UnitControllerBase
     [SerializeField] private float CutHitTime = .1f;
     [SerializeField] private float CutStr = 10;
 
-
     private IEnumerator Co_Gather(TreeTrunk trunk)
     {
         _isLoadPointSet = false;
@@ -385,6 +424,8 @@ public class RobotController : UnitControllerBase
 
             yield return null;
         }
+
+        Joint.connectedBody = null;
 
         EndCoProgram();
     }
