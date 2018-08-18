@@ -55,10 +55,6 @@ namespace View
 
 			_producedDataView.Show(game, robot, DataFileView.DataFileType.Produce, () => robot.ProducedBytes.Value);
 			_producedDataView.AddTo(_disposable);
-
-			robot.Programs.ObserveCountChanged(true)
-                .Subscribe(programsCount => _dropModulesLabel.gameObject.SetActive(programsCount == 0))
-				.AddTo(_disposable);
 		}
 
         public void Dispose()
