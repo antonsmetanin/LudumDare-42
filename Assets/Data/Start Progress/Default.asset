@@ -11,10 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fda927333bafe14a91b7fc03a363e94, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
-  DataCollected: 15
-  Wood: 5
+  DataCollected: 256
+  Wood: 0
   AvailablePrograms:
   - {fileID: 11400000, guid: 8bfbf1aa7b78c6e4093f833e49d588ce, type: 2}
   - {fileID: 11400000, guid: e34bca47e67d95843ac1fa5fccc68e84, type: 2}
   - {fileID: 11400000, guid: de32999278384e84aa73151e726c6440, type: 2}
-  MaxData: 300

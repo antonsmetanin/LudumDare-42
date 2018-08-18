@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Version 3
   m_EditorClassIdentifier: 
   ProduceBytesPerSecond: 160
-  LeakBytesPerSecond: 90
+  LeakBytesPerSecond: 110
   MemorySize: 15360
   Description: Improved cutting perfomance
-  Price: 2048
+  Price: 1024

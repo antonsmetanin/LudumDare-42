@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Version 3
   m_EditorClassIdentifier: 
   ProduceBytesPerSecond: 60
-  LeakBytesPerSecond: 20
+  LeakBytesPerSecond: 40
   MemorySize: 8248
-  Description: Dobules data production
-  Price: 256
+  Description: Doubles data production
+  Price: 512

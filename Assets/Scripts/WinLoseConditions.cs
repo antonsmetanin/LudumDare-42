@@ -81,7 +81,8 @@ public class WinLoseConditions : MonoBehaviour
 			}
 			
 		});
-		Ark.Value++;
+		
+		Ark.Value = 0;
 		
 		_ark.OnRecycle += OnRecycle;
 	}

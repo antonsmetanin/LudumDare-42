@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Version 2
   m_EditorClassIdentifier: 
   ProduceBytesPerSecond: 140
-  LeakBytesPerSecond: 90
+  LeakBytesPerSecond: 110
   MemorySize: 14336
   Description: Improved pathfinding. Fixed couple of issues
   Price: 2048

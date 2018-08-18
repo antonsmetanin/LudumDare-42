@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Version 3
   m_EditorClassIdentifier: 
   ProduceBytesPerSecond: 30
-  LeakBytesPerSecond: 30
+  LeakBytesPerSecond: 90
   MemorySize: 12000
   Description: Lightning speed movement in new version
   Price: 1024

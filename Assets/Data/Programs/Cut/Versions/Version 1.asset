@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Version 1
   m_EditorClassIdentifier: 
   ProduceBytesPerSecond: 120
-  LeakBytesPerSecond: 90
+  LeakBytesPerSecond: 110
   MemorySize: 12288
   Description: Best software available to chop those trees! Requires walk()
   Price: 1024

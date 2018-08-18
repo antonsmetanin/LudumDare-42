@@ -21,7 +21,7 @@ public class TextAnimation : MonoBehaviour
 		if (text.enabled)
 		{
 			float normalTime = 1 - (endtime - Time.time) / animationTime;
-			rect.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 1.4f, normalTime);
+			rect.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 1.2f, normalTime);
 		
 			if (normalTime > 1)
 				text.CrossFadeAlpha(0, 1, false);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Version 2
   m_EditorClassIdentifier: 
   ProduceBytesPerSecond: 30
-  LeakBytesPerSecond: 20
+  LeakBytesPerSecond: 40
   MemorySize: 8248
-  Description: It walks, no!
+  Description: Added data production in new version
   Price: 256

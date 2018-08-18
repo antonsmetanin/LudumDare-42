@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: Patch 3
   m_EditorClassIdentifier: 
   SizeDelta: -2048
-  LeakDelta: -20
+  LeakDelta: -50
   Price: 256

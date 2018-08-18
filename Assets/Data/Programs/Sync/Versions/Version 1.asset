@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Version 1
   m_EditorClassIdentifier: 
   ProduceBytesPerSecond: 0
-  LeakBytesPerSecond: 20
+  LeakBytesPerSecond: 40
   MemorySize: 7224
   Description: Automatically uploads data to analyze
   Price: 1024
