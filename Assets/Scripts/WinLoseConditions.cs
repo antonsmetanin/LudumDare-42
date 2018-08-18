@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Timers;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WinLoseConditions : MonoBehaviour
@@ -48,7 +49,10 @@ public class WinLoseConditions : MonoBehaviour
 	[SerializeField] private Text _floodText;
 	[SerializeField] private Ark _ark;
 
-
+	private void Awake()
+	{
+		BotsSurvivors.Survived = 0;
+	}
 
 	private void Start()
 	{
@@ -59,10 +63,26 @@ public class WinLoseConditions : MonoBehaviour
 		{
 			_arkBar.fillAmount = f / _arkGoal;
 			_ark.UpdateStage(f / _arkGoal);
+
+			if (f >= _arkGoal)
+			{
+				Win();
+			}
+			
 		});
 		Ark.Value++;
 		
 		_ark.OnRecycle += OnRecycle;
+	}
+
+	private void Win()
+	{
+		SceneManager.LoadSceneAsync("Win", LoadSceneMode.Single);
+	}
+	
+	private void Lose()
+	{
+		SceneManager.LoadSceneAsync("Lose", LoadSceneMode.Single);
 	}
 
 	private void OnRecycle(float obj)
@@ -79,8 +99,11 @@ public class WinLoseConditions : MonoBehaviour
 
 		if (_daysOfFlood > 0)
 		{
-			StartCoroutine(Co_flood(1));
+			StartCoroutine(Co_flood(3));
 		}
+		
+		if(_daysOfFlood > _floodLevels.Count - 2)
+			Lose();
 	}
 
 	// Update is called once per frame

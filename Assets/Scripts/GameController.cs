@@ -48,6 +48,8 @@ public class GameController : MonoBehaviour
 			robotController.RobotModel.Transform = robotController.transform;
 			robotController.transform.position = _robotSpawnPosition.position;
 			robotController.StartCoroutine(robotController.CO_Spawn(_robotTargetPosition.position));
+			BotsSurvivors.Survived = game.Robots.Count;
+			
 		}).AddTo(_disposable);
 
 		game.Robots.Add(new Robot(game.Template.RobotTemplate, game));

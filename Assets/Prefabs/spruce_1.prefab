@@ -356,7 +356,7 @@ MonoBehaviour:
   IsCarring: 0
   IsLoaded: 0
   IsRecycling: 0
-  Wood: 50
+  Wood: 40
 --- !u!135 &135133580950516634
 SphereCollider:
   m_ObjectHideFlags: 1

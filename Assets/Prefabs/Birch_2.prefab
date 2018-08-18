@@ -351,6 +351,8 @@ MonoBehaviour:
   IsDead: 0
   IsCarring: 0
   IsLoaded: 0
+  IsRecycling: 0
+  Wood: 30
 --- !u!114 &114897235745902192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -362,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46d771fd3bec7646bbbf7436a1edb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseHealht: 100
+  _baseHealht: 50
   _disableOnDeath:
   - {fileID: 1691460304268802}
   _fallingRigidbody: {fileID: 54897940987217892}

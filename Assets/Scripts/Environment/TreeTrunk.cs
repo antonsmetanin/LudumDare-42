@@ -27,6 +27,12 @@ public class TreeTrunk : MonoBehaviour
 
     public Action<TreeTrunk> RecycleAction;
 
+
+    private void Start()
+    {
+        Wood *= transform.lossyScale.x;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))

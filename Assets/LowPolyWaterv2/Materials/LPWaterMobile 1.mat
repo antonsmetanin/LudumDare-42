@@ -6,9 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: LPWaterMobile
+  m_Name: LPWaterMobile 1
   m_Shader: {fileID: 4800000, guid: 8165be4dd0b12774d80426d906df9c38, type: 3}
-  m_ShaderKeywords: _DISTORT_ON _EMISSION _SHADING_FLAT _WAVES_OFF _ZWRITE_ON
+  m_ShaderKeywords: LPW_FOAM _DISTORT_ON _EDGEBLEND_ON _EMISSION _SHADING_FLAT _WAVES_LOWQUALITY
+    _ZWRITE_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -47,10 +48,10 @@ Material:
     - _Cull: 0
     - _Cull_: 2
     - _Diffuse: 1
-    - _Direction: 180
+    - _Direction: 113
     - _Distort: 1
     - _Distortion: 1
-    - _EdgeBlend: 0
+    - _EdgeBlend: 1
     - _EnableShadows: 0
     - _FoamScale: 20
     - _FoamSpeed: 0.3
@@ -64,10 +65,10 @@ Material:
     - _NormalOffset: 1
     - _Opacity: 0.4
     - _PointLights: 0
-    - _RHeight: 0.2
-    - _RHeight_: 0.2
-    - _RSpeed: 0.8
-    - _RSpeed_: 0.8
+    - _RHeight: 0.59
+    - _RHeight_: 0.59
+    - _RSpeed: 0.95
+    - _RSpeed_: 0.95
     - _Reflection: 1.2
     - _Refraction: 2
     - _Scale: 1
@@ -79,19 +80,19 @@ Material:
     - _Specular: 92
     - _Speed: 0.5
     - _Speed_: 0.5
-    - _Steepness: 0.15
+    - _Steepness: 0.192
     - _Stretch: 10
     - _TexSize_: 64
     - _Time_: 0
     - _TransformScale_: 1
-    - _Waves: 0
+    - _Waves: 1
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0, g: 0.6006591, b: 0.75735295, a: 1}
     - _DeepColor: {r: 0, g: 0.20955881, b: 0.41911763, a: 1}
-    - _Direction_: {r: -1, g: -0.00000008742278, b: -0.6, a: -0.000000052453668}
+    - _Direction_: {r: -0.39073116, g: 0.92050487, b: -0.30008152, a: 0.70694774}
     - _FresColor: {r: 0.36689016, g: 0.52222586, b: 0.5735294, a: 1}
     - _ShoreColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.6764706, g: 0.6359274, b: 0.2785467, a: 1}
     - _Sun: {r: 0.3213938, g: 0.76604444, b: -0.5566705, a: 0}
-    - _SunColor: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+    - _SunColor: {r: 1, g: 0.9481132, b: 0.8066038, a: 1}
