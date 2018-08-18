@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SizeDelta: 0
   LeakDelta: -20
-  Price: 64
+  Price: 512

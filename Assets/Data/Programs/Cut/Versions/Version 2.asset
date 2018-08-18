@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4245ed95da6111a438f435302d3314ba, type: 3}
   m_Name: Version 2
   m_EditorClassIdentifier: 
-  ProduceBytesPerSecond: 140
+  ProduceBytesPerSecond: 80
   LeakBytesPerSecond: 110
   MemorySize: 14336
   Description: Improved pathfinding. Fixed couple of issues
-  Price: 2048
+  Price: 1536

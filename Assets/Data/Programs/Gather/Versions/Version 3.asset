@@ -15,4 +15,4 @@ MonoBehaviour:
   LeakBytesPerSecond: 60
   MemorySize: 15360
   Description: Greatly improved data production
-  Price: 256
+  Price: 2048

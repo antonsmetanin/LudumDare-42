@@ -81,7 +81,6 @@ public class Tree : MonoBehaviour, IAlive
         _fallingRigidbody.AddForceAtPosition(-direction.normalized * 60, transform.position + Vector3.up * 6, ForceMode.Impulse);
 
 
-
         for (int i = 0; _disableOnDeath != null && i < _disableOnDeath.Length; i++)
         {
             _disableOnDeath[i].SetActive(false);

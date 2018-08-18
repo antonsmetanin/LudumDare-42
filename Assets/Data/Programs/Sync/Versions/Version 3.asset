@@ -15,4 +15,4 @@ MonoBehaviour:
   LeakBytesPerSecond: 40
   MemorySize: 8248
   Description: Doubles data production
-  Price: 512
+  Price: 1024

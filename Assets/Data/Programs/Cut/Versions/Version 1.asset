@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4245ed95da6111a438f435302d3314ba, type: 3}
   m_Name: Version 1
   m_EditorClassIdentifier: 
-  ProduceBytesPerSecond: 120
+  ProduceBytesPerSecond: 60
   LeakBytesPerSecond: 110
   MemorySize: 12288
   Description: Best software available to chop those trees! Requires walk()
