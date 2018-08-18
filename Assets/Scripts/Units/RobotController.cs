@@ -10,7 +10,6 @@ using UniRx;
 
 public class RobotController : UnitControllerBase
 {
-    public float Force = 10f;
     private Transform _target;
     [SerializeField] private NavMeshAgent _navAgent;
 
@@ -445,7 +444,6 @@ public class RobotController : UnitControllerBase
         center.y = transform.position.y;
         var resultPoint = transform.position - 1.5f * (transform.position - center);
         _navAgent.SetDestination(resultPoint);
-        Debug.LogFormat("res {0} | center {1}", resultPoint, center);
     }
 
     private void OnDrawGizmos()
