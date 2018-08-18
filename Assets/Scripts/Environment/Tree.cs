@@ -32,7 +32,7 @@ public class Tree : MonoBehaviour, IAlive
 
     private void Awake()
     {
-        Health = _baseHealht;
+        Health = _baseHealht * transform.lossyScale.x;
         IsDead = false;
     }
 

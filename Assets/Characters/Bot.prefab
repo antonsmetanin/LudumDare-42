@@ -847,7 +847,7 @@ MonoBehaviour:
   Speaker: {fileID: 114202764722379962}
   CutDelay: 1
   CutHitTime: 0.2
-  CutStr: 25
+  CutStr: 19
 --- !u!114 &114717086889071342
 MonoBehaviour:
   m_ObjectHideFlags: 1

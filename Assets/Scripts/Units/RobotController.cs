@@ -337,12 +337,6 @@ public class RobotController : UnitControllerBase
             yield return null;
         }
 
-        var carryPoint = _target?.GetComponent<Ark>();
-        if (carryPoint != null)
-        {
-            //carryPoint.AcceptTrunk();
-            // TODO:
-        }
 
         EndCoProgram();
     }
@@ -350,8 +344,8 @@ public class RobotController : UnitControllerBase
     private Vector3 GetPointOnGround()
     {
         var targetPosition = transform.position;
-        targetPosition.x += Random.Range(-50, 50);
-        targetPosition.z += Random.Range(-50, 50);
+        targetPosition.x += Random.Range(-5, 5);
+        targetPosition.z += Random.Range(-5, 5);
         targetPosition.y += 2;
 
         RaycastHit hit;
