@@ -10,11 +10,16 @@ using UnityEngine.UI;
 public class WinLoseConditions : MonoBehaviour
 {
 
+
+	public AudioClip Music;
+	public AudioSource Source;
+	
 	public enum EGameStatus
 	{
 		Tutorial,
 		Running,
-		Paused
+		Paused,
+		Over
 	}
 
 	[SerializeField] private float _dayLength = 180f;
@@ -25,6 +30,8 @@ public class WinLoseConditions : MonoBehaviour
 	public EGameStatus GameStatus;
 	public FloatReactiveProperty FloodLevel = new FloatReactiveProperty();
 	public FloatReactiveProperty Ark = new FloatReactiveProperty(10);
+	public PlayerController _player;
+	public Image FadeToBlack;
 
 	[SerializeField] private float _arkGoal = 1000;
 
@@ -57,6 +64,9 @@ public class WinLoseConditions : MonoBehaviour
 	private void Start()
 	{
 		_woodBar.gameObject.SetActive(false);
+
+		FadeToBlack.CrossFadeAlpha(0, 1, true);
+
 		
 		_dayNumber.Subscribe(OnDayChange);
 		Ark.Subscribe(f =>
@@ -66,7 +76,7 @@ public class WinLoseConditions : MonoBehaviour
 
 			if (f >= _arkGoal)
 			{
-				Win();
+				StartCoroutine(Win());
 			}
 			
 		});
@@ -75,13 +85,22 @@ public class WinLoseConditions : MonoBehaviour
 		_ark.OnRecycle += OnRecycle;
 	}
 
-	private void Win()
+	private IEnumerator Win()
 	{
+		yield return new WaitForSeconds(2);
+		GameStatus = EGameStatus.Over;
+		FadeToBlack.gameObject.SetActive(true);
+		yield return new WaitForSeconds(2);
 		SceneManager.LoadSceneAsync("Win", LoadSceneMode.Single);
 	}
 	
-	private void Lose()
+	private IEnumerator Lose()
 	{
+		yield return new WaitForSeconds(1);
+		
+		GameStatus = EGameStatus.Over;
+		FadeToBlack.gameObject.SetActive(true);
+		yield return new WaitForSeconds(2);
 		SceneManager.LoadSceneAsync("Lose", LoadSceneMode.Single);
 	}
 
@@ -102,15 +121,22 @@ public class WinLoseConditions : MonoBehaviour
 			StartCoroutine(Co_flood(3));
 		}
 		
-		if(_daysOfFlood > _floodLevels.Count - 2)
-			Lose();
+		if(_daysOfFlood > _floodLevels.Count - 1)
+			StartCoroutine(Lose());
 	}
 
 	// Update is called once per frame
 	void Update () {
 
+		//FadeToBlack.gameObject.SetActive(true);
+		
 		if (GameStatus == EGameStatus.Running)
 			_currentTime += Time.deltaTime;
+		else if (GameStatus == EGameStatus.Over)
+		{
+			FadeToBlack.CrossFadeAlpha(1, 4, true);
+			Source.volume -= .05f;
+		}
 
 		var inverseDaytime = (_dayLength - _currentTime) / _dayLength;
 		_timerBar.fillAmount = inverseDaytime;
@@ -122,19 +148,28 @@ public class WinLoseConditions : MonoBehaviour
 		}
 	}
 
+	private bool drown;
+	
 	public IEnumerator Co_flood(float time)
 	{
 		float t = 0;
 
-		var currentHeight = _flood.transform.position.y;
+		var currentHeight = _flood.position.y;
 		var floodHeight = _floodLevels[Mathf.Clamp(_daysOfFlood, 0, _floodLevels.Count - 1)];
 
 		while (t < time)
 		{
 			t += Time.deltaTime;
 			var y = Mathf.Lerp(currentHeight, floodHeight, t / time);
-			_flood.transform.position = new Vector3(_flood.position.x, y, _flood.position.z);
+			_flood.position = new Vector3(_flood.position.x, y, _flood.position.z);
 			yield return null;
+			
+			if (!drown && _flood.position.y > _player.transform.position.y + _player.WaterThreshold)
+			{
+				drown = true;
+				_player.Drowned();
+				StartCoroutine(Lose());
+			}
 		}
 	}
 }

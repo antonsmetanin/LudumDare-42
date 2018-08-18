@@ -13,6 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProduceBytesPerSecond: 30
   LeakBytesPerSecond: 20
-  MemorySize: 10240
+  MemorySize: 8248
   Description: It walks, no!
-  Price: 60
+  Price: 256

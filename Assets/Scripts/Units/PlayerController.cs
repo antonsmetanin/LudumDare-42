@@ -10,6 +10,8 @@ public class PlayerController : UnitControllerBase
     public float RotationSpeed;
     public float SpeedDrag = .04f;
     public float SpeedNormal = .1f;
+    public float WaterAvoidence = .5f;
+    public float WaterThreshold = .5f;
 
     [Header("Axe")]
     public float CutRadius = 1f;
@@ -21,12 +23,17 @@ public class PlayerController : UnitControllerBase
     public Joint Joint;
     public SphereCollider InteractionCollider;
     public LayerMask InteractionLayer;
+    public LayerMask GroundLayer;
+    public LayerMask WaterLayer;
     public bool InteractionAvailable =  false;
 
     private Coroutine cut;
-    private Collider[] _interactive = new Collider[3];
+    private Collider[] _interactive = new Collider[1];
     private bool _drag;
     private TreeTrunk burden;
+    public AudioSource Source;
+    public AudioClip SwingClip;
+    public AudioClip ChopCLip;
     
     private bool Drag
     {
@@ -41,8 +48,26 @@ public class PlayerController : UnitControllerBase
     public override void Move(Vector2 movement)
     {
         var charMove = InputManager.GetCurrentAngle() * new Vector3(movement.x, 0, movement.y);
-        _movable.Move(charMove);
 
+
+        var dir = charMove.normalized;
+        
+        /*var lowerpoint = transform.position + Vector3.down * 5f + dir * WaterAvoidence;
+        var upperpoint = transform.position + Vector3.up * 5f + dir * WaterAvoidence;
+
+        RaycastHit below;
+        float waterDistance = 10;
+        float groundDistance = 10;
+
+        if (Physics.Linecast(upperpoint, lowerpoint, out below, WaterLayer))
+            waterDistance = below.distance;
+
+        if (Physics.Linecast(upperpoint, lowerpoint, out below, GroundLayer))
+            groundDistance = below.distance;
+        
+        
+        if(groundDistance  < waterDistance + WaterThreshold)   */     
+            _movable.Move(charMove);
 
         Animator.SetBool("walk", charMove.sqrMagnitude > 0);
         Animator.SetBool("drag", Joint.connectedBody != null);
@@ -57,6 +82,7 @@ public class PlayerController : UnitControllerBase
     {
         if (cut == null)
         {
+            Source.PlayOneShot(SwingClip);
             Animator.SetBool("cut", true);
             cut = StartCoroutine(Co_cut());
         }
@@ -68,6 +94,11 @@ public class PlayerController : UnitControllerBase
         Animator.SetBool("cut", false);
 
         var trees = WorldObjects.Instance.GetTreesInRadius(transform.position, CutRadius);
+        
+        if(trees.Count > 0 )
+            Source.PlayOneShot(ChopCLip);
+
+        
         foreach (var tree in trees)
             tree.Cut(CutForce, (tree.transform.position - transform.position).normalized );
         yield return new WaitForSeconds(CutCooldown);
@@ -108,5 +139,12 @@ public class PlayerController : UnitControllerBase
         _interactive = new Collider[1];
         var count = Physics.OverlapSphereNonAlloc(InteractionCollider.transform.position, InteractionCollider.radius, _interactive, InteractionLayer);
         InteractionAvailable = count > 0;
+    }
+
+    public void Drowned()
+    {
+        Animator.SetTrigger("drown");
+        _movable.LinearSpeed = 0.05f;
+        RotationSpeed = 1f;
     }
 }

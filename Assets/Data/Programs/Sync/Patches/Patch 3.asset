@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d1b186cab6a8f74590ce58faf0b4443, type: 3}
   m_Name: Patch 3
   m_EditorClassIdentifier: 
-  SizeDelta: -1024
-  LeakDelta: -1
-  Price: 40
+  SizeDelta: -2048
+  LeakDelta: -20
+  Price: 256

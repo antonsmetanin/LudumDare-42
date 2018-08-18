@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4245ed95da6111a438f435302d3314ba, type: 3}
   m_Name: Version 3
   m_EditorClassIdentifier: 
-  ProduceBytesPerSecond: 40
+  ProduceBytesPerSecond: 90
   LeakBytesPerSecond: 20
   MemorySize: 15360
-  Description: 
-  Price: 50
+  Description: Greatly improved data production
+  Price: 1024

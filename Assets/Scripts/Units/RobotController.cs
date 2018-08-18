@@ -38,6 +38,8 @@ public class RobotController : UnitControllerBase
     private float _syncTime;
     private bool _hasSyncState;
 
+    public BotSpeaker Speaker;
+
     public override void Init()
     {
         base.Init();
@@ -263,6 +265,8 @@ public class RobotController : UnitControllerBase
 
     public IEnumerator CO_Spawn(Vector3 targetPosition)
     {
+        Speaker.Speak();
+
         Animator.SetBool(_walkStateName, true);
         Animator.SetBool("off", true);
 
@@ -287,6 +291,8 @@ public class RobotController : UnitControllerBase
         }
         
         Animator.SetBool(_walkStateName, false);
+        Speaker.Speak();
+
     }
 
 
@@ -298,6 +304,8 @@ public class RobotController : UnitControllerBase
             EndCoProgram();
             yield break;
         }
+
+        Speaker.Speak();
 
         Vector3 targetPosition;
         if (_target == null)
@@ -369,6 +377,9 @@ public class RobotController : UnitControllerBase
             yield break;
         }
 
+        Speaker.Speak();
+
+        
         var direction = tree.transform.position - transform.position;
         direction.y = 0;
         ResetTime();
@@ -394,6 +405,10 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Gather(TreeTrunk trunk)
     {
+        
+        Speaker.Speak();
+
+        
         _isLoadPointSet = false;
         Animator.SetBool(_dragStateName, true);
 
@@ -465,6 +480,10 @@ public class RobotController : UnitControllerBase
 
     private void EndCoProgram()
     {
+        
+        Speaker.Speak();
+
+        
         Animator.SetBool(_walkStateName, false);
         Animator.SetBool(_cutStateName, false);
         Animator.SetBool(_dragStateName, false);
@@ -481,6 +500,10 @@ public class RobotController : UnitControllerBase
 
     private void SelectNextProgram()
     {
+        
+        Speaker.Speak();
+
+        
         var oldProgram = _currentProgram;
         _currentProgram = null;
         var currentIndex = oldProgram.HasValue ? System.Array.IndexOf(_possiblePrograms, oldProgram) : 0;

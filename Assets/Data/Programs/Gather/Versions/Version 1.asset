@@ -14,5 +14,5 @@ MonoBehaviour:
   ProduceBytesPerSecond: 20
   LeakBytesPerSecond: 20
   MemorySize: 12800
-  Description: 
-  Price: 50
+  Description: Find and gather chopped trees. Requires walk()
+  Price: 1024

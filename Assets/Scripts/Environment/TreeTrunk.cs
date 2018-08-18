@@ -86,6 +86,7 @@ public class TreeTrunk : MonoBehaviour
         IsRecycling = true;
         InteractionCollider.enabled = false;
         gameObject.layer = LayerMask.NameToLayer("InvisibleTree");
+        InteractionCollider.gameObject.layer = LayerMask.NameToLayer("InvisibleTree");
         Drop();
         if (RecycleAction != null)
             RecycleAction(this);
@@ -96,7 +97,7 @@ public class TreeTrunk : MonoBehaviour
 
     IEnumerator Co_Recycling()
     {
-        var forceAnimation = Time.time + 5;
+        var forceAnimation = Time.time + 2;
         while (true)
         {
             yield return null;
