@@ -104,7 +104,10 @@ namespace Model
                 return new Program.NotEnoughDataError();
 
             if (!simulate)
+            {
+                _game.GameProgress.DataCollected.Value -= price;
                 MemoryUpgrades.Value++;
+            }
 
             return new UpgradeMemoryResult(price);
         }
