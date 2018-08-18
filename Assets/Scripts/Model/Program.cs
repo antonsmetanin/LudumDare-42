@@ -31,7 +31,8 @@ namespace Model
             MemorySize = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
                 (version, _) => version.MemorySize + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
 
-            Name = CurrentVersion.Select(_ => GetName(GetCurrentVersionIndex())).ToReactiveProperty();
+            Name = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
+                (_, patchesCount) => GetName(GetCurrentVersionIndex(), patchesCount)).ToReactiveProperty();
 
             LeakBytesPerSecond = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
                 (version, _) => version.LeakBytesPerSecond + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
@@ -48,7 +49,8 @@ namespace Model
             MemorySize = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
                 (version, _) => version.MemorySize + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
 
-            Name = CurrentVersion.Select(_ => GetName(GetCurrentVersionIndex())).ToReactiveProperty();
+            Name = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
+                (_, patchesCount) => GetName(GetCurrentVersionIndex(), patchesCount)).ToReactiveProperty();
 
             LeakBytesPerSecond = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
                 (version, _) => version.LeakBytesPerSecond + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
@@ -72,7 +74,7 @@ namespace Model
         public void Uninstall() => _robot?.Programs.Remove(this);
 
         public int GetCurrentVersionIndex() => Array.IndexOf(Template.Versions, CurrentVersion.Value);
-        private string GetName(int index) => index == 0 ? Template.Name : Template.Name + " v." + (index + 1);
+        private string GetName(int index, int patches) => index == 0 && patches == 0 ? Template.Name : $"{Template.Name} v.{index + 1}.{patches}";
 
         public interface IPricedOperation : IOperationResult
         {
