@@ -10,10 +10,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _minFlyHeight = 10;
     [SerializeField] private float _maxFlyHeight = 55;
 
-    [SerializeField] private Vector2 _xLimits = new Vector2(-100,100);
-    [SerializeField] private Vector2 _zLimits = new Vector2(-100,100);
-
-
     private float _height;
 
     private float _deltaHeight;
@@ -93,9 +89,79 @@ public class CameraController : MonoBehaviour
         Vector3 newTarget = _targetTransform.transform.position +
                             _targetTransform.Velocity.normalized * MovementAnticipation;
 
-        _cameraTarget = Vector3.SmoothDamp(_cameraTarget, newTarget, ref _vel, CameraSmootTime);
+        Vector3 p1, p2, p3, p4;
+        var planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+        Intersect2Planes(planes[2], new Plane(Vector3.down, LandDepth), out p1); //down;
+        Intersect2Planes(planes[3], new Plane(Vector3.down, LandDepth), out p2); //up;
+        
+        Intersect2Planes(planes[0], new Plane(Vector3.down, LandDepth), out p3); //l;
+        Intersect2Planes(planes[1], new Plane(Vector3.down, LandDepth), out p4); //r;
 
+        float vertical = Vector3.Distance(p1, p2) / 2f;
+        float horizontal = Vector3.Distance(p3, p4) / 2f;
+
+        newTarget.x = Mathf.Clamp(newTarget.x, LowerLimit + vertical, UpperLimit - vertical);
+        newTarget.z = Mathf.Clamp(newTarget.z, LeftLimit + horizontal, RightLimit - horizontal);
+        _cameraTarget = Vector3.SmoothDamp(_cameraTarget, newTarget, ref _vel, CameraSmootTime);
         transform.position = _cameraTarget - transform.forward * _height;
+    }
+
+    public float LandDepth = 21;
+    public float LowerLimit = -70;
+    public float UpperLimit = 129;
+    public float LeftLimit = -70;
+    public float RightLimit = 129;
+    
+    public void Intersect2Planes(Plane Pn1, Plane Pn2, out Vector3 point1)
+    {
+        Vector3 u = Vector3.Cross(Pn1.normal, Pn2.normal); // cross product
+        float ax = (u.x >= 0 ? u.x : -u.x);
+        float ay = (u.y >= 0 ? u.y : -u.y);
+        float az = (u.z >= 0 ? u.z : -u.z);
+
+        // Pn1 and Pn2 intersect in a line
+        // first determine max abs coordinate of cross product
+        int maxc; // max coordinate
+        if (ax > ay)
+        {
+            if (ax > az)
+                maxc = 1;
+            else maxc = 3;
+        }
+        else
+        {
+            if (ay > az)
+                maxc = 2;
+            else maxc = 3;
+        }
+
+        Vector3 iP = new Vector3(); // intersect point
+        float d1, d2;
+        d1 = Vector3.Dot(Pn1.normal, Pn1.normal * Pn1.distance);
+        d2 = Vector3.Dot(Pn2.normal, Pn2.normal * Pn2.distance);
+
+        switch (maxc)
+        {
+            // select max coordinate
+            case 1: // intersect with x=0
+                iP.x = 0;
+                iP.y = (d2 * Pn1.normal.z - d1 * Pn2.normal.z) / u.x;
+                iP.z = (d1 * Pn2.normal.y - d2 * Pn1.normal.y) / u.x;
+                break;
+            case 2: // intersect with y=0
+                iP.x = (d1 * Pn2.normal.z - d2 * Pn1.normal.z) / u.y;
+                iP.y = 0;
+                iP.z = (d2 * Pn1.normal.x - d1 * Pn2.normal.x) / u.y;
+                break;
+            case 3: // intersect with z=0
+                iP.x = (d2 * Pn1.normal.y - d1 * Pn2.normal.y) / u.z;
+                iP.y = (d1 * Pn2.normal.x - d2 * Pn1.normal.x) / u.z;
+                iP.z = 0;
+                break;
+        }
+
+        point1 = iP;
+        //point2 = iP + u;
     }
 
     public float MovementAnticipation = 2;

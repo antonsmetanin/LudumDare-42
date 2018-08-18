@@ -53,7 +53,7 @@ ModelImporter:
     2100010: 'Material #27'
     2100012: 02 - Default
     4300000: Box002
-    7400000: Take 001
+    7400000: Idle
     7400002: Off
     9500000: //RootNode
     13700000: Box002
@@ -86,17 +86,17 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Idle
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 24
+      lastFrame: 0.2
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

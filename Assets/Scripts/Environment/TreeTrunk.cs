@@ -13,13 +13,19 @@ public class TreeTrunk : MonoBehaviour
         public float Count;
     }
 
+    public Joint Carrier;
     public Collider FallCollider;
     public Collider InteractionCollider;
-    public CollectPoint[] CollectPoints;
-    public GameObject[] Parts;
+    public Rigidbody Rigidbody;
+    
     public bool IsDead;
     public bool IsCarring;
     public bool IsLoaded;
+    public bool IsRecycling;
+
+    public float Wood = 50;
+
+    public Action<TreeTrunk> RecycleAction;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,20 +34,33 @@ public class TreeTrunk : MonoBehaviour
             IsDead = true;
             InteractionCollider.enabled = true;
             FallCollider.enabled = false;
-            /*for (int i = 0; i < Parts.Length; i++)
-            {
-                Parts[i].transform.SetParent(null);
-                Parts[i].SetActive(true);
-                Parts[i].GetComponent<Rigidbody>().AddForce(Vector3.up * 5, ForceMode.VelocityChange);
-            }
-
-            gameObject.SetActive(false);*/
         }
+    }
+
+    public void Carry(Joint carrier)
+    {
+        Carrier = carrier;
+        Carrier.connectedBody = Rigidbody;
+        IsCarring = carrier != null;
+        InteractionCollider.enabled = !IsCarring;
+    }
+
+    public void Drop()
+    {
+        if (Carrier != null)
+        {
+            Carrier.connectedBody = null;
+            Carrier = null;
+        }
+        
+        IsCarring = Carrier != null;
+        InteractionCollider.enabled = !IsCarring;
+
     }
 
     public CollectPoint GetCollectPoint()
     {
-        return CollectPoints.FirstOrDefault(_ => _.Count > 0);
+        return null;
     }
 
     public Vector3 GetCollectPointPosition(CollectPoint cp)
@@ -55,6 +74,48 @@ public class TreeTrunk : MonoBehaviour
         cp.Count -= value;
         return value;
     }
+
+    public void Recycle(Ark ark)
+    {
+        IsRecycling = true;
+        InteractionCollider.enabled = false;
+        gameObject.layer = LayerMask.NameToLayer("InvisibleTree");
+        Drop();
+        if (RecycleAction != null)
+            RecycleAction(this);
+
+        StartCoroutine(Co_Recycling());
+
+    }
+
+    IEnumerator Co_Recycling()
+    {
+        var forceAnimation = Time.time + 5;
+        while (true)
+        {
+            yield return null;
+
+            if(Time.time > forceAnimation || Rigidbody.IsSleeping())
+                break;
+        }
+
+        float animationLn = 3;
+        Destroy(Rigidbody);
+
+        if (RecyclingStarted != null)
+            RecyclingStarted(this, animationLn);
+
+        var animationEnd = Time.time + animationLn;
+        while (Time.time < animationEnd)
+        {
+            transform.position += Vector3.down * Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
+    public Action<TreeTrunk, float> RecyclingStarted;
 
     //private void OnDrawGizmos()
     //{

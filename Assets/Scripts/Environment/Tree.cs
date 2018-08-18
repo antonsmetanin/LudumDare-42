@@ -78,7 +78,7 @@ public class Tree : MonoBehaviour, IAlive
         _fallingRigidbody.isKinematic = false;
         _fallingRigidbody.constraints = RigidbodyConstraints.FreezeRotationZ;
 
-        _fallingRigidbody.AddForceAtPosition(direction * 20, transform.position + Vector3.up * 5, ForceMode.Impulse);
+        _fallingRigidbody.AddForceAtPosition(direction.normalized * 40, transform.position + Vector3.up * 5, ForceMode.Impulse);
 
 
 

@@ -23,7 +23,6 @@ public class WinLoseConditions : MonoBehaviour
 	[SerializeField] private int _floodStartsAtDay = 3;
 	public EGameStatus GameStatus;
 	public FloatReactiveProperty FloodLevel = new FloatReactiveProperty();
-	public FloatReactiveProperty Wood = new FloatReactiveProperty(30);
 	public FloatReactiveProperty Ark = new FloatReactiveProperty(10);
 
 	[SerializeField] private float _arkGoal = 1000;
@@ -53,16 +52,22 @@ public class WinLoseConditions : MonoBehaviour
 
 	private void Start()
 	{
+		_woodBar.gameObject.SetActive(false);
+		
 		_dayNumber.Subscribe(OnDayChange);
 		Ark.Subscribe(f =>
 		{
 			_arkBar.fillAmount = f / _arkGoal;
 			_ark.UpdateStage(f / _arkGoal);
 		});
-		Wood.Subscribe(f => { _woodBar.fillAmount = (Ark.Value + f) / _arkGoal; });
-
 		Ark.Value++;
-		Wood.Value++;
+		
+		_ark.OnRecycle += OnRecycle;
+	}
+
+	private void OnRecycle(float obj)
+	{
+		Ark.Value += obj;
 	}
 
 	public void OnDayChange(int day)

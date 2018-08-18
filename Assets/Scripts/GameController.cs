@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] private RobotController _robotControllerTemplate;
 	[SerializeField] private Transform _robotSpawnPosition;
+	[SerializeField] private Transform _robotTargetPosition;
 
     [SerializeField] private GameTemplate _gameTemplate;
 
@@ -46,6 +47,7 @@ public class GameController : MonoBehaviour
 			robotController.Game = game;
 			robotController.RobotModel.Transform = robotController.transform;
 			robotController.transform.position = _robotSpawnPosition.position;
+			robotController.StartCoroutine(robotController.CO_Spawn(_robotTargetPosition.position));
 		}).AddTo(_disposable);
 
 		game.Robots.Add(new Robot(game.Template.RobotTemplate, game));

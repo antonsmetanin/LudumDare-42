@@ -577,7 +577,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1086399418849762}
   m_LocalRotation: {x: -0, y: -0.33124572, z: -0, w: 0.94354457}
-  m_LocalPosition: {x: 49.37696, y: 7.961938, z: 46.150978}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.6229, y: 2.6229, z: 2.6229}
   m_Children:
   - {fileID: 4043428399789430}
@@ -716,8 +716,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movable: {fileID: 0}
   Force: 10
+  _navAgent: {fileID: 195384912652770386}
   Animator: {fileID: 95525999596775330}
   Joint: {fileID: 153956550832494250}
+  RotationSpeed: 15
+  CutDelay: 1
+  CutHitTime: 0.2
+  CutStr: 25
 --- !u!114 &114717086889071342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -736,7 +741,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1086399418849762}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 1.78
@@ -816,7 +821,7 @@ CharacterController:
   m_Height: 1
   m_Radius: 0.23
   m_SlopeLimit: 45
-  m_StepOffset: 0.7
+  m_StepOffset: 0.8
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}
@@ -927,7 +932,7 @@ NavMeshAgent:
   m_Acceleration: 3
   avoidancePriority: 50
   m_AngularSpeed: 45
-  m_StoppingDistance: 2
+  m_StoppingDistance: 1.6
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1

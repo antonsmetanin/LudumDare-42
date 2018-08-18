@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using Data;
 using Model;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class RobotController : UnitControllerBase
 {
     public float Force = 10f;
     private Transform _target;
-    private NavMeshAgent _navAgent;
+    [SerializeField] private NavMeshAgent _navAgent;
 
     public Model.Robot RobotModel;
     public Model.Game Game;
@@ -25,12 +26,12 @@ public class RobotController : UnitControllerBase
     private string _cutStateName = "cut";
 
     public Joint Joint;
-
+    public float RotationSpeed;
+    
     public override void Init()
     {
         base.Init();
 
-        _navAgent = GetComponent<NavMeshAgent>();
         _navAgent.updatePosition = false;
         _navAgent.updateRotation = false;
         _target = null;
@@ -52,6 +53,14 @@ public class RobotController : UnitControllerBase
         });
     }
 
+    private void Steer(Vector2 move, bool backwards = false)
+    {
+        Move(move);
+        transform.rotation = Quaternion.Lerp(transform.rotation,
+            Quaternion.LookRotation(backwards ? new Vector3(-move.x, 0, -move.y) : new Vector3(move.x, 0, move.y), Vector3.up), Time.deltaTime * RotationSpeed);
+
+    }
+
     private bool _inProgress;
     private ProgramType? _currentProgram;
     private ProgramType? _nextProgram;
@@ -69,12 +78,14 @@ public class RobotController : UnitControllerBase
             {
                 StopCoroutine(cou);
                 EndCoProgram();
+                
+                Animator.SetBool("off", true);
             }
 
             _currentProgram = null;
             return;
         }
-
+        
         if (_inProgress)
             return;
 
@@ -97,6 +108,9 @@ public class RobotController : UnitControllerBase
                 _currentProgram = ProgramType.Walk;
             }
         }
+        
+        Animator.SetBool("off", !_currentProgram.HasValue);
+
 
         switch (_currentProgram)
         {
@@ -196,6 +210,35 @@ public class RobotController : UnitControllerBase
         EndCoProgram();
     }
 
+    public IEnumerator CO_Spawn(Vector3 targetPosition)
+    {
+        Animator.SetBool(_walkStateName, true);
+        Animator.SetBool("off", true);
+
+        _navAgent.nextPosition = transform.position;
+        _navAgent.ResetPath();
+        _navAgent.SetDestination(targetPosition);
+        
+        yield return null;
+        ResetTime();
+
+        while ((_navAgent.pathStatus != NavMeshPathStatus.PathComplete || _navAgent.remainingDistance > _navAgent.stoppingDistance)
+               && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
+        {
+            var direction = _navAgent.desiredVelocity.normalized;
+            var move = new Vector2(direction.x, direction.z);
+            Steer(move);
+            _navAgent.velocity = _movable.Velocity;
+
+            ComputeTime(Time.deltaTime, ProgramType.Walk);
+
+            yield return null;
+        }
+        
+        Animator.SetBool(_walkStateName, false);
+    }
+
+
     private IEnumerator Co_Walk()
     {
         Animator.SetBool(_walkStateName, true);
@@ -226,8 +269,8 @@ public class RobotController : UnitControllerBase
             && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
-            Move(new Vector2(direction.x, direction.z));
-            transform.LookAt(transform.position + new Vector3(direction.x, 0, direction.z));
+            var move = new Vector2(direction.x, direction.z);
+            Steer(move);
             _navAgent.velocity = _movable.Velocity;
 
             ComputeTime(Time.deltaTime, ProgramType.Walk);
@@ -263,8 +306,6 @@ public class RobotController : UnitControllerBase
 
     private IEnumerator Co_Cut(Tree tree)
     {
-        Animator.SetBool(_cutStateName, true);
-
         if (!RobotModel.Programs.Any(_ => _.Template.Type == ProgramType.Cut))
         {
             EndCoProgram();
@@ -282,13 +323,24 @@ public class RobotController : UnitControllerBase
         ResetTime();
         while (tree != null && tree.IsAlive)
         {
-            tree.Cut(10, direction);
+            Animator.SetBool(_cutStateName, true);
+            
+            yield return new WaitForSeconds(CutHitTime);
+            tree.Cut(CutStr, direction);
             ComputeTime(Time.deltaTime, ProgramType.Walk);
-            yield return new WaitForSeconds(0.1f);
+            
+            Animator.SetBool(_cutStateName, false);
+            yield return new WaitForSeconds(CutDelay);
+            
         }
 
         EndCoProgram();
     }
+    
+    [SerializeField] private float CutDelay = 1;
+    [SerializeField] private float CutHitTime = .1f;
+    [SerializeField] private float CutStr = 10;
+
 
     private IEnumerator Co_Gather(TreeTrunk trunk)
     {
@@ -309,35 +361,30 @@ public class RobotController : UnitControllerBase
 
         trunk.IsCarring = true;
 
-        transform.LookAt(_target.position);
         yield return null;
 
-        Joint.connectedBody = trunk.GetComponent<Rigidbody>();
+        trunk.Carry(Joint);
+
         var ark = WorldObjects.Instance.GetFirstItem<Ark>();
         _navAgent.nextPosition = transform.position;
         _navAgent.ResetPath();
-        _navAgent.SetDestination(ark.LoadingArea.transform.position);
+        _navAgent.SetDestination(ark.transform.position);
 
         yield return null;
         ResetTime();
 
         Animator.SetBool(_walkStateName, true);
         
-        while (Vector3.Distance(transform.position, _navAgent.destination) > 2f
-            && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
+        while (!trunk.IsRecycling && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
-            Move(new Vector2(direction.x, direction.z));
-            transform.LookAt(_target.position - new Vector3(direction.x, 0, direction.z));
+            Steer(new Vector2(direction.x, direction.z), true);
             _navAgent.velocity = _movable.Velocity;
 
             ComputeTime(Time.deltaTime, ProgramType.Gather);
 
             yield return null;
         }
-        
-        ark.LoadTrunk(trunk);
-        Joint.connectedBody = null;
 
         EndCoProgram();
     }
@@ -423,4 +470,5 @@ public class RobotController : UnitControllerBase
             }
         }
     }
+
 }

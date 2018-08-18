@@ -26,7 +26,8 @@ public class PlayerController : UnitControllerBase
     private Coroutine cut;
     private Collider[] _interactive = new Collider[3];
     private bool _drag;
-
+    private TreeTrunk burden;
+    
     private bool Drag
     {
         get { return _drag; }
@@ -75,24 +76,36 @@ public class PlayerController : UnitControllerBase
 
     public void FindDragTarget()
     {
-        if (Drag)
+        if (burden != null)
         {
-            Joint.connectedBody = null;
+            burden.Drop();
+            burden.RecycleAction -= OnBurdenRecycled;
+            burden = null;
         }
         else
         {
             if (_interactive[0] != null)
             {
-                Debug.Log(_interactive[0]);
-                Joint.connectedBody = _interactive[0].GetComponentInParent<Rigidbody>();
+                var treeTrunk = _interactive[0].GetComponentInParent<TreeTrunk>();
+                burden = treeTrunk;
+                burden.RecycleAction += OnBurdenRecycled;
+                burden.Carry(Joint);
             }
         }
 
-        Drag = Joint.connectedBody != null;
+        Drag = burden != null;
+    }
+
+    private void OnBurdenRecycled(TreeTrunk obj)
+    {
+        obj.RecycleAction -= OnBurdenRecycled;
+        burden = null;
+        Drag = burden != null;
     }
 
     private void Update()
     {
+        _interactive = new Collider[1];
         var count = Physics.OverlapSphereNonAlloc(InteractionCollider.transform.position, InteractionCollider.radius, _interactive, InteractionLayer);
         InteractionAvailable = count > 0;
     }

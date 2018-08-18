@@ -68,6 +68,7 @@ GameObject:
   - component: {fileID: 143200630309146856}
   - component: {fileID: 114028862828148632}
   - component: {fileID: 114047942243653504}
+  - component: {fileID: 208496266279050740}
   m_Layer: 15
   m_Name: Dude
   m_TagString: Untagged
@@ -641,7 +642,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1584914936204020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.375, z: 0.352}
+  m_LocalPosition: {x: -0, y: 0.375, z: 0.312}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4759520319702624}
@@ -830,19 +831,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movable: {fileID: 114028862828148632}
-  RotationSpeed: 10
   Animator: {fileID: 95145276386776782}
+  RotationSpeed: 10
+  SpeedDrag: 0.2
+  SpeedNormal: 0.5
+  CutRadius: 4
+  CutTime: 0.3
+  CutCooldown: 0.2
+  CutForce: 500
   Joint: {fileID: 153118276179863056}
   InteractionCollider: {fileID: 135117212751495464}
   InteractionLayer:
     serializedVersion: 2
     m_Bits: 24576
-  CutRadius: 4
-  CutTime: 0.3
-  CutCooldown: 0.2
-  CutForce: 50
-  SpeedDrag: 0.04
-  SpeedNormal: 0.1
   InteractionAvailable: 0
 --- !u!135 &135117212751495464
 SphereCollider:
@@ -854,7 +855,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137234648243420004
 SkinnedMeshRenderer:
@@ -1084,3 +1085,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!208 &208496266279050740
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169350289348354}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.46, y: 0.845, z: 0.46}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
