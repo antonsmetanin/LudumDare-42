@@ -32,6 +32,7 @@ public class WinLoseConditions : MonoBehaviour
 	public FloatReactiveProperty Ark = new FloatReactiveProperty(10);
 	public PlayerController _player;
 	public Image FadeToBlack;
+	public TextAnimation ta;
 
 	[SerializeField] private float _arkGoal = 1000;
 
@@ -119,6 +120,7 @@ public class WinLoseConditions : MonoBehaviour
 		if (_daysOfFlood > 0)
 		{
 			StartCoroutine(Co_flood(3));
+			ta.Play(3);
 		}
 		
 		if(_daysOfFlood > _floodLevels.Count - 1)

@@ -393,7 +393,7 @@ public class RobotController : UnitControllerBase
             
             Animator.SetBool(_cutStateName, false);
             yield return new WaitForSeconds(CutDelay);
-            
+            Speaker.Speak();
         }
 
         EndCoProgram();
