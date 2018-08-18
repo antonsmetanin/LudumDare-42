@@ -49,12 +49,17 @@ public class RobotController : UnitControllerBase
 
         RobotModel.Programs.ObserveAdd().Subscribe(addEvent =>
         {
+            var newType = addEvent.Value.Template.Type;
+            if (newType == ProgramType.Sync)
+            {
+                if (!_hasSyncState)
+                    _hasSyncState = true;
+                return;
+            }
+
             if (!_currentProgram.HasValue)
                 return;
-
-            var newType = addEvent.Value.Template.Type;
-            if (!_hasSyncState && newType == ProgramType.Sync)
-                _hasSyncState = true;
+            
             switch (newType)
             {
                 case ProgramType.Protect:
@@ -126,6 +131,13 @@ public class RobotController : UnitControllerBase
             return;
         }
         
+        if (_hasSyncState && _syncTime + SyncInterval < Time.time)
+        {
+            // TODO Sync
+
+            _syncTime = Time.time;
+        }
+
         if (_inProgress)
             return;
 
