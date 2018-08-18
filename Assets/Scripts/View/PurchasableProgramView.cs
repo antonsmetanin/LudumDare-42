@@ -34,7 +34,7 @@ namespace View
                 .Subscribe(canUpgrade => _button.interactable = canUpgrade.Error == null)
                 .AddTo(_disposable);
 
-            game.GameProgress.AvailablePrograms.CountProperty()
+            game.GameProgress.AvailablePrograms.ObserveCountChanged(true)
                 .Select(_ => game.GameProgress.AvailablePrograms.Any(program => program.Template == programTemplate))
                 .Subscribe(isAlreadyAvailable => gameObject.SetActive(!isAlreadyAvailable))
                 .AddTo(_disposable);

@@ -117,7 +117,7 @@ public class RobotController : UnitControllerBase
 
     private void Update()
     {
-        if (RobotModel.Broken.Value)
+        if (RobotModel.Status.Value == Robot.RobotStatus.OutOfMemory)
         {
             Debug.Log("Broken");
             Coroutine cou;

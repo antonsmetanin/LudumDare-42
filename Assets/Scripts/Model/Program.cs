@@ -28,12 +28,12 @@ namespace Model
             CurrentVersion = new ReactiveProperty<ProgramVersion>(template.Versions[0]);
             InstalledPatches = new ReactiveCollection<PatchTemplate>();
 
-            MemorySize = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
+            MemorySize = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
                 (version, _) => version.MemorySize + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
 
             Name = CurrentVersion.Select(_ => GetName(GetCurrentVersionIndex())).ToReactiveProperty();
 
-            LeakBytesPerSecond = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
+            LeakBytesPerSecond = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
                 (version, _) => version.LeakBytesPerSecond + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
 
             ProduceBytesPerSecond = CurrentVersion.Select(x => x.ProduceBytesPerSecond).ToReactiveProperty();
@@ -45,12 +45,12 @@ namespace Model
             CurrentVersion = new ReactiveProperty<ProgramVersion>(originalProgram.CurrentVersion.Value);
             InstalledPatches = new ReactiveCollection<PatchTemplate>(originalProgram.InstalledPatches);
 
-            MemorySize = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
+            MemorySize = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
                 (version, _) => version.MemorySize + InstalledPatches.Sum(patch => patch.SizeDelta)).ToReactiveProperty();
 
             Name = CurrentVersion.Select(_ => GetName(GetCurrentVersionIndex())).ToReactiveProperty();
 
-            LeakBytesPerSecond = CurrentVersion.CombineLatest(InstalledPatches.CountProperty(),
+            LeakBytesPerSecond = CurrentVersion.CombineLatest(InstalledPatches.ObserveCountChanged(true),
                 (version, _) => version.LeakBytesPerSecond + InstalledPatches.Sum(patch => patch.LeakDelta)).ToReactiveProperty();
 
             ProduceBytesPerSecond = CurrentVersion.Select(x => x.ProduceBytesPerSecond).ToReactiveProperty();
@@ -98,7 +98,7 @@ namespace Model
         }
 
         public IObservable<Result<PatchResult>> CanPatch(GameProgress gameProgress)
-            => gameProgress.DataCollected.CombineLatest(InstalledPatches.ObserveCountChanged(), (_, __) => Patch(gameProgress, simulate: true));
+            => gameProgress.DataCollected.CombineLatest(InstalledPatches.ObserveCountChanged(true), (_, __) => Patch(gameProgress, simulate: true));
 
         public Result<UpgradeResult> Upgrade(GameProgress gameProgress, bool simulate = false)
         {
@@ -144,10 +144,6 @@ namespace Model
 
             return new PatchResult(nextPatch.Price);
         }
-
-        
-
-
     }
 }
 

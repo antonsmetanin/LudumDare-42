@@ -44,8 +44,10 @@ namespace View
 				.CreateView(_programViewTemplate, _memoryTransform, (view, program) => view.Show(game, program))
 				.AddTo(_disposable);
 
-			robot.Broken
-				.Subscribe(broken => _statusLabel.text = broken ? "Out Of Memory Exception_" : "OK_")
+			robot.Status
+				.Subscribe(status => _statusLabel.text = status == Robot.RobotStatus.OutOfMemory ? "Out Of Memory Exception_"
+                                                       : status == Robot.RobotStatus.BootError ? "Boot Error_"
+                                                       : "OK_")
 				.AddTo(_disposable);
 
 			_leakedDataView.Show(game, robot, DataFileView.DataFileType.Leak, () => robot.LeakedBytes.Value);
@@ -54,8 +56,8 @@ namespace View
 			_producedDataView.Show(game, robot, DataFileView.DataFileType.Produce, () => robot.ProducedBytes.Value);
 			_producedDataView.AddTo(_disposable);
 
-			robot.Programs.CountProperty()
-				.Subscribe(programsCount => _dropModulesLabel.gameObject.SetActive(programsCount == 0))
+			robot.Programs.ObserveCountChanged(true)
+                .Subscribe(programsCount => _dropModulesLabel.gameObject.SetActive(programsCount == 0))
 				.AddTo(_disposable);
 		}
 

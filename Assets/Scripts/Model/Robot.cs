@@ -21,8 +21,16 @@ namespace Model
         public readonly IReadOnlyReactiveProperty<int> ProgramBytes;
         public readonly IReadOnlyReactiveProperty<int> TotalUsedBytes;
         public readonly IReadOnlyReactiveProperty<int> FreeSpace;
-        public readonly IReadOnlyReactiveProperty<bool> Broken;
         public readonly IReadOnlyReactiveProperty<int> MemorySize;
+
+        public enum RobotStatus
+        {
+            Ok,
+            BootError,
+            OutOfMemory
+        }
+
+        public readonly IReadOnlyReactiveProperty<RobotStatus> Status;
 
         public Robot(RobotTemplate template, Game game)
         {
@@ -32,12 +40,12 @@ namespace Model
 
             Programs = new ReactiveCollection<Program>();
 
-            ProgramBytes = Programs.CountProperty()
+            ProgramBytes = Programs.ObserveCountChanged(true)
                 .SelectMany(_ => Programs
                     .Select(x => x.MemorySize)
                     .CombineLatest()
                     .Select(y => y.Sum()))
-                .ToReactiveProperty();
+                .ToReactiveProperty(initialValue: 0);
 
             TotalUsedBytes = ProgramBytes.CombineLatest(LeakedBytes, ProducedBytes,
                 (programs, leaked, produced) => programs + leaked + produced)
@@ -47,7 +55,10 @@ namespace Model
                 (used, memory) => memory - used)
                 .ToReactiveProperty();
 
-            Broken = FreeSpace.Select(x => x <= 0)
+            Status = Programs.ObserveCountChanged(true).CombineLatest(FreeSpace,
+                (programCount, freeSpace) => freeSpace <= 0 ? RobotStatus.OutOfMemory
+                                           : programCount == 0 ? RobotStatus.BootError
+                                           : RobotStatus.Ok)
                 .ToReactiveProperty();
 
             _game = game;
