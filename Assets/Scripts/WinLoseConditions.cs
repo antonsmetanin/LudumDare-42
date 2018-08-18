@@ -85,6 +85,7 @@ public class WinLoseConditions : MonoBehaviour
 		Ark.Value = 0;
 		
 		_ark.OnRecycle += OnRecycle;
+		StartCoroutine(CheckDrowned());
 	}
 
 	private IEnumerator Win()
@@ -109,6 +110,21 @@ public class WinLoseConditions : MonoBehaviour
 	private void OnRecycle(float obj)
 	{
 		Ark.Value += obj;
+	}
+
+	private IEnumerator CheckDrowned()
+	{
+		while (!drown)
+		{
+			if (_flood.position.y > _player.transform.position.y + _player.WaterThreshold)
+			{
+				drown = true;
+				_player.Drowned();
+				StartCoroutine(Lose());
+			}
+			
+			yield return new WaitForSeconds(.25f);
+		}
 	}
 
 	public void OnDayChange(int day)
@@ -166,13 +182,6 @@ public class WinLoseConditions : MonoBehaviour
 			var y = Mathf.Lerp(currentHeight, floodHeight, t / time);
 			_flood.position = new Vector3(_flood.position.x, y, _flood.position.z);
 			yield return null;
-			
-			if (!drown && _flood.position.y > _player.transform.position.y + _player.WaterThreshold)
-			{
-				drown = true;
-				_player.Drowned();
-				StartCoroutine(Lose());
-			}
 		}
 	}
 }
