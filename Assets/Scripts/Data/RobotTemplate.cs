@@ -6,5 +6,6 @@ namespace Data
 	public class RobotTemplate : ScriptableObject
 	{
 		public int InitialMemorySize;
+		public int MemoryUpgradeSize;
 	}
 }

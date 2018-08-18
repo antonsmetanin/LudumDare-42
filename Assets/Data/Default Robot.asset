@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Name: Default Robot
   m_EditorClassIdentifier: 
   InitialMemorySize: 28672
+  MemoryUpgradeSize: 2048

@@ -27,7 +27,7 @@ namespace Model
         public Robot(RobotTemplate template, Game game)
         {
             MemorySize = MemoryUpgrades
-                .Select(upgradesCount => template.InitialMemorySize + upgradesCount * 16384)
+                .Select(upgradesCount => template.InitialMemorySize + upgradesCount * template.MemoryUpgradeSize)
                 .ToReactiveProperty();
 
             Programs = new ReactiveCollection<Program>();
@@ -95,7 +95,7 @@ namespace Model
 
         public Result<UpgradeMemoryResult> UpgradeMemory(bool simulate = false)
         {
-            if (MemoryUpgrades.Value >= 2)
+            if (MemoryUpgrades.Value >= 3)
                 return new MaxUpgradesReachedError();
 
             var price = _game.Template.MemoryUpgradePrice;

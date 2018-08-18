@@ -344,8 +344,8 @@ public class RobotController : UnitControllerBase
     private Vector3 GetPointOnGround()
     {
         var targetPosition = transform.position;
-        targetPosition.x += Random.Range(-5, 5);
-        targetPosition.z += Random.Range(-5, 5);
+        targetPosition.x += Random.Range(-8, 8);
+        targetPosition.z += Random.Range(-8, 8);
         targetPosition.y += 2;
 
         RaycastHit hit;
@@ -383,10 +383,12 @@ public class RobotController : UnitControllerBase
             
             yield return new WaitForSeconds(CutHitTime);
             tree.Cut(CutStr, direction);
-            ComputeTime(Time.deltaTime, ProgramType.Cut);
             
             Animator.SetBool(_cutStateName, false);
             yield return new WaitForSeconds(CutDelay);
+            
+            ComputeTime(CutHitTime + CutDelay, ProgramType.Cut);
+
             Speaker.Speak();
         }
 
