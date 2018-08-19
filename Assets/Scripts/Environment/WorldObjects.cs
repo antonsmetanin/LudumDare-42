@@ -149,7 +149,7 @@ public class WorldObjects : MonoBehaviour
         if (!_worldObjects.TryGetValue(typeof(T), out list) || list.Count == 0)
             return null;
 
-        var ordered = list.Where(_ => _additionalCheck[typeof(T)](_)).OrderByDescending(_ => Vector3.Distance(position, _.transform.position)).ToArray();
+        var ordered = list.Where(_ => _additionalCheck[typeof(T)](_)).OrderBy(_ => Vector3.Distance(position, _.transform.position)).ToArray();
         if (ordered.Length == 0)
             return null;
 
