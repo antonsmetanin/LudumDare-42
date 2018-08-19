@@ -11,8 +11,8 @@ namespace View
 	public class DashboardProgramView : MonoBehaviour, IDisposable
 	{
 		[SerializeField] private ProgramView _programView;
-		[SerializeField] private Button _upgradeButton;
-		[SerializeField] private Button _patchButton;
+		[SerializeField] private BetterButton _upgradeButton;
+		[SerializeField] private BetterButton _patchButton;
 		[SerializeField] private TextMeshProUGUI _characteristicsLabel;
 		[SerializeField] private RectTransform _sizeIndicator;
 		[SerializeField] private TextMeshProUGUI _sizeIndicatorLabel;
@@ -29,20 +29,20 @@ namespace View
 
 			_description.text = program.CurrentVersion.Value.Description;
 
-			program.CurrentVersion.Subscribe(_ => _upgradeButton.GetComponentInChildren<Text>().text = "v" + (program.GetCurrentVersionIndex() + 2));
+			program.CurrentVersion.Subscribe(_ => _upgradeButton.Label.text = "v" + (program.GetCurrentVersionIndex() + 2));
 
-			_upgradeButton.OnClickAsObservable().Subscribe(_ => program.Upgrade(game.GameProgress)).AddTo(_disposable);
-			_patchButton.OnClickAsObservable().Subscribe(_ => program.Patch(game.GameProgress)).AddTo(_disposable);
+			_upgradeButton.Button.OnClickAsObservable().Subscribe(_ => program.Upgrade(game.GameProgress)).AddTo(_disposable);
+			_patchButton.Button.OnClickAsObservable().Subscribe(_ => program.Patch(game.GameProgress)).AddTo(_disposable);
 
 			program.CanUpgrade(game.GameProgress).Subscribe(upgradeResult =>
 			{
-				_upgradeButton.interactable = upgradeResult.Error == null;
+				_upgradeButton.SetInteractable(upgradeResult.Error == null);
 				_upgradeButton.gameObject.SetActive(!(upgradeResult.Error is Program.FinalVersionReachedError));
 			}).AddTo(_disposable);
 
 			program.CanPatch(game.GameProgress).Subscribe(patchResult =>
 			{
-				_patchButton.interactable = patchResult.Error == null;
+				_patchButton.SetInteractable(patchResult.Error == null);
 				_patchButton.gameObject.SetActive(!(patchResult.Error is Program.FinalVersionReachedError));
 			}).AddTo(_disposable);
 
