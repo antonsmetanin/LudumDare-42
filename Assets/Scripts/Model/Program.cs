@@ -165,13 +165,15 @@ namespace Model
             if (gameProgress.DataCollected.Value < nextPatch.Price)
                 return new NotEnoughDataError();
 
+            var reducedLeak = LeakBytesPerSecond.Value + nextPatch.LeakDelta;
+
             if (!simulate)
             {
                 InstalledPatches.Add(nextPatch);
                 gameProgress.DataCollected.Value -= nextPatch.Price;
             }
 
-            return new PatchResult(this, nextPatch.Price, CurrentVersion.Value.LeakBytesPerSecond + nextPatch.LeakDelta, CurrentVersion.Value.ProduceBytesPerSecond);
+            return new PatchResult(this, nextPatch.Price, reducedLeak, CurrentVersion.Value.ProduceBytesPerSecond);
         }
     }
 }
