@@ -46,9 +46,13 @@ namespace View
 				_patchButton.gameObject.SetActive(!(patchResult.Error is Program.FinalVersionReachedError));
 			}).AddTo(_disposable);
 
-			program.LeakBytesPerSecond.CombineLatest(program.ProduceBytesPerSecond, pendingAction,
-				(leak, produce, pending) => pending is Program.IProgramChangeOperation programChange && programChange.Program == program ? (produce: programChange.Produce, leak: programChange.Leak)
-                    : (produce: produce, leak: leak))
+            Observable.CombineLatest
+                (program.LeakBytesPerSecond, program.ProduceBytesPerSecond, pendingAction,
+                (leak, produce, pending)
+                    => pending is Program.IProgramChangeOperation programChange
+                    && programChange.Program == program
+                        ? (produce: programChange.Produce, leak: programChange.Leak)
+                        : (produce: produce, leak: leak))
 				.Subscribe(x => _characteristicsLabel.text = $"<color=#FBDF6A>produce</color> {x.produce} byte/s    <color=#BD306C>leak</color> {x.leak} byte/s")
                 .AddTo(_disposable);
 
