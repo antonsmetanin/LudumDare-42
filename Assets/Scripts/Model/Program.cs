@@ -81,10 +81,27 @@ namespace Model
             int Price { get; }
         }
 
-        public class UpgradeResult : IPricedOperation
+        public interface IProgramChangeOperation
         {
-            public int Price { get; }
-            public UpgradeResult(int price) => Price = price;
+            Program Program { get; }
+            int Leak { get; }
+            int Produce { get; }
+        }
+
+        public class UpgradeResult : IPricedOperation, IProgramChangeOperation
+        {
+            public Program Program { get; }
+            public readonly ProgramVersion Version;
+
+            public int Price { get => Version.Price; }
+            public int Leak { get => Version.LeakBytesPerSecond; }
+            public int Produce { get => Version.LeakBytesPerSecond; }
+
+            public UpgradeResult(Program program, ProgramVersion version)
+            {
+                Program = program;
+                Version = version;
+            }
         }
 
         public class NotEnoughDataError : Error { }
@@ -93,10 +110,20 @@ namespace Model
         public IObservable<Result<UpgradeResult>> CanUpgrade(GameProgress gameProgress)
             => gameProgress.DataCollected.CombineLatest(CurrentVersion, (_, __) => Upgrade(gameProgress, simulate: true));
 
-        public class PatchResult : IPricedOperation
+        public class PatchResult : IPricedOperation, IProgramChangeOperation
         {
+            public Program Program { get; }
             public int Price { get; }
-            public PatchResult(int price) => Price = price;
+            public int Leak { get; }
+            public int Produce { get; }
+
+            public PatchResult(Program program, int price, int leak, int produce)
+            {
+                Program = program;
+                Price = price;
+                Leak = leak;
+                Produce = produce;
+            }
         }
 
         public IObservable<Result<PatchResult>> CanPatch(GameProgress gameProgress)
@@ -123,7 +150,7 @@ namespace Model
                 gameProgress.DataCollected.Value -= nextVersion.Price;
             }
 
-            return new UpgradeResult(nextVersion.Price);
+            return new UpgradeResult(this, nextVersion);
         }
 
         public Result<PatchResult> Patch(GameProgress gameProgress, bool simulate = false)
@@ -144,7 +171,7 @@ namespace Model
                 gameProgress.DataCollected.Value -= nextPatch.Price;
             }
 
-            return new PatchResult(nextPatch.Price);
+            return new PatchResult(this, nextPatch.Price, CurrentVersion.Value.LeakBytesPerSecond + nextPatch.LeakDelta, CurrentVersion.Value.ProduceBytesPerSecond);
         }
     }
 }
