@@ -13,7 +13,7 @@ public class WinLoseConditions : MonoBehaviour
 
 	public AudioClip Music;
 	public AudioSource Source;
-	
+
 	public enum EGameStatus
 	{
 		Tutorial,
@@ -68,7 +68,7 @@ public class WinLoseConditions : MonoBehaviour
 
 		FadeToBlack.CrossFadeAlpha(0, 1, true);
 
-		
+
 		_dayNumber.Subscribe(OnDayChange);
 		Ark.Subscribe(f =>
 		{
@@ -79,11 +79,11 @@ public class WinLoseConditions : MonoBehaviour
 			{
 				StartCoroutine(Win());
 			}
-			
+
 		});
-		
+
 		Ark.Value = 0;
-		
+
 		_ark.OnRecycle += OnRecycle;
 		StartCoroutine(CheckDrowned());
 	}
@@ -96,11 +96,11 @@ public class WinLoseConditions : MonoBehaviour
 		yield return new WaitForSeconds(2);
 		SceneManager.LoadSceneAsync("Win", LoadSceneMode.Single);
 	}
-	
+
 	private IEnumerator Lose()
 	{
 		yield return new WaitForSeconds(1);
-		
+
 		GameStatus = EGameStatus.Over;
 		FadeToBlack.gameObject.SetActive(true);
 		yield return new WaitForSeconds(2);
@@ -122,7 +122,7 @@ public class WinLoseConditions : MonoBehaviour
 				_player.Drowned();
 				StartCoroutine(Lose());
 			}
-			
+
 			yield return new WaitForSeconds(.25f);
 		}
 	}
@@ -139,7 +139,7 @@ public class WinLoseConditions : MonoBehaviour
 			StartCoroutine(Co_flood(3));
 			ta.Play(3);
 		}
-		
+
 		if(_daysOfFlood > _floodLevels.Count - 1)
 			StartCoroutine(Lose());
 	}
@@ -148,7 +148,7 @@ public class WinLoseConditions : MonoBehaviour
 	void Update () {
 
 		//FadeToBlack.gameObject.SetActive(true);
-		
+
 		if (GameStatus == EGameStatus.Running)
 			_currentTime += Time.deltaTime;
 		else if (GameStatus == EGameStatus.Over)
@@ -168,7 +168,7 @@ public class WinLoseConditions : MonoBehaviour
 	}
 
 	private bool drown;
-	
+
 	public IEnumerator Co_flood(float time)
 	{
 		float t = 0;
@@ -183,5 +183,7 @@ public class WinLoseConditions : MonoBehaviour
 			_flood.position = new Vector3(_flood.position.x, y, _flood.position.z);
 			yield return null;
 		}
+
+		WorldObjects.Instance.RemoveEverythingLoweerThan(_flood.position.y - .8f);
 	}
 }

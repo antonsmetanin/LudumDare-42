@@ -180,4 +180,16 @@ public class WorldObjects : MonoBehaviour
 
         return closestObject == null ? null : closestObject.gameObject;
     }
+
+    public void RemoveEverythingLoweerThan(float positionY)
+    {
+        foreach (var _list in _worldObjects)
+        {
+            for (int i = _list.Value.Count - 1; i > -1; i--)
+            {
+                if(_list.Value[i].transform.position.y < positionY)
+                    _list.Value.RemoveAt(i);
+            }
+        }
+    }
 }
