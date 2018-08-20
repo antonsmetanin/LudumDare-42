@@ -60,7 +60,11 @@ namespace View
 			_producedDataView.AddTo(_disposable);
 
             robot.CanUploadData()
-                .Subscribe(canUpload => _uploadButton.interactable = canUpload.Error == null)
+                .Subscribe(canUpload =>
+                {
+                    _uploadButton.GetComponentInChildren<TextMeshProUGUI>().text = canUpload.Error is Robot.UploadIsAlreadyRunningError ? "Uploading..." : "Upload";
+                    _uploadButton.interactable = canUpload.Error == null;
+                })
                 .AddTo(_disposable);
 
             _uploadButton.OnClickAsObservable()
