@@ -49,7 +49,7 @@ public class RobotController : UnitControllerBase
         _navAgent.updatePosition = false;
         _navAgent.updateRotation = false;
         _target = null;
-        _possiblePrograms = (ProgramType[])System.Enum.GetValues(typeof(ProgramType));
+        _possiblePrograms = new[] { ProgramType.Cut, ProgramType.Gather, ProgramType.Walk };
 
         RobotModel.Programs.ObserveAdd().Subscribe(addEvent =>
         {
