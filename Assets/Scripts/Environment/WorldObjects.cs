@@ -187,7 +187,7 @@ public class WorldObjects : MonoBehaviour
         {
             for (int i = _list.Value.Count - 1; i > -1; i--)
             {
-                if(_list.Value[i].transform.position.y < positionY)
+                if (_list.Value[i] == null || _list.Value[i].transform.position.y < positionY)
                     _list.Value.RemoveAt(i);
             }
         }
