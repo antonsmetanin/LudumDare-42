@@ -36,6 +36,7 @@ namespace Model
         }
 
         public readonly IReadOnlyReactiveProperty<RobotStatus> Status;
+        public readonly IReadOnlyReactiveProperty<bool> HasSyncProgram;
 
         public Robot(RobotTemplate template, Game game)
         {
@@ -68,6 +69,22 @@ namespace Model
                                            : programCount == 0 ? RobotStatus.BootError
                                            : RobotStatus.Ok)
                 .ToReactiveProperty();
+
+            HasSyncProgram = Programs.ObserveCountChanged(true)
+                .Select(_ => Programs.Any(x => x.Template.Type == ProgramType.Sync))
+                .ToReactiveProperty();
+
+            //TODO: stop sync on game over
+            Observable.CombineLatest(HasSyncProgram, Status.Select(x => x == RobotStatus.OutOfMemory),
+                (hasSync, outOfMemory) => hasSync && !outOfMemory)
+                .DistinctUntilChanged()
+                .Select(shouldSync => shouldSync ? Observable.Interval(TimeSpan.FromSeconds(10)) : Observable.Empty<long>())
+                .Switch()
+                .Subscribe(_ =>
+                {
+                    _game.GameProgress.DataCollected.Value = ProducedBytes.Value;
+                    ProducedBytes.Value = 0;
+                });
         }
 
         public class UploadDataResult : IOperationResult { }
