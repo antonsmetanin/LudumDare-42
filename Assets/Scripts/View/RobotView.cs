@@ -27,7 +27,7 @@ namespace View
 
         public Robot Robot;
 
-		public void Show(Game game, Robot robot, Transform robotTransform, Camera mainCamera)
+		public void Show(Game game, Robot robot, Camera mainCamera)
 		{
             _disposable = new CompositeDisposable();
 
@@ -36,7 +36,7 @@ namespace View
             Robot = robot;
 
 			Observable.EveryUpdate().Merge(Observable.Return(0L))
-				.Subscribe(_ => transform.position = mainCamera.WorldToScreenPoint(robotTransform.position) + new Vector3(0f, 150f))
+				.Subscribe(_ => transform.position = mainCamera.WorldToScreenPoint(robot.Transform.position + new Vector3(0, 3.5f)))
 				.AddTo(_disposable);
 
 			robot.MemorySize

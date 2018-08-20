@@ -2,6 +2,7 @@
 using Model;
 using UniRx;
 using UnityEngine;
+using Utils;
 using View;
 
 public class GameController : MonoBehaviour
@@ -12,7 +13,10 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private Dashboard _dashboard;
 
-	[SerializeField] private GameProgressTemplate _defaultGameProgress;
+    [SerializeField] private RobotIcon _robotIconTemplate;
+    [SerializeField] private RectTransform _robotIconsParent;
+
+    [SerializeField] private GameProgressTemplate _defaultGameProgress;
 
 	[SerializeField] private RobotController _robotControllerTemplate;
 	[SerializeField] private Transform _robotSpawnPosition;
@@ -34,7 +38,7 @@ public class GameController : MonoBehaviour
                 _robotView.Dispose();
 
             if (robot != null)
-				_robotView.Show(game, robot, robot.Transform, Camera.main);
+				_robotView.Show(game, robot, Camera.main);
 		}).AddTo(_disposable);
 
         _dashboard.Show(game);
@@ -57,6 +61,10 @@ public class GameController : MonoBehaviour
 
 		rob.LeakedBytes.Value += 7000;
 		rob.ProducedBytes.Value = 768;
+
+        game.Robots
+            .CreateView(_robotIconTemplate, _robotIconsParent, (robotIcon, robot) => robotIcon.Show(game, robot, Camera.main))
+            .AddTo(_disposable);
 	}
 
     //private void OnDestroy() => _disposable.Dispose();
