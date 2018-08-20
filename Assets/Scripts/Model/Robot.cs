@@ -82,7 +82,7 @@ namespace Model
                 .Switch()
                 .Subscribe(_ =>
                 {
-                    _game.GameProgress.DataCollected.Value = ProducedBytes.Value;
+                    _game.GameProgress.DataCollected.Value += ProducedBytes.Value;
                     ProducedBytes.Value = 0;
                 });
         }
