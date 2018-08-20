@@ -28,6 +28,8 @@ public class GameController : MonoBehaviour
 	{
         _disposable = new CompositeDisposable();
 
+        Application.targetFrameRate = 60;
+
 		var game = new Game(_gameTemplate, new GameProgress(_defaultGameProgress));
 
 		MainApplication.Instance.Game = game;
