@@ -27,7 +27,7 @@ namespace View
 
         public void Drag([NotNull] PointerEventData eventData)
 		{
-			transform.localPosition += (Vector3)eventData.delta;
+            transform.position = eventData.position;
 		}
 	}
 }
