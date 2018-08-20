@@ -2,18 +2,22 @@
 using System.Linq;
 using Data;
 using UniRx;
+using UnityEngine;
 using Utils;
 
 namespace Model
 {
     public class Robot
     {
-        public ReactiveCollection<Program> Programs;
+        public readonly ReactiveCollection<Program> Programs;
 
         public readonly ReactiveProperty<int> MemoryUpgrades = new ReactiveProperty<int>();
 
-        public UnityEngine.Transform Transform;
-        private Game _game;
+        public Transform Transform;
+        private readonly Game _game;
+        private readonly RobotTemplate _template;
+
+        public readonly ReactiveProperty<bool> UploadIsRunning = new ReactiveProperty<bool>();
 
         public readonly ReactiveProperty<int> LeakedBytes = new ReactiveProperty<int>();
         public readonly ReactiveProperty<int> ProducedBytes = new ReactiveProperty<int>();
@@ -21,6 +25,7 @@ namespace Model
         public readonly IReadOnlyReactiveProperty<int> ProgramBytes;
         public readonly IReadOnlyReactiveProperty<int> TotalUsedBytes;
         public readonly IReadOnlyReactiveProperty<int> FreeSpace;
+        
         public readonly IReadOnlyReactiveProperty<int> MemorySize;
 
         public enum RobotStatus
@@ -34,6 +39,9 @@ namespace Model
 
         public Robot(RobotTemplate template, Game game)
         {
+            _template = template;
+            _game = game;
+
             MemorySize = MemoryUpgrades
                 .Select(upgradesCount => template.InitialMemorySize + upgradesCount * template.MemoryUpgradeSize)
                 .ToReactiveProperty();
@@ -60,11 +68,45 @@ namespace Model
                                            : programCount == 0 ? RobotStatus.BootError
                                            : RobotStatus.Ok)
                 .ToReactiveProperty();
-
-            _game = game;
         }
 
-        public class InstallProgramResult { }
+        public class UploadDataResult : IOperationResult { }
+        public class NothingToCollectError : Error { }
+        public class UploadIsAlreadyRunningError : Error { }
+
+        public IObservable<Result<UploadDataResult>> CanUploadData()
+            => Observable.CombineLatest(ProducedBytes.Select(x => x > 0).DistinctUntilChanged(), UploadIsRunning,
+                (_, __) => CollectData(simulate: true));
+
+        public Result<UploadDataResult> CollectData(bool simulate = false)
+        {
+            if (ProducedBytes.Value <= 0)
+                return new NothingToCollectError();
+            
+            if (UploadIsRunning.Value)
+                return new UploadIsAlreadyRunningError();
+
+            if (!simulate)
+            {
+                UploadIsRunning.Value = true;
+
+                //TODO: stop uploading on game over
+                Observable.Interval(TimeSpan.FromSeconds(1))
+                    .TakeUntil(ProducedBytes.Where(x => x <= 0))
+                    .Subscribe(_ =>
+                    {
+                        var uploadBytes = Mathf.Min(_template.UploadSpeedBytesPerSecond, ProducedBytes.Value);
+                        ProducedBytes.Value -= uploadBytes;
+                        _game.GameProgress.DataCollected.Value += uploadBytes;
+                    },
+                    () => UploadIsRunning.Value = false);
+            }
+            
+
+            return new UploadDataResult();
+        }
+
+        public class InstallProgramResult : IOperationResult { }
 
         public class NotEnoughMemoryError : Error { }
 

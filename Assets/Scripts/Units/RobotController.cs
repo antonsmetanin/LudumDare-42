@@ -120,7 +120,7 @@ public class RobotController : UnitControllerBase
 
     private void Update()
     {
-        if (RobotModel.Status.Value == Robot.RobotStatus.OutOfMemory)
+        if (RobotModel.Status.Value == Robot.RobotStatus.OutOfMemory || RobotModel.UploadIsRunning.Value)
         {
             Coroutine cou;
             if (_inProgress && _currentProgramType.HasValue && _programCou.TryGetValue(_currentProgramType.Value, out cou) && cou != null)

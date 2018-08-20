@@ -79,5 +79,13 @@ namespace Utils
         }
 
         public Result<TOut> Select<TOut>(Func<TOk, TOut> selector) => Error ?? new Result<TOut>(selector(Value));
+
+        public override string ToString()
+        {
+            if (Error == null)
+                return "OK Result: " + Value;
+            else
+                return "Error: " + Error;
+        }
     }
 }
