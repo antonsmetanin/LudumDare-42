@@ -491,8 +491,6 @@ public class RobotController : UnitControllerBase
             yield return null;
         }
 
-        Joint.connectedBody = null;
-
         EndCoProgram();
     }
 
@@ -525,12 +523,12 @@ public class RobotController : UnitControllerBase
         
         Speaker.Speak();
 
-        
         Animator.SetBool(_walkStateName, false);
         Animator.SetBool(_cutStateName, false);
         Animator.SetBool(_dragStateName, false);
         _target = null;
         _inProgress = false;
+        Joint.connectedBody = null;
 
         if (_nextProgram.HasValue)
             _currentProgramType = _nextProgram;
