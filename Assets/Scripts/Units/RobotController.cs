@@ -532,7 +532,9 @@ public class RobotController : UnitControllerBase
         _inProgress = false;
         if (_trunk != null)
         {
-            _trunk.Drop();
+            if(!_trunk.IsRecycling)
+                _trunk.Drop();
+
             _trunk = null;
         }
         Joint.connectedBody = null;
