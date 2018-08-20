@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 
@@ -10,40 +12,35 @@ namespace View
 
         public void Show(Camera targetCamera, Transform targetTransform, Rect rect)
         {
-            gameObject.SetActive(true);
+            _disposable = new CompositeDisposable();
 
             Observable.EveryUpdate()
-                .Subscribe(_ => targetCamera.WorldToScreenPoint(targetTransform.position))
+                .Subscribe(_ => {
+                    var realPosition = (Vector2)targetCamera.WorldToScreenPoint(targetTransform.position);
+                    var screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+
+                    var intersectionPoint = GetSegments(rect)
+                        .Select(segment => MathHelpers.Intersect(segment.start, segment.end, screenCenter, realPosition))
+                        .FirstOrDefault(x => x != null);
+
+                    gameObject.SetActive(intersectionPoint != null);
+
+                    if (intersectionPoint != null)
+                    {
+                        transform.position = intersectionPoint.Value;
+                        transform.up = realPosition - screenCenter;
+                    }
+                })
                 .AddTo(_disposable);
         }
 
-        //private void Draw(Camera targetCamera, Transform targetTransform, Rect rect)
-        //{
-        //    var realPosition = targetCamera.WorldToScreenPoint(targetTransform.position);
-
-
-        //    var clampedPosition = Intersect(new Vector2(rect.xMin, rect.yMax), new Vector2(rect.xMax, rect.yMax), rect.center, realPosition);
-        //}
-
-        //private float Cross2d(Vector2 v, Vector2 w) => v.x * w.y - v.y * w.x;
-        
-
-        //private Vector2? Intersect(Vector2 start1, Vector2 end1, Vector2 start2, Vector2 end2)
-        //{
-        //    var len1 = end1 - start1;
-        //    var len2 = end2 - start2;
-        //    var a = Cross2d(start2 - start1, len1);
-        //    var b = Cross2d(len1, len2);
-
-        //    if (b == 0 || a == 0)
-        //        return null;
-
-        //    var u = a / b;
-        //    var t = Cross2d(start2 - start1, len2) / b;
-
-        //    if (t >= 0 && t <= 1 && u >= 0 && u <= 1)
-        //        return start1 + t r = q + u s.
-        //}
+        private IEnumerable<(Vector2 start, Vector2 end)> GetSegments(Rect rect)
+        {
+            yield return (new Vector2(rect.xMin, rect.yMax), new Vector2(rect.xMax, rect.yMax));
+            yield return (new Vector2(rect.xMin, rect.yMin), new Vector2(rect.xMax, rect.yMin));
+            yield return (new Vector2(rect.xMin, rect.yMin), new Vector2(rect.xMin, rect.yMax));
+            yield return (new Vector2(rect.xMax, rect.yMin), new Vector2(rect.xMax, rect.yMax));
+        }
 
         public void Dispose()
         {

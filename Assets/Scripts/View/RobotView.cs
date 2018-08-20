@@ -59,6 +59,9 @@ namespace View
 			_producedDataView.Show(game, robot, DataFileView.DataFileType.Produce, () => robot.ProducedBytes.Value);
 			_producedDataView.AddTo(_disposable);
 
+            _offScreenIndicator.Show(mainCamera, robot.Transform, Screen.safeArea);
+            _offScreenIndicator.AddTo(_disposable);
+
             robot.CanUploadData()
                 .Subscribe(canUpload =>
                 {
