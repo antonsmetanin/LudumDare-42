@@ -56,8 +56,13 @@ namespace View
 				.Subscribe(x => _characteristicsLabel.text = $"<color=#FBDF6A>produce</color> {x.produce} byte/s    <color=#BD306C>leak</color> {x.leak} byte/s")
                 .AddTo(_disposable);
 
-            pendingAction
-                .Subscribe(x => _description.text = x is Program.UpgradeResult changeOperation && changeOperation.Program == program ? changeOperation.Version.Description : program.CurrentVersion.Value.Description)
+            Observable.CombineLatest
+                (_programView.GetComponent<HoverTrigger>().Hovered, pendingAction,
+                (hovered, pending)
+                    => pending is Program.UpgradeResult changeOperation && changeOperation.Program == program ? changeOperation.Version.Description
+                    : hovered ? program.CurrentVersion.Value.Description
+                    : program.Template.Versions[0].Description)
+                .Subscribe(description => _description.text = description)
                 .AddTo(_disposable);
 
 			program.MemorySize.Subscribe(size =>
