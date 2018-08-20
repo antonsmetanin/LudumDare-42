@@ -7,5 +7,6 @@ namespace Data
 	{
 		public int InitialMemorySize;
 		public int MemoryUpgradeSize;
+        public int UploadSpeedBytesPerSecond;
 	}
 }

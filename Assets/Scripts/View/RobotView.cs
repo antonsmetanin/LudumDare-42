@@ -14,11 +14,14 @@ namespace View
         [SerializeField] private RectTransform _memoryTransform;
 		[SerializeField] private TextMeshProUGUI _dropModulesLabel;
 		[SerializeField] private TextMeshProUGUI _statusLabel;
+        [SerializeField] private Button _uploadButton;
 
         [SerializeField] private Image _memoryBorder;
 
 		[SerializeField] private DataFileView _leakedDataView;
 		[SerializeField] private DataFileView _producedDataView;
+
+        [SerializeField] private OffScreenIndicator _offScreenIndicator;
 
         private CompositeDisposable _disposable;
 
@@ -55,7 +58,15 @@ namespace View
 
 			_producedDataView.Show(game, robot, DataFileView.DataFileType.Produce, () => robot.ProducedBytes.Value);
 			_producedDataView.AddTo(_disposable);
-		}
+
+            robot.CanUploadData()
+                .Subscribe(canUpload => _uploadButton.interactable = canUpload.Error == null)
+                .AddTo(_disposable);
+
+            _uploadButton.OnClickAsObservable()
+                .Subscribe(_ => robot.CollectData())
+                .AddTo(_disposable);
+        }
 
         public void Dispose()
 		{
