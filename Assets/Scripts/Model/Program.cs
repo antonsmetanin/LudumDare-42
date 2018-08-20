@@ -74,7 +74,7 @@ namespace Model
         public void Uninstall() => _robot?.Programs.Remove(this);
 
         public int GetCurrentVersionIndex() => Array.IndexOf(Template.Versions, CurrentVersion.Value);
-        private string GetName(int index, int patches) => index == 0 && patches == 0 ? Template.Name : $"{Template.Name} v.{index + 1}.{patches}";
+        private string GetName(int index, int patches) => index == 0 && patches == 0 ? Template.Name : $"{Template.Name} v{index + 1}";
 
         public interface IPricedOperation : IOperationResult
         {
