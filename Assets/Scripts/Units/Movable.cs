@@ -20,9 +20,9 @@ public class Movable : MonoBehaviour
         var charMovement = Vector3.ClampMagnitude(movement * LinearSpeed, LinearSpeed);
         if (!_controller.isGrounded)
         {
-            charMovement.y += Physics.gravity.y;
+            charMovement.y += Physics.gravity.y * Time.deltaTime * 60f;
         }
 
-        _controller.Move(charMovement);
+        _controller.Move(charMovement * Time.deltaTime * 60f);
     }
 }
