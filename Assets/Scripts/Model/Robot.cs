@@ -17,7 +17,7 @@ namespace Model
         private readonly Game _game;
         private readonly RobotTemplate _template;
 
-        private readonly ReactiveProperty<bool> _uploadIsRunning = new ReactiveProperty<bool>();
+        public readonly ReactiveProperty<bool> UploadIsRunning = new ReactiveProperty<bool>();
 
         public readonly ReactiveProperty<int> LeakedBytes = new ReactiveProperty<int>();
         public readonly ReactiveProperty<int> ProducedBytes = new ReactiveProperty<int>();
@@ -75,7 +75,7 @@ namespace Model
         public class UploadIsAlreadyRunningError : Error { }
 
         public IObservable<Result<UploadDataResult>> CanUploadData()
-            => Observable.CombineLatest(ProducedBytes.Select(x => x > 0).DistinctUntilChanged(), _uploadIsRunning,
+            => Observable.CombineLatest(ProducedBytes.Select(x => x > 0).DistinctUntilChanged(), UploadIsRunning,
                 (_, __) => CollectData(simulate: true));
 
         public Result<UploadDataResult> CollectData(bool simulate = false)
@@ -83,12 +83,12 @@ namespace Model
             if (ProducedBytes.Value <= 0)
                 return new NothingToCollectError();
             
-            if (_uploadIsRunning.Value)
+            if (UploadIsRunning.Value)
                 return new UploadIsAlreadyRunningError();
 
             if (!simulate)
             {
-                _uploadIsRunning.Value = true;
+                UploadIsRunning.Value = true;
 
                 //TODO: stop uploading on game over
                 Observable.Interval(TimeSpan.FromSeconds(1))
@@ -99,7 +99,7 @@ namespace Model
                         ProducedBytes.Value -= uploadBytes;
                         _game.GameProgress.DataCollected.Value += uploadBytes;
                     },
-                    () => _uploadIsRunning.Value = false);
+                    () => UploadIsRunning.Value = false);
             }
             
 
