@@ -280,7 +280,7 @@ public class RobotController : UnitControllerBase
                     Animator.SetFloat("level_gather", 1 + index2 * 0.5f);
                     _movable.LinearSpeed = basicSpeed + index2 * basicSpeed / 2f;
                     var couGather = StartCoroutine(Co_Gather(_target.GetComponent<TreeTrunk>()));
-                    _programCou[ProgramType.Cut] = couGather;
+                    _programCou[ProgramType.Gather] = couGather;
                     _inProgress = true;
                 }
 
