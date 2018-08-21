@@ -30,6 +30,7 @@ public class MainApplication : MonoBehaviour
 
     private InputManager _input;
     public PlayerController CurrentPlayer;
+    public Transform PointToChillAround;
 
     private void Awake()
     {

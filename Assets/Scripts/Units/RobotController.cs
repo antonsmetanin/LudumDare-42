@@ -382,9 +382,9 @@ public class RobotController : UnitControllerBase
 
     private Vector3 GetPointOnGround()
     {
-        var targetPosition = transform.position;
-        targetPosition.x += Random.Range(-8, 8);
-        targetPosition.z += Random.Range(-8, 8);
+        var targetPosition = MainApplication.Instance.PointToChillAround != null ? MainApplication.Instance.PointToChillAround.position : transform.position;
+        targetPosition.x += Random.Range(-10, 10);
+        targetPosition.z += Random.Range(-10, 10);
         targetPosition.y += 2;
 
         RaycastHit hit;
