@@ -310,7 +310,7 @@ public class RobotController : UnitControllerBase
         yield return null;
         ResetTime();
 
-        while ((_navAgent.pathStatus != NavMeshPathStatus.PathComplete || _navAgent.remainingDistance > _navAgent.stoppingDistance)
+        while (Vector3.Distance(transform.position, targetPosition) > 2
                && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
