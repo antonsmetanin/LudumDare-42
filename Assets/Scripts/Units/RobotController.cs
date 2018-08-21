@@ -317,6 +317,7 @@ public class RobotController : UnitControllerBase
             var move = new Vector2(direction.x, direction.z);
             Steer(move);
             _navAgent.velocity = _movable.Velocity;
+            _navAgent.nextPosition = transform.position;
 
             ComputeTime(Time.deltaTime, ProgramType.Walk);
 
@@ -362,13 +363,13 @@ public class RobotController : UnitControllerBase
         yield return null;
         ResetTime();
 
-        while ((_navAgent.pathStatus != NavMeshPathStatus.PathComplete || _navAgent.remainingDistance > _navAgent.stoppingDistance)
-            && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
+        while (Vector3.Distance(transform.position, targetPosition) > 3 && _navAgent.pathStatus != NavMeshPathStatus.PathInvalid)
         {
             var direction = _navAgent.desiredVelocity.normalized;
             var move = new Vector2(direction.x, direction.z);
             Steer(move);
             _navAgent.velocity = _movable.Velocity;
+            _navAgent.nextPosition = transform.position;
 
             ComputeTime(Time.deltaTime, ProgramType.Walk);
 
@@ -487,6 +488,7 @@ public class RobotController : UnitControllerBase
             var direction = _navAgent.desiredVelocity.normalized;
             Steer(new Vector2(direction.x, direction.z), true);
             _navAgent.velocity = _movable.Velocity;
+            _navAgent.nextPosition = transform.position;
 
             ComputeTime(Time.deltaTime, ProgramType.Gather);
 
