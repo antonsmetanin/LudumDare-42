@@ -199,8 +199,16 @@ public class RobotController : UnitControllerBase
                     }
                     else
                     {
-                        StartCoroutine(Co_Wait(0.5f));
-                        _inProgress = true;
+                        if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
+                        {
+                            _currentProgramType = ProgramType.Walk;
+                            _nextProgram = ProgramType.Cut;
+                        }
+                        else
+                        {
+                            StartCoroutine(Co_Wait(0.5f));
+                            _inProgress = true;
+                        }
                     }
 
                     return;
@@ -252,8 +260,16 @@ public class RobotController : UnitControllerBase
                     }
                     else
                     {
-                        StartCoroutine(Co_Wait(0.5f));
-                        _inProgress = true;
+                        if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
+                        {
+                            _currentProgramType = ProgramType.Walk;
+                            _nextProgram = ProgramType.Gather;
+                        }
+                        else
+                        {
+                            StartCoroutine(Co_Wait(0.5f));
+                            _inProgress = true;
+                        }
                     }
 
                     return;
