@@ -40,11 +40,6 @@ namespace View
 			program.Name
                 .Subscribe(x => _nameLabel.text = x)
                 .AddTo(_disposable);
-
-            if (_button != null)
-                _button.OnClickAsObservable()
-                    .Subscribe(_ => program.Uninstall())
-                    .AddTo(_disposable);
         }
 
         public void Dispose() => _disposable.Dispose();

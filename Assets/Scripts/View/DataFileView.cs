@@ -40,11 +40,6 @@ namespace View
 			Observable.EveryUpdate().Merge(Observable.Return(0L))
 				.Subscribe(_ => ((RectTransform)transform).sizeDelta = new Vector2(Mathf.FloorToInt(getBytes() * game.Template.MemoryIndicationScale), ((RectTransform)transform).sizeDelta.y))
 				.AddTo(_disposable);
-
-            if (_button != null && type == DataFileType.Leak)
-                _button.OnClickAsObservable()
-                    .Subscribe(_ => robot.ClearLeaks())
-                    .AddTo(_disposable);
 		}
 
 		public void Dispose() => _disposable.Dispose();
