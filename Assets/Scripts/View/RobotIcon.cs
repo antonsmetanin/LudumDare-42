@@ -16,8 +16,8 @@ namespace View
         {
             _disposable = new CompositeDisposable();
 
-            var outOfMemory = robot.Status
-                .Select(x => x == Robot.RobotStatus.OutOfMemory)
+            var outOfMemory = Observable.CombineLatest(robot.Status, game.SelectedRobot,
+                (status, selectedRobot) => status == Robot.RobotStatus.OutOfMemory && selectedRobot != robot)
                 .DistinctUntilChanged();
 
             outOfMemory
