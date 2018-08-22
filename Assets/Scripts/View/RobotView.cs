@@ -48,9 +48,9 @@ namespace View
 				.AddTo(_disposable);
 
 			robot.Status
-				.Subscribe(status => _statusLabel.text = status == Robot.RobotStatus.OutOfMemory ? "Out Of Memory Exception_"
-                                                       : status == Robot.RobotStatus.BootError ? "Boot Error_"
-                                                       : "OK_")
+				.Subscribe(status => _statusLabel.text = status == Robot.RobotStatus.OutOfMemory ? "Out Of Memory Exception"
+                                                       : status == Robot.RobotStatus.BootError ? "Boot Error"
+                                                       : "OK")
 				.AddTo(_disposable);
 
 			_leakedDataView.Show(game, robot, DataFileView.DataFileType.Leak, () => robot.LeakedBytes.Value);
