@@ -10,7 +10,7 @@ namespace View
     {
         private CompositeDisposable _disposable;
 
-        [SerializeField] private Image _outOfMemoryIcon;
+        [SerializeField] private Button _outOfMemoryButton;
 
         public void Show(Game game, Robot robot, Camera mainCamera)
         {
@@ -21,13 +21,17 @@ namespace View
                 .DistinctUntilChanged();
 
             outOfMemory
-                .Subscribe(x => _outOfMemoryIcon.gameObject.SetActive(x))
+                .Subscribe(x => _outOfMemoryButton.gameObject.SetActive(x))
                 .AddTo(_disposable);
 
             outOfMemory
                 .Select(x => x ? Observable.EveryUpdate().Merge(Observable.Return(0L)) : Observable.Empty<long>())
                 .Switch()
                 .Subscribe(_ => transform.position = mainCamera.WorldToScreenPoint(robot.Transform.position + new Vector3(0f, 3.5f)))
+                .AddTo(_disposable);
+
+            _outOfMemoryButton.OnClickAsObservable()
+                .Subscribe(_ => game.SelectedRobot.Value = robot)
                 .AddTo(_disposable);
         }
 
