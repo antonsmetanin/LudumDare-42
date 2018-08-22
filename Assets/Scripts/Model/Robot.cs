@@ -129,7 +129,7 @@ namespace Model
 
         public Result<InstallProgramResult> InstallProgram(Program program, bool simulate = false)
         {
-            if (Programs.Sum(x => x.MemorySize.Value) + program.MemorySize.Value > MemorySize.Value)
+            if (program.MemorySize.Value > FreeSpace.Value)
                 return new NotEnoughMemoryError();
 
             if (!simulate)
