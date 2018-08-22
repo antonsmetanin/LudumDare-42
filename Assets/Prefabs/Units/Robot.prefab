@@ -205,7 +205,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movable: {fileID: 0}
-  Force: 10
+  _navAgent: {fileID: 0}
+  Animator: {fileID: 0}
+  Joint: {fileID: 0}
+  RotationSpeed: 0
+  SyncInterval: 1
+  Speaker: {fileID: 0}
+  CutDelay: 1
+  CutHitTime: 0.1
+  CutStr: 20
 --- !u!136 &136853801989536892
 CapsuleCollider:
   m_ObjectHideFlags: 1
