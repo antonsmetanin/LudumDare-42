@@ -1152,7 +1152,6 @@ MonoBehaviour:
   _programViewTemplate: {fileID: 114481314517408276, guid: 1a0dd44625ff0c74abf63888b3af9c4f,
     type: 2}
   _memoryTransform: {fileID: 224901954592706270}
-  _dropModulesLabel: {fileID: 114124664167040732}
   _statusLabel: {fileID: 114779827584751680}
   _uploadButton: {fileID: 114046228855072676}
   _memoryBorder: {fileID: 114758853962614668}
@@ -1600,7 +1599,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _draggedDataFileTemplate: {fileID: 114238168118866172, guid: e3e3172c19b8ee646b80d500d754b598,
     type: 2}
-  _button: {fileID: 114434490751901706}
   Type: 0
 --- !u!114 &114162497792118392
 MonoBehaviour:
@@ -1615,7 +1613,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _draggedDataFileTemplate: {fileID: 114238168118866172, guid: e3e3172c19b8ee646b80d500d754b598,
     type: 2}
-  _button: {fileID: 114321512154945424}
   Type: 0
 --- !u!114 &114184894465443964
 MonoBehaviour:

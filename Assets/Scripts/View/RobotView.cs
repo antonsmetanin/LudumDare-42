@@ -12,7 +12,6 @@ namespace View
 	{
 		[SerializeField] private ProgramView _programViewTemplate;
         [SerializeField] private RectTransform _memoryTransform;
-		[SerializeField] private TextMeshProUGUI _dropModulesLabel;
 		[SerializeField] private TextMeshProUGUI _statusLabel;
         [SerializeField] private Button _uploadButton;
 

@@ -14,7 +14,6 @@ namespace View
 	{
 		[SerializeField] private TextMeshProUGUI _nameLabel;
 		[SerializeField] private DraggedProgramView _draggedProgramTemplate;
-        [SerializeField] private Button _button;
         [SerializeField] private Image _image;
 
         private CompositeDisposable _disposable;

@@ -4,7 +4,6 @@ using Model;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using Utils;
 
 namespace View
@@ -14,7 +13,6 @@ namespace View
 		private CompositeDisposable _disposable;
 
 		[SerializeField] private DraggedDataFileView _draggedDataFileTemplate;
-        [SerializeField] private Button _button;
 
         private DraggedDataFileView _draggedDataFile;
 
