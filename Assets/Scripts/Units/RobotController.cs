@@ -189,9 +189,9 @@ public class RobotController : UnitControllerBase
 
                 if (_target == null)
                 {
-                    var obj = index > 0 || true
+                    var obj = index > 0
                         ? WorldObjects.Instance.GetClosestObject<Tree>(transform.position)
-                        : WorldObjects.Instance.GetOneOfClosest<Tree>(transform.position, 5);
+                        : WorldObjects.Instance.GetOneOfClosest<Tree>(transform.position, 3);
 
                     if (obj != null)
                     {
@@ -250,9 +250,9 @@ public class RobotController : UnitControllerBase
 
                 if (_target?.GetComponent<TreeTrunk>() == null)
                 {
-                    var obj = index2 > 0 || true ?
+                    var obj = index2 > 0 ?
                         WorldObjects.Instance.GetClosestObject<TreeTrunk>(transform.position)
-                        : WorldObjects.Instance.GetOneOfClosest<TreeTrunk>(transform.position, 5);
+                        : WorldObjects.Instance.GetOneOfClosest<TreeTrunk>(transform.position, 3);
 
                     if (obj != null)
                     {
