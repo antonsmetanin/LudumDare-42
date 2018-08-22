@@ -4,6 +4,7 @@ using Model;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Utils;
 
 namespace View
@@ -13,8 +14,9 @@ namespace View
 		private CompositeDisposable _disposable;
 
 		[SerializeField] private DraggedDataFileView _draggedDataFileTemplate;
+        [SerializeField] private Button _button;
 
-		private DraggedDataFileView _draggedDataFile;
+        private DraggedDataFileView _draggedDataFile;
 
 		public DataFileType Type;
 		public Robot Robot;
@@ -38,6 +40,11 @@ namespace View
 			Observable.EveryUpdate().Merge(Observable.Return(0L))
 				.Subscribe(_ => ((RectTransform)transform).sizeDelta = new Vector2(Mathf.FloorToInt(getBytes() * game.Template.MemoryIndicationScale), ((RectTransform)transform).sizeDelta.y))
 				.AddTo(_disposable);
+
+            if (_button != null && type == DataFileType.Leak)
+                _button.OnClickAsObservable()
+                    .Subscribe(_ => robot.ClearLeaks())
+                    .AddTo(_disposable);
 		}
 
 		public void Dispose() => _disposable.Dispose();

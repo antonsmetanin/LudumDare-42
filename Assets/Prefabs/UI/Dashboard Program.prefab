@@ -1397,6 +1397,8 @@ MonoBehaviour:
   _nameLabel: {fileID: 114753348791231704}
   _draggedProgramTemplate: {fileID: 114159696838592406, guid: 1a6262002ed3f7e49b47ef99ff89bf62,
     type: 2}
+  _button: {fileID: 0}
+  _image: {fileID: 114690025080183786}
 --- !u!114 &114977710753941358
 MonoBehaviour:
   m_ObjectHideFlags: 1
