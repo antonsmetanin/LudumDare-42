@@ -15,6 +15,7 @@ namespace View
 		[SerializeField] private TextMeshProUGUI _nameLabel;
 		[SerializeField] private DraggedProgramView _draggedProgramTemplate;
         [SerializeField] private Image _image;
+        [SerializeField] private BetterButton _button;
 
         private CompositeDisposable _disposable;
 
@@ -56,7 +57,10 @@ namespace View
 			_draggedProgramView.transform.SetParent(GetComponentInParent<Canvas>().transform, worldPositionStays: false);
 			_draggedProgramView.transform.position = transform.position;
 			_draggedProgramView.Show(_game, Program);
-		}
+
+            if (_button != null)
+                _button.SetInteractable(false);
+        }
 
 		public void OnEndDrag([NotNull] PointerEventData eventData)
 		{
@@ -66,6 +70,9 @@ namespace View
 				Program.Uninstall();
 
             _draggedProgramView.Dispose();
-		}
+
+            if (_button != null)
+                _button.SetInteractable(true);
+        }
 	}
 }

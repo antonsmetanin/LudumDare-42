@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114481314517408276}
   - component: {fileID: 114725910367476542}
   - component: {fileID: 114293240916589024}
+  - component: {fileID: 114022680741498542}
   m_Layer: 5
   m_Name: Program
   m_TagString: Untagged
@@ -65,6 +66,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114022680741498542
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1300397216914782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed903540117183d43a2255e9ca330daf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Button: {fileID: 114293240916589024}
+  Label: {fileID: 114569353238981686}
 --- !u!114 &114293240916589024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -87,7 +101,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -121,6 +135,7 @@ MonoBehaviour:
   _draggedProgramTemplate: {fileID: 114159696838592406, guid: 1a6262002ed3f7e49b47ef99ff89bf62,
     type: 2}
   _image: {fileID: 114944570514985706}
+  _button: {fileID: 114022680741498542}
 --- !u!114 &114569353238981686
 MonoBehaviour:
   m_ObjectHideFlags: 1
