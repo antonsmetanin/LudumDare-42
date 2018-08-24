@@ -11,6 +11,7 @@ using UniRx;
 public class RobotController : UnitControllerBase
 {
     private Transform _target;
+    private Transform _nextTarget;
     [SerializeField] private NavMeshAgent _navAgent;
 
     public Model.Robot RobotModel;
@@ -220,6 +221,7 @@ public class RobotController : UnitControllerBase
                     {
                         _currentProgramType = ProgramType.Walk;
                         _nextProgram = ProgramType.Cut;
+                        _nextTarget = _target;
                         return;
                     }
                     else
@@ -246,7 +248,6 @@ public class RobotController : UnitControllerBase
             case ProgramType.Gather:
 
                 var index2 = _currentProgram.GetCurrentVersionIndex();
-
 
                 if (_target?.GetComponent<TreeTrunk>() == null)
                 {
@@ -279,6 +280,7 @@ public class RobotController : UnitControllerBase
                 {
                     if (RobotModel.Programs.Any(x => x.Template.Type == ProgramType.Walk))
                     {
+                        _nextTarget = _target;
                         _target = _target.GetComponent<TreeTrunk>().InteractionCollider.transform;
                         _currentProgramType = ProgramType.Walk;
                         _nextProgram = ProgramType.Gather;
@@ -286,7 +288,6 @@ public class RobotController : UnitControllerBase
                     }
                     else
                     {
-
                         StartCoroutine(Co_Wait(0.5f));
                         _inProgress = true;
                     }
@@ -435,8 +436,6 @@ public class RobotController : UnitControllerBase
         direction.y = 0;
         ResetTime();
 
-
-
         while (tree != null && tree.IsAlive)
         {
             Animator.SetBool(_cutStateName, true);
@@ -540,13 +539,13 @@ public class RobotController : UnitControllerBase
 
     private void EndCoProgram()
     {
-
         Speaker.Speak();
 
         Animator.SetBool(_walkStateName, false);
         Animator.SetBool(_cutStateName, false);
         Animator.SetBool(_dragStateName, false);
         _inProgress = false;
+        _target = null;
 
         if (_trunk != null)
         {
@@ -558,12 +557,16 @@ public class RobotController : UnitControllerBase
         Joint.connectedBody = null;
 
         if (_nextProgram.HasValue)
-            _currentProgramType = _nextProgram;
-        else
         {
-            _target = null;
-            SelectNextProgram();
+            _currentProgramType = _nextProgram;
+            if (_nextTarget != null)
+            {
+                _target = _nextTarget;
+                _nextTarget = null;
+            }
         }
+        else
+            SelectNextProgram();
 
         _nextProgram = null;
     }
