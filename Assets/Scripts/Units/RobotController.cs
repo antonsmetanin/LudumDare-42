@@ -546,8 +546,8 @@ public class RobotController : UnitControllerBase
         Animator.SetBool(_walkStateName, false);
         Animator.SetBool(_cutStateName, false);
         Animator.SetBool(_dragStateName, false);
-        _target = null;
         _inProgress = false;
+
         if (_trunk != null)
         {
             if(!_trunk.IsRecycling)
@@ -560,7 +560,10 @@ public class RobotController : UnitControllerBase
         if (_nextProgram.HasValue)
             _currentProgramType = _nextProgram;
         else
+        {
+            _target = null;
             SelectNextProgram();
+        }
 
         _nextProgram = null;
     }
